@@ -10,6 +10,10 @@ import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {AngularFireStorageModule} from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,10 @@ import {HttpClientModule} from '@angular/common/http';
         BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule,
-        HttpClientModule
+        HttpClientModule,
+      AngularFireModule.initializeApp(environment.firebaseConfig),
+      AngularFireStorageModule,
+      AngularFireDatabaseModule
     ],
   providers: [],
   exports: [
