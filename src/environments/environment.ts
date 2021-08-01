@@ -4,7 +4,15 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080'
+  apiUrl: 'http://localhost:8080',
+  firebaseConfig : {
+    apiKey: 'AIzaSyAjLupXuHNXTvdNp8PpaDncQ3zW_3wqpC4',
+    authDomain: "geekmusic-1834d.firebaseapp.com",
+    projectId: "geekmusic-1834d",
+    storageBucket: "geekmusic-1834d.appspot.com",
+    messagingSenderId: "965529405237",
+    appId: "1:965529405237:web:0fe5a95b5eb956f6e42e7c"
+  }
 };
 
 /*

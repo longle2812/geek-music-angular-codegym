@@ -7,6 +7,10 @@ import { LoaderStartComponent } from './shared/loader-start/loader-start.compone
 import { SlideMenuComponent } from './shared/slide-menu/slide-menu.component';
 import {HeaderComponent} from './shared/header/header.component';
 import { ArtistCreateComponent } from './content/artist/artist-create/artist-create.component';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {AngularFireStorageModule} from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,10 @@ import { ArtistCreateComponent } from './content/artist/artist-create/artist-cre
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
+    AngularFireDatabaseModule
   ],
   providers: [],
   exports: [
