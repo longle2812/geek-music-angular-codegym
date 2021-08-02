@@ -4,12 +4,21 @@
       <h2>Upload & Share Your Music With The World</h2>
       <img src="/assets/images/svg/upload.svg" alt="">
       <div class="ms_upload_btn">
-        <input class="ms_btn" id="image" type="file" (change)="showPreview($event)">
+        <input class="ms_btn" id="image" type="file" (change)="changeSongUrl($event)">
 <!--               #preview (change)="showPreview($event)">-->
 <!--        <a href="#" class="ms_btn">save files</a>-->
       </div>
-      <span> or </span>
-      <p>Drag And Drop Music Files</p>
+      <p style="margin-top: 20px" *ngIf="songUrl !== ''">{{selectedSong.name}}</p>
+<!--      Upload image-->
+      <h2 style="margin-top: 50px">Choose your cover image</h2>
+      <img src="/assets/images/svg/upload.svg" alt="">
+      <div>
+        <input  class="ms_btn" id="image1" type="file" (change)="changeImageUrl($event)">
+        <!--               #preview (change)="showPreview($event)">-->
+        <!--        <a href="#" class="ms_btn">save files</a>-->
+
+      </div>
+      <img style="width: 40%;"*ngIf="imgUrl !== ''" src="{{imgUrl}}">
     </div>
     <div class=" marger_top60">
       <div class="ms_upload_box">
@@ -26,6 +35,10 @@
             <input type="text" placeholder="Ava Cornish, Brian Hill" ngModel name="author" class="form-control">
           </div>
           <div class="form-group">
+            <label>Album’s Name *</label>
+            <input type="text" placeholder="Christmas Song,..." ngModel name="album" class="form-control">
+          </div>
+          <div class="form-group">
             <label>Select Genre</label>
             <select class="form-control" ngModel name="genres">
               <option *ngFor="let gerne of genreList" [value]="gerne.id" [selected]="initGenre == gerne.id">{{gerne.name}}</option>
@@ -36,6 +49,10 @@
             <select class="form-control" ngModel name="singers">
               <option *ngFor="let singer of singerList" [value]="singer.id" [selected]="initGenre == singer.id">{{singer.name}}</option>
             </select>
+          </div>
+          <div style="width: 85%; margin-left: 50px;">
+            <label style="color: #3bc8e7; text-align: center">Description</label>
+            <textarea style="height: 100px" placeholder="Ava Cornish, Brian Hill" ngModel name="description" class="form-control"></textarea>
           </div>
           <div class="pro-form-btn text-center marger_top15">
             <div class="ms_upload_btn">
