@@ -5,40 +5,66 @@
       <button type="button" class="close" data-dismiss="modal">
         <i class="fa_icon form_close"></i>
       </button>
-      <div class="modal-body">
-        <div class="ms_register_img">
-          <img src="/assets/images/register_img.png" alt="" class="img-fluid" />
-        </div>
-        <div class="ms_register_form">
-          <h2>Register / Sign Up</h2>
-          <div class="form-group">
-            <input type="text" placeholder="Enter Your Name" class="form-control">
-            <span class="form_icon">
+      <form [formGroup]="userForm" (ngSubmit)="register()">
+        <div class="modal-body">
+          <div class="ms_register_img">
+            <img src="/assets/images/register_img.png" alt="" class="img-fluid"/>
+          </div>
+          <div class="ms_register_form">
+            <h2>Register / Sign Up</h2>
+            <div class="form-group">
+              <input type="text" placeholder="Enter username" class="form-control" formControlName="username">
+              <span class="form_icon">
 							<i class="fa_icon form-user" aria-hidden="true"></i>
 							</span>
-          </div>
-          <div class="form-group">
-            <input type="text" placeholder="Enter Your Email" class="form-control">
-            <span class="form_icon">
-							<i class="fa_icon form-envelope" aria-hidden="true"></i>
+              <div *ngIf="userForm.get('username').touched ">
+                <p class="showErrorInput" style="color:red" *ngIf="userForm.get('username').errors?.required">Username
+                  required</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Enter Your Phone Number" class="form-control"
+                     formControlName="phoneNumber">
+              <span class="form_icon" style="top: 12px;right: 15px;">
+							<i class="fa fa-phone" aria-hidden="true"></i>
 						</span>
-          </div>
-          <div class="form-group">
-            <input type="password" placeholder="Enter Password" class="form-control">
-            <span class="form_icon">
+              <div *ngIf="userForm.get('phoneNumber').touched ">
+                <p class="showErrorInput" style="color:red" *ngIf="userForm.get('phoneNumber').errors?.required">Phone
+                  number required</p>
+                <p class="showErrorInput" style="color:red" *ngIf="userForm.get('phoneNumber').errors?.pattern">Wrong
+                  format</p>
+              </div>
+            </div>
+            <div class="form-group" formGroupName="pwGroup">
+              <input type="password" placeholder="Enter Password" class="form-control" formControlName="password">
+              <span class="form_icon">
 						<i class="fa_icon form-lock" aria-hidden="true"></i>
 						</span>
-          </div>
-          <div class="form-group">
-            <input type="password" placeholder="Confirm Password" class="form-control">
-            <span class="form_icon">
+              <div *ngIf="userForm.get('pwGroup.password').touched ">
+                <p class="showErrorInput" style="color:red" *ngIf="userForm.get('pwGroup.password').errors">Password
+                  must be 6-8 characters</p>
+              </div>
+            </div>
+            <div class="form-group" formGroupName="pwGroup">
+              <input type="password" placeholder="Confirm Password" class="form-control"
+                     formControlName="confirmPassword">
+              <span class="form_icon">
 						<i class=" fa_icon form-lock" aria-hidden="true"></i>
 						</span>
+              <div *ngIf="userForm.get('pwGroup.confirmPassword').touched ">
+                <p class="showErrorInput" style="color:red" *ngIf="userForm.get('pwGroup.confirmPassword').errors">
+                  Confirm pass is required</p>
+                <p class="showErrorInput" style="color:red" *ngIf="userForm.hasError('passnotmatch',['pwGroup'])">
+                  Confirm pass does not match</p>
+              </div>
+            </div>
+            <a class="ms_btn" (click)="register()">register now</a>
+            <p>Already Have An Account? <a href="#myModal1" data-toggle="modal" class="ms_modal hideCurrentModel">login
+              here</a></p>
           </div>
-          <a href="#" class="ms_btn">register now</a>
-          <p>Already Have An Account? <a href="#myModal1" data-toggle="modal" class="ms_modal hideCurrentModel">login here</a></p>
         </div>
-      </div>
+      </form>
+
     </div>
   </div>
 </div>

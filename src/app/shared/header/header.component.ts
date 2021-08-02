@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {UserToken} from '../../model/user-token';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -21,5 +23,11 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authenticationService.logout();
+  }
+
+  toggleDropdown() {
+    console.log('clicked!');
+    $('.pro_dropdown_menu').toggleClass('open_dropdown');
+    // $('.pro_dropdown_menu').addClass('open_dropdown');
   }
 }

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AuthenticationService} from '../service/authentication/authentication.service';
 
+declare var $: any;
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
   login() {
     if (this.userForm.valid) {
       this.authenticationService.login(this.userForm.get('username').value, this.userForm.get('password').value).subscribe(() => {
-          console.log('success');
+          $('#myModal1').modal('hide');
         },
         e => {
           console.log(e);

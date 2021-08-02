@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
     this.loadScript('/assets/js/plugins/player/audio-player.js');
     this.loadScript('/assets/js/plugins/player/jquery.jplayer.min.js');
     this.loadScript('/assets/js/plugins/player/jplayer.playlist.min.js');
+    // this.loadScript('/assets/js/menu-slider.js');
     // this.loadScript('/assets/js/custom.js');
   }
 
