@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AuthenticationService} from '../service/authentication/authentication.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -16,7 +17,7 @@ export class SignUpComponent implements OnInit {
     phoneNumber: new FormControl('', [Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})\\b'), Validators.required])
   });
 
-  constructor() {
+  constructor(private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -24,7 +25,14 @@ export class SignUpComponent implements OnInit {
 
   register() {
     if (this.userForm.valid) {
-      console.log(this.userForm);
+      const user = this.userForm.value;
+      user.password = user.pwGroup.password;
+      delete user.pwGroup;
+      this.authenticationService.register(user).subscribe(() => {
+        console.log('account created');
+      }, e => {
+        console.log(e);
+      });
     }
   }
 
