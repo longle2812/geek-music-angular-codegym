@@ -3,6 +3,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {AuthenticationService} from '../service/authentication/authentication.service';
 
 declare var $: any;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,6 +14,7 @@ export class LoginComponent implements OnInit {
     username: new FormControl(),
     password: new FormControl()
   });
+  errorMsg = '';
 
   constructor(private authenticationService: AuthenticationService) {
   }
@@ -26,7 +28,7 @@ export class LoginComponent implements OnInit {
           $('#myModal1').modal('hide');
         },
         e => {
-          console.log(e);
+          this.errorMsg = 'Wrong username or password!';
         }
       );
     }

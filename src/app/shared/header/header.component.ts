@@ -25,9 +25,4 @@ export class HeaderComponent implements OnInit {
     this.authenticationService.logout();
   }
 
-  toggleDropdown() {
-    console.log('clicked!');
-    $('.pro_dropdown_menu').toggleClass('open_dropdown');
-    // $('.pro_dropdown_menu').addClass('open_dropdown');
-  }
 }

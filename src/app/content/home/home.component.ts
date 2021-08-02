@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.loadScript('/assets/js/menu-slider.js');
+      // this.loadScript('/assets/js/menu-slider.js');
   }
 
   public loadScript(url: string) {

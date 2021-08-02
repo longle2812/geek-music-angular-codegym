@@ -8,12 +8,13 @@
       <form [formGroup]="userForm" (ngSubmit)="login()">
         <div class="modal-body">
           <div class="ms_register_img">
-            <img src="/assets/images/register_img.png" alt="" class="img-fluid" />
+            <img src="/assets/images/register_img.png" alt="" class="img-fluid"/>
           </div>
           <div class="ms_register_form">
             <h2>login / Sign in</h2>
+            <p style="color:red; font-size: 18px">{{errorMsg}}</p>
             <div class="form-group">
-              <input type="text"  placeholder="Enter Username" class="form-control" formControlName="username">
+              <input type="text" placeholder="Enter Username" class="form-control" formControlName="username">
               <span class="form_icon">
 							<i class="fa_icon form-user" aria-hidden="true"></i>
 						</span>
@@ -30,11 +31,12 @@
                 <span class="checkmark"></span>
               </label>
             </div>
-            <a  class="ms_btn" (click)="login()">login now</a>
+            <a class="ms_btn" (click)="login()">login now</a>
             <div class="popup_forgot">
               <a href="#">Forgot Password ?</a>
             </div>
-            <p>Don't Have An Account? <a href="#myModal" data-toggle="modal" class="ms_modal1 hideCurrentModel">register here</a></p>
+            <p>Don't Have An Account? <a href="#myModal" data-toggle="modal" class="ms_modal1 hideCurrentModel">register
+              here</a></p>
           </div>
         </div>
       </form>

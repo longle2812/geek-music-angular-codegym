@@ -11,7 +11,7 @@ export class AlbumComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadScript('/assets/js/menu-slider.js');
+    // this.loadScript('/assets/js/menu-slider.js');
   }
 
   public loadScript(url: string) {
