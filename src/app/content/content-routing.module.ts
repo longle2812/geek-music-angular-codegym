@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {HomeComponent} from './home/home.component';
 import {AlbumComponent} from './album/album.component';
 import {SingerCreateComponent} from './singer/singer-create/singer-create.component';
+import {UploadSongComponent} from './upload-song/upload-song.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,10 @@ const routes: Routes = [
     path: 'singer/create',
     component: SingerCreateComponent
   },
+  {
+    path: 'upload',
+    component: UploadSongComponent
+  }
 ];
 
 @NgModule({

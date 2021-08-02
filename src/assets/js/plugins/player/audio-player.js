@@ -105,7 +105,15 @@ $(function() {
             oga: "http://www.jplayer.org/audio/ogg/Miaow-10-Thin-ice.ogg",
 			option : myPlayListOtion
 
-        }], {
+        },
+          {
+            image : '/assets/images/weekly/song2.jpg',
+            title: "Đường tôi chở em về",
+            artist: "buitruonglinh",
+            mp3: "/assets/mp3/duongtoichoemve.mp3",
+            oga: "/assets/mp3/duongtoichoemve.mp3",
+            option : myPlayListOtion
+          }], {
             swfPath: "js/plugins",
             supplied: "oga, mp3",
             wmode: "window",

@@ -7,11 +7,16 @@ import { LoaderStartComponent } from './shared/loader-start/loader-start.compone
 import { SlideMenuComponent } from './shared/slide-menu/slide-menu.component';
 import {HeaderComponent} from './shared/header/header.component';
 import { SingerCreateComponent } from './content/singer/singer-create/singer-create.component';
+import { LoginComponent } from './login/login.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFireStorageModule} from '@angular/fire/storage';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ErrorInterceptor} from './helper/error-interceptor';
+import {JwtInterceptor} from './helper/jwt-interceptor';
 
 @NgModule({
   declarations: [
@@ -20,16 +25,23 @@ import {FormsModule} from '@angular/forms';
     SlideMenuComponent,
     HeaderComponent,
     SingerCreateComponent,
+    LoginComponent,
+    SignUpComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        AngularFireModule.initializeApp(environment.firebaseConfig),
-        AngularFireStorageModule,
-        AngularFireDatabaseModule,
-        FormsModule
-    ],
-  providers: [],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule
+  ],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+  ],
   exports: [
     HeaderComponent
   ],

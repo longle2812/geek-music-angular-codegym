@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {UserToken} from '../../model/user-token';
 import {map} from 'rxjs/operators';
+import {User} from '../../model/user';
 
 const API_URL = `${environment.apiUrl}`;
 
@@ -36,5 +37,9 @@ export class AuthenticationService {
   logout() {
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
+  }
+
+  register(user: User): Observable<User> {
+    return this.http.post<User>(`${API_URL}/signup`, user);
   }
 }
