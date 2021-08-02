@@ -1,24 +1,24 @@
-<form #uploadSongForm ="ngForm">
+<form #uploadSongForm="ngForm">
   <div class="ms_upload_wrapper marger_top60">
     <div class="ms_upload_box">
       <h2>Upload & Share Your Music With The World</h2>
       <img src="/assets/images/svg/upload.svg" alt="">
       <div class="ms_upload_btn">
         <input class="ms_btn" id="image" type="file" (change)="changeSongUrl($event)">
-<!--               #preview (change)="showPreview($event)">-->
-<!--        <a href="#" class="ms_btn">save files</a>-->
+        <!--               #preview (change)="showPreview($event)">-->
+        <!--        <a href="#" class="ms_btn">save files</a>-->
       </div>
       <p style="margin-top: 20px" *ngIf="songUrl !== ''">{{selectedSong.name}}</p>
-<!--      Upload image-->
+      <!--      Upload image-->
       <h2 style="margin-top: 50px">Choose your cover image</h2>
       <img src="/assets/images/svg/upload.svg" alt="">
       <div>
-        <input  class="ms_btn" id="image1" type="file" (change)="changeImageUrl($event)">
+        <input class="ms_btn" id="image1" type="file" (change)="changeImageUrl($event)">
         <!--               #preview (change)="showPreview($event)">-->
         <!--        <a href="#" class="ms_btn">save files</a>-->
 
       </div>
-      <img style="width: 40%;"*ngIf="imgUrl !== ''" src="{{imgUrl}}">
+      <img style="width: 40%;" *ngIf="imgUrl !== ''" src="{{imgUrl}}">
     </div>
     <div class=" marger_top60">
       <div class="ms_upload_box">
@@ -26,37 +26,56 @@
           <h1>Song Information</h1>
         </div>
         <div class="ms_pro_form">
+
           <div class="form-group">
             <label>Track Name *</label>
-            <input type="text" placeholder="Dream Your Moments" ngModel name="name" class="form-control">
+            <input type="text" placeholder="Dream Your Moments" required minlength="8" ngModel name="name"
+                   class="form-control" #name="ngModel"
+                   [ngClass]="{
+            'has-danger': name.invalid && (name.dirty || name.touched),
+            'has-success': name.valid && (name.dirty || name.touched)}">
+            <div *ngIf="name.errors && (name.dirty || name.touched)">
+              <p style="color: red; margin-top: 5px" *ngIf="name.errors.required">Track name is required</p>
+              <p style="color: red; margin-top: 5px" *ngIf="name.errors.minlength">Minlength is 8 character</p>
+            </div>
           </div>
           <div class="form-group">
             <label>Author’s Name *</label>
-            <input type="text" placeholder="Ava Cornish, Brian Hill" ngModel name="author" class="form-control">
+            <input type="text" placeholder="Ava Cornish, Brian Hill" required minlength="8" ngModel name="author"
+                   class="form-control" #author="ngModel"
+                   [ngClass]="{
+            'has-danger': author.invalid && (author.dirty || author.touched),
+            'has-success': author.valid && (author.dirty || author.touched)}">
+            <div *ngIf="author.errors && (author.dirty || author.touched)">
+              <p style="color: red; margin-top: 5px" *ngIf="author.errors.required">Author's name is required</p>
+              <p style="color: red; margin-top: 5px" *ngIf="author.errors.minlength">Minlength is 8 character</p>
+            </div>
           </div>
           <div class="form-group">
-            <label>Album’s Name *</label>
+            <label>Album’s Name </label>
             <input type="text" placeholder="Christmas Song,..." ngModel name="album" class="form-control">
           </div>
           <div class="form-group">
             <label>Select Genre</label>
-            <select class="form-control" ngModel name="genres">
-              <option *ngFor="let gerne of genreList" [value]="gerne.id" [selected]="initGenre == gerne.id">{{gerne.name}}</option>
+            <select class="form-control" ngModel name="genres" [(ngModel)]="initGenre">
+              <option *ngFor="let gerne of genreList" [value]="gerne.id"
+                      [selected]="initGenre === gerne.id">{{gerne.name}}</option>
             </select>
           </div>
           <div class="form-group">
             <label>Select Singer</label>
-            <select class="form-control" ngModel name="singers">
-              <option *ngFor="let singer of singerList" [value]="singer.id" [selected]="initGenre == singer.id">{{singer.name}}</option>
+            <select class="form-control" ngModel name="singers" [(ngModel)]="initSinger">
+              <option *ngFor="let singer of singerList" [value]="singer.id">{{singer.name}}</option>
             </select>
           </div>
           <div style="width: 85%; margin-left: 50px;">
             <label style="color: #3bc8e7; text-align: center">Description</label>
-            <textarea style="height: 100px" placeholder="Ava Cornish, Brian Hill" ngModel name="description" class="form-control"></textarea>
+            <textarea style="height: 100px" placeholder="Ava Cornish, Brian Hill" ngModel name="description"
+                      class="form-control"></textarea>
           </div>
           <div class="pro-form-btn text-center marger_top15">
             <div class="ms_upload_btn">
-              <a style="color: white" class="ms_btn" (click)="upload(uploadSongForm)">Upload</a>
+              <a style="color: white; cursor: pointer" class="ms_btn" (click)="upload(uploadSongForm)">Upload</a>
               <a style="color: white" class="ms_btn">Cancel</a>
             </div>
           </div>

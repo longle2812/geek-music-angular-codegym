@@ -3551,7 +3551,7 @@ button.save_btn:hover {
 	margin-top: 15px;
 }
 .ms_pro_form .form-group {
-	width: 44%;
+	width: 90%;
 	display: inline-block;
 	padding: 0px 12px;
 	text-align: left;
@@ -6600,4 +6600,12 @@ h2.widget-title:after {
 		-ms-flex-preferred-size: 190px;
 		flex-basis: 190px;
 	}
+}
+
+.has-danger {
+  border: 2px solid red;
+}
+
+.has-success {
+  border: 3px solid green;
 }

@@ -23,6 +23,7 @@ export class UploadSongComponent implements OnInit {
   imgUrl = '';
   genreList: Genre[] = [];
   initGenre = 1;
+  initSinger = 1;
   singerList: Singer[] = [];
   currentUser: UserToken = {};
   songDto: Songdto = {
@@ -59,21 +60,25 @@ export class UploadSongComponent implements OnInit {
 
 
   upload(uploadSongForm: NgForm) {
-    this.songDto.name = uploadSongForm.value.name;
-    this.songDto.author = uploadSongForm.value.author;
-    this.songDto.genres = uploadSongForm.value.genres;
-    this.songDto.singers = uploadSongForm.value.singers;
-    this.songDto.description = uploadSongForm.value.description;
-    this.songDto.album = uploadSongForm.value.album;
-    this.songDto.mp3Url = this.songUrl;
-    this.songDto.imgUrl = this.imgUrl;
-    this.songDto.userId = this.currentUser.id;
-    if (this.songUrl === '' || this.imgUrl === '') {
-      alert('error');
+    if (uploadSongForm.valid) {
+      this.songDto.name = uploadSongForm.value.name;
+      this.songDto.author = uploadSongForm.value.author;
+      this.songDto.genres = uploadSongForm.value.genres;
+      this.songDto.singers = uploadSongForm.value.singers;
+      this.songDto.description = uploadSongForm.value.description;
+      this.songDto.album = uploadSongForm.value.album;
+      this.songDto.mp3Url = this.songUrl;
+      this.songDto.imgUrl = this.imgUrl;
+      this.songDto.userId = this.currentUser.id;
+      if (this.songUrl === '' || this.imgUrl === '') {
+        alert('error');
+      } else {
+        this.songService.createNewSong(this.songDto).subscribe(
+          song => console.log(song)
+        );
+      }
     } else {
-      this.songService.createNewSong(this.songDto).subscribe(
-        song => console.log(song)
-      );
+      alert('error');
     }
   }
 
