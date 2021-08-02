@@ -24,4 +24,7 @@ export class SongService {
     return this.http.get<Song[]>(`${API_URL}/song/userId/${userId}`);
   }
 
+  getSongByNameOrAuthor(searchValue: string, userId: number): Observable<Song[]> {
+    return this.http.get<Song[]>(`${API_URL}/song/search/${searchValue}/${userId}`);
+  }
 }
