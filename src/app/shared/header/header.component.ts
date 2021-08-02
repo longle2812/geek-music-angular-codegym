@@ -10,6 +10,7 @@ declare var $: any;
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  isActive = false;
   currentUser: UserToken = {};
 
   constructor(private authenticationService: AuthenticationService) {
@@ -19,10 +20,14 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isActive = false;
   }
 
   logout() {
     this.authenticationService.logout();
   }
 
+  changeActive() {
+    this.isActive = !this.isActive;
+  }
 }

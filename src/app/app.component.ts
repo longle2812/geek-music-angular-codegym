@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, NgForm} from '@angular/forms';
+import {AuthenticationService} from './service/authentication/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +9,9 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AppComponent implements OnInit {
   title = 'geek-music';
+
+  constructor(private authenticationService: AuthenticationService) {
+  }
 
   ngOnInit() {
     this.loadScript('/assets/js/plugins/player/volume.js');
@@ -25,5 +30,12 @@ export class AppComponent implements OnInit {
     script.async = false;
     script.defer = true;
     body.appendChild(script);
+  }
+
+
+  login(loginForm: NgForm) {
+    this.authenticationService.login(loginForm.value.username, loginForm.value.password).subscribe(
+      () => console.log('success')
+    );
   }
 }
