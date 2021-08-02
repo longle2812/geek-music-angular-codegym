@@ -10,8 +10,6 @@ export interface Singer {
   biography?: string;
   band?: string;
   popularSong?: string;
-  like?: number;
   additionalInfo?: string;
-  commentList?: Comment[];
   imageUrl?: string;
 }

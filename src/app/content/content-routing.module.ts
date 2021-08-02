@@ -4,6 +4,7 @@ import {HomeComponent} from './home/home.component';
 import {AlbumComponent} from './album/album.component';
 import {SingerCreateComponent} from './singer/singer-create/singer-create.component';
 import {UploadSongComponent} from './upload-song/upload-song.component';
+import {PlaylistCreateComponent} from './playlist/playlist-create/playlist-create.component';
 
 
 const routes: Routes = [
@@ -16,12 +17,13 @@ const routes: Routes = [
     component: AlbumComponent
   },
   {
-    path: 'singer/create',
-    component: SingerCreateComponent
-  },
-  {
     path: 'upload',
     component: UploadSongComponent
+  }
+  ,
+  {
+    path: 'playlist/create',
+    component: PlaylistCreateComponent
   }
 ];
 

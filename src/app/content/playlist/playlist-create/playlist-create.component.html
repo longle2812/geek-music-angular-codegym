@@ -1,1 +1,44 @@
-<p>playlist-create works!</p>
+<form #playlistForm ="ngForm">
+  <div class="ms_upload_wrapper marger_top60">
+    <div class="ms_upload_box">
+      <h2>Upload & Share Your Music With The World</h2>
+      <img src="/assets/images/svg/upload.svg" alt="">
+      <div class="ms_upload_btn">
+        <input class="ms_btn" id="image" type="file" (change)="showPreview($event)">
+        <!--               #preview (change)="showPreview($event)">-->
+        <!--        <a href="#" class="ms_btn">save files</a>-->
+      </div>
+      <span> or </span>
+      <p>Drag And Drop Music Files</p>
+    </div>
+    <div class=" marger_top60">
+      <div class="ms_upload_box">
+        <div class="ms_heading">
+          <h1>Playlist Information</h1>
+        </div>
+        <div class="ms_pro_form">
+          <div class="form-group">
+            <label>Playlist Name *</label>
+            <input type="text"  ngModel name="name" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>description *</label>
+            <input type="text"  ngModel name="description" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Select Genre</label>
+            <select class="form-control" ngModel name="genres">
+              <option *ngFor="let gerne of genreList" [value]="gerne.id" [selected]="initGenre == gerne.id">{{gerne.name}}</option>
+            </select>
+          </div>
+                  <div class="pro-form-btn text-center marger_top15">
+            <div class="ms_upload_btn">
+              <a style="color: white" class="ms_btn" (click)="create(playlistForm)">Upload</a>
+              <a style="color: white" class="ms_btn">Cancel</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

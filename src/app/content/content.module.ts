@@ -7,10 +7,11 @@ import { AlbumComponent } from './album/album.component';
 import { UploadSongComponent } from './upload-song/upload-song.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
 
 
 @NgModule({
-  declarations: [HomeComponent, AlbumComponent, UploadSongComponent],
+  declarations: [HomeComponent, AlbumComponent, UploadSongComponent, PlaylistCreateComponent],
   imports: [
     CommonModule,
     ContentRoutingModule,
