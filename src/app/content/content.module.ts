@@ -6,11 +6,10 @@ import { HomeComponent } from './home/home.component';
 import { AlbumComponent } from './album/album.component';
 import { UploadSongComponent } from './upload-song/upload-song.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
-
+import { UploadedListComponent } from './uploaded-list/uploaded-list.component';
 
 @NgModule({
-  declarations: [HomeComponent, AlbumComponent, UploadSongComponent],
+  declarations: [HomeComponent, AlbumComponent, UploadSongComponent, UploadedListComponent],
   imports: [
     CommonModule,
     ContentRoutingModule,

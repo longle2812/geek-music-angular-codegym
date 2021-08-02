@@ -20,4 +20,8 @@ export class SongService {
     return this.http.post<Song>(`${API_URL}/song`, song);
   }
 
+  getAllSongByUserId(userId: number): Observable<Song[]> {
+    return this.http.get<Song[]>(`${API_URL}/song/userId/${userId}`);
+  }
+
 }

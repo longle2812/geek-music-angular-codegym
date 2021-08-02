@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {HomeComponent} from './home/home.component';
 import {AlbumComponent} from './album/album.component';
 import {UploadSongComponent} from './upload-song/upload-song.component';
+import {UploadedListComponent} from './uploaded-list/uploaded-list.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'upload',
     component: UploadSongComponent
+  },
+  {
+    path: 'uploaded-list',
+    component: UploadedListComponent
   }
 ];
 

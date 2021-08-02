@@ -46,7 +46,6 @@ export class UploadSongComponent implements OnInit {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.currentUser = user;
     });
-    console.log(this.currentUser);
   }
 
   ngOnInit() {
