@@ -1,6 +1,5 @@
-
-
 <!----Loader Start---->
+
 <app-loader-start></app-loader-start>
 <!----Main Wrapper Start---->
 <div class="ms_main_wrapper">
@@ -38,17 +37,17 @@
           <div class="footer_box footer_subscribe">
             <h1 class="footer_title">subscribe</h1>
             <p>Subscribe to our newsletter and get latest updates and offers.</p>
-            <form>
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Enter Your Name">
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Enter Your Email">
-              </div>
-              <div class="form-group">
-                <a href="#" class="ms_btn">sign me up</a>
-              </div>
-            </form>
+<!--            <form>-->
+<!--              <div class="form-group">-->
+<!--                <input type="text" class="form-control" placeholder="Enter Your Name">-->
+<!--              </div>-->
+<!--              <div class="form-group">-->
+<!--                <input type="text" class="form-control" placeholder="Enter Your Email">-->
+<!--              </div>-->
+<!--              <div class="form-group">-->
+<!--                <a href="#" class="ms_btn">sign me up</a>-->
+<!--              </div>-->
+<!--            </form>-->
           </div>
         </div>
         <div class="col-lg-3 col-md-6">
@@ -276,30 +275,32 @@
             <img src="/assets/images/register_img.png" alt="" class="img-fluid" />
           </div>
           <div class="ms_register_form">
-            <h2>login / Sign in</h2>
-            <div class="form-group">
-              <input type="text" placeholder="Enter Your Email" class="form-control">
-              <span class="form_icon">
+            <form id="loginForm" #loginForm="ngForm">
+              <h2>login / Sign in</h2>
+              <div class="form-group">
+                <input ngModel name="username" type="text" placeholder="Enter Your username" class="form-control">
+                <span class="form_icon">
 							<i class="fa_icon form-envelope" aria-hidden="true"></i>
 						</span>
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Enter Password" class="form-control">
-              <span class="form_icon">
+              </div>
+              <div class="form-group">
+                <input ngModel name="password" type="password" placeholder="Enter Password" class="form-control">
+                <span class="form_icon">
 						<i class="fa_icon form-lock" aria-hidden="true"></i>
 						</span>
-            </div>
-            <div class="remember_checkbox">
-              <label>Keep me signed in
-                <input type="checkbox">
-                <span class="checkmark"></span>
-              </label>
-            </div>
-            <a href="profile.html" class="ms_btn" target="_blank">login now</a>
-            <div class="popup_forgot">
-              <a href="#">Forgot Password ?</a>
-            </div>
-            <p>Don't Have An Account? <a href="#myModal" data-toggle="modal" class="ms_modal1 hideCurrentModel">register here</a></p>
+              </div>
+              <div class="remember_checkbox">
+                <label>Keep me signed in
+                  <input type="checkbox">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <a (click)="login(loginForm)" class="ms_btn">login now</a>
+              <div class="popup_forgot">
+                <a href="#">Forgot Password ?</a>
+              </div>
+              <p>Don't Have An Account? <a href="#myModal" data-toggle="modal" class="ms_modal1 hideCurrentModel">register here</a></p>
+            </form>
           </div>
         </div>
       </div>

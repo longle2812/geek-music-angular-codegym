@@ -1,13 +1,13 @@
-/*--------------------- Copyright (c) 2018 ----------------------- 
-[Master Stylesheet] 
-Project: Miraculous - Online Music Store Html Template 
-Version: 1.0.0 
+/*--------------------- Copyright (c) 2018 -----------------------
+[Master Stylesheet]
+Project: Miraculous - Online Music Store Html Template
+Version: 1.0.0
 Author: Kamleshyadav
- ------------------------------------------------------------------- 
-[Table of contents] 
-1. Body 
-2. Normal Css 
-3. Loader Css 
+ -------------------------------------------------------------------
+[Table of contents]
+1. Body
+2. Normal Css
+3. Loader Css
 4. Nav Css / .ms_sidemenu_wrapper
 5. Header Css / .ms_header
 6. Banner Css / .ms-banner
@@ -16,7 +16,7 @@ Author: Kamleshyadav
 9. Featured Artists Css / .ms_featured_slider
 10.New Released Css / .ms_releases_wrapper
 11.Featured Album css / .ms_fea_album_slider
-12.Top Genres Css / .ms_genres_wrapper
+12.Top Genre Css / .ms_genres_wrapper
 13.Live Radio Css / .ms_radio_wrapper
 14.Footer Css / .ms_footer_wrapper
 15.Player Css / .ms_player_wrapper
@@ -28,11 +28,11 @@ Author: Kamleshyadav
 21.Purchase Page Css / .ms_free_download.ms_purchase_wrapper
 22.History Page Css / .ms_top_artist
 23.AddToPlaylist Page Css / .ms_top_artist
-24.Modal Css Start 
+24.Modal Css Start
 25.Edit Profile Page Css / .ms_profile_wrapper
-26.Plans Css / .ms_account_wrapper 
+26.Plans Css / .ms_account_wrapper
 27.Upload Page Css / .ms_upload_wrapper
-28.Language Popup Css 
+28.Language Popup Css
 29.Blog Page Css / .ms_blog_wrapper
 30.Blog Single Page Css / .ms_blog_single_wrapper
 31.Sidebar Css / .ms_sidebar
@@ -1517,7 +1517,7 @@ ul.more_option li a:hover .opt_icon .icon_share {
 	position: relative;
 	margin: 52px 0px 0px 0px;
 }
-/*====Top Genres Css Start====*/
+/*====Top Genre Css Start====*/
 .ms_genres_wrapper {
 	margin: 50px 0px 0px 0px;
 }
