@@ -130,7 +130,7 @@ $(function() {
             var playlist = myPlaylist.playlist;
             $.each(playlist, function(index, obj) {
                 if (index == current) {
-                    $(".jp-now-playing").html("<div class='jp-track-name'><span class='que_img'><img src='"+obj.image+"'></span><div class='que_data'>" + obj.title + " <div class='jp-artist-name'>" + obj.artist + "</div></div></div>");
+                    $(".jp-now-playing").html("<div class='jp-track-name'><span class='que_img'><img style='width: 50px; height: 50px' id='jp_playing_img' src='"+obj.image+"'></span><div class='que_data'><span id='jp_playing_title'>" + obj.title + "</span> <div class='jp-artist-name'> <span id='jp_playing_artist'>" + obj.artist + "</span></div></div></div>");
                 }
             });
             $(".que_close").click(()=> {
@@ -151,7 +151,6 @@ $(function() {
                         $("#jquery_jplayer_1").jPlayer("unmute");
                     }
                 });
-
                 return false;
             }).mouseup(function() {
                 $(window).unbind("mousemove");

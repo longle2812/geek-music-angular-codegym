@@ -22,7 +22,7 @@
         <li class="text-center">remove</li>
       </ul>
       <ul *ngFor="let song of songs">
-        <li><a style="color: white"><span class="play_no">{{song.id}}</span><span class="play_hover"></span></a></li>
+        <li><a style="color: white"><span class="play_no">{{song.id}}</span><span (click)="playMusic(song)" class="play_hover"></span></a></li>
         <li><a routerLink="/song/{{song.id}}" style="color: white">{{song.name}}</a></li>
         <li><a style="color: white">{{song.author}}</a></li>
         <li><a style="color: white">{{song.singers[0].name}}</a></li>

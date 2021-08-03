@@ -4,6 +4,8 @@ import {SongService} from '../../service/song/song.service';
 import {UserToken} from '../../model/user-token';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-uploaded-list',
   templateUrl: './uploaded-list.component.html',
@@ -25,6 +27,7 @@ export class UploadedListComponent implements OnInit {
 
   ngOnInit() {
     this.loadScript('/assets/js/menu-slider.js');
+    this.loadScript('/assets/js/plugins/player/jplayer.playlist.min.js');
   }
 
   getAllSong() {
@@ -54,5 +57,22 @@ export class UploadedListComponent implements OnInit {
         () => alert('Not found')
       );
     }
+  }
+
+  playMusic(song: Song) {
+    console.log(song);
+    $('#jquery_jplayer_1').jPlayer('setMedia', {
+      image : song.imgUrl,
+      title: song.name,
+      artist: song.author,
+      mp3: song.fileMp3,
+    });
+
+    $('#jquery_jplayer_1').jPlayer('play');
+    setTimeout(() => {
+      $('#jp_playing_artist').text(song.author);
+      $('#jp_playing_img').attr('src', song.imgUrl);
+      $('#jp_playing_title').text(song.name);
+    }, 100);
   }
 }
