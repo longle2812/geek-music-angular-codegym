@@ -5,7 +5,7 @@ import { ContentRoutingModule } from './content-routing.module';
 import { HomeComponent } from './home/home.component';
 import { AlbumComponent } from './album/album.component';
 import { UploadSongComponent } from './upload-song/upload-song.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UploadedListComponent } from './uploaded-list/uploaded-list.component';
 import { SongDetailComponent } from './song-detail/song-detail.component';
 

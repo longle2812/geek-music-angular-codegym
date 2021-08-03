@@ -397,18 +397,7 @@ Assigned to: Theme Forest
   };
   $(document).ready(function() {
     music.init();
-
-    // Scrollbar
-    $(".ms_nav_wrapper").mCustomScrollbar({
-      theme:"minimal"
-    });
-
-    // Queue Scrollbar
-    $(".jp_queue_list_inner").mCustomScrollbar({
-      theme:"minimal",
-      setHeight:345
-    });
-  });
+      });
   // Preloader Js
   jQuery(window).on('load', function() {
     setTimeout(function() {
@@ -418,21 +407,5 @@ Assigned to: Theme Forest
     if ($('.jp-playlist ul li').length > 3) {
       $('.jp-playlist').addClass('find_li');
     }
-  });
-  // Window Scroll
-  $(window).scroll(function() {
-    var wh = window.innerWidth;
-    //Go to top
-    if ($(this).scrollTop() > 100) {
-      $('.gotop').addClass('goto');
-    } else {
-      $('.gotop').removeClass('goto');
-    }
-  });
-  $(".gotop").on("click", function() {
-    $("html, body").animate({
-      scrollTop: 0
-    }, 600);
-    return false
   });
 })(jQuery);
