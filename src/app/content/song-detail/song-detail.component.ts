@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SongService} from '../../service/song/song.service';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {ActivatedRoute} from '@angular/router';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {GenreService} from '../../service/genres/genre.service';
 import {SingerService} from '../../service/singer/singer.service';
 import {Genre} from '../../model/genre';
@@ -25,10 +25,10 @@ export class SongDetailComponent implements OnInit {
   singerList: Singer[] = [];
   songDetailForm: FormGroup = new FormGroup({
     id: new FormControl(),
-    name: new FormControl(),
+    name: new FormControl('', [Validators.minLength(8), Validators.required]),
     description: new FormControl(),
     imgUrl: new FormControl(),
-    author: new FormControl(),
+    author: new FormControl('', [Validators.minLength(6), Validators.required]),
     genres: new FormControl(),
     singers: new FormControl(),
     mp3Url: new FormControl(),
@@ -115,17 +115,24 @@ export class SongDetailComponent implements OnInit {
   }
 
   updateDetail() {
-    if (this.songUrl !== '') {
-      this.songDetailForm.patchValue({
-        mp3Url: this.songUrl
-      });
+    if (this.songDetailForm.valid) {
+      if (this.songUrl !== '') {
+        this.songDetailForm.patchValue({
+          mp3Url: this.songUrl
+        });
+      }
+      if (this.imgUrl !== '') {
+        this.songDetailForm.patchValue({
+          imgUrl: this.imgUrl
+        });
+      }
+      this.songService.updateSong(this.songDetailForm.value).subscribe(song =>
+        console.log(song));
+    } else {
+      alert('error');
     }
-    if (this.imgUrl !== '') {
-      this.songDetailForm.patchValue({
-        imgUrl: this.imgUrl
-      });
-    }
-    this.songService.updateSong(this.songDetailForm.value).subscribe(song =>
-      console.log(song));
   }
+
+  get f() { return this.songDetailForm.controls; }
+
 }

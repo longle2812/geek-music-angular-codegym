@@ -30,12 +30,26 @@
           <div class="form-group">
             <label>Track Name *</label>
             <input type="text"  formControlName="name"
-                   class="form-control" >
+                   class="form-control"
+                   [ngClass]="{
+            'has-danger': f.name.errors,
+            'has-success': f.name.valid}">
+            <div *ngIf="f.name.errors">
+              <p style="color: red; margin-top: 5px" *ngIf="f.name.errors.minlength">Minlength is 8 characters</p>
+              <p style="color: red; margin-top: 5px" *ngIf="f.name.errors.required">Track name is required</p>
+            </div>
           </div>
           <div class="form-group">
             <label>Author’s Name *</label>
             <input type="text" placeholder="Ava Cornish, Brian Hill"
-                   class="form-control" formControlName="author">
+                   class="form-control" formControlName="author"
+                   [ngClass]="{
+            'has-danger': f.author.errors,
+            'has-success': f.author.valid}">
+            <div *ngIf="f.author.errors">
+              <p style="color: red; margin-top: 5px" *ngIf="f.author.errors.minlength">Minlength is 6 characters</p>
+              <p style="color: red; margin-top: 5px" *ngIf="f.author.errors.required">Track name is required</p>
+            </div>
           </div>
           <div class="form-group">
             <label>Album’s Name </label>
