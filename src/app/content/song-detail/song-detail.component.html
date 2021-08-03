@@ -1,0 +1,72 @@
+<form [formGroup]="songDetailForm">
+  <div class="ms_upload_wrapper marger_top60">
+    <div class="ms_upload_box">
+      <h2>Song Detail</h2>
+      <img src="/assets/images/svg/upload.svg" alt="">
+      <div class="ms_upload_btn">
+        <input class="ms_btn" id="songUrl" type="file" (change)="changeSongUrl($event)">
+        <!--               #preview (change)="showPreview($event)">-->
+        <!--        <a href="#" class="ms_btn">save files</a>-->
+      </div>
+      <p style="margin-top: 20px">{{songUploadedName}}</p>
+      <!--      Upload image-->
+      <h2 style="margin-top: 50px">Choose your cover image</h2>
+      <img src="/assets/images/svg/upload.svg" alt="">
+      <div>
+        <input class="ms_btn" id="imageUrl" type="file" (change)="changeImageUrl($event)">
+        <!--               #preview (change)="showPreview($event)">-->
+<!--                <a href="#" class="ms_btn">save files</a>-->
+
+      </div>
+      <img style="width: 40%;" src="{{imgUploadedSrc}}">
+    </div>
+    <div class=" marger_top60">
+      <div class="ms_upload_box">
+        <div class="ms_heading">
+          <h1>Song Information</h1>
+        </div>
+        <div class="ms_pro_form">
+
+          <div class="form-group">
+            <label>Track Name *</label>
+            <input type="text"  formControlName="name"
+                   class="form-control" >
+          </div>
+          <div class="form-group">
+            <label>Author’s Name *</label>
+            <input type="text" placeholder="Ava Cornish, Brian Hill"
+                   class="form-control" formControlName="author">
+          </div>
+          <div class="form-group">
+            <label>Album’s Name </label>
+            <input type="text" placeholder="Christmas Song,..." formControlName="album" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Select Genre</label>
+            <select class="form-control" formControlName="genres" >
+              <option *ngFor="let genre of genreList" [value]="genre.id"
+                      >{{genre.name}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Select Singer</label>
+            <select class="form-control" formControlName="singers">
+              <option *ngFor="let singer of singerList" [value]="singer.id">{{singer.name}}</option>
+            </select>
+          </div>
+          <div style="width: 85%; margin-left: 50px;">
+            <label style="color: #3bc8e7; text-align: center">Description</label>
+            <textarea style="height: 100px" formControlName="description"
+                      class="form-control"></textarea>
+          </div>
+          <div class="pro-form-btn text-center marger_top15">
+            <div class="ms_upload_btn">
+              <a style="color: white; cursor: pointer" class="ms_btn" (click)="updateDetail()">Update</a>
+              <a style="color: white" class="ms_btn">Cancel</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

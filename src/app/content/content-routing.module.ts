@@ -4,6 +4,7 @@ import {HomeComponent} from './home/home.component';
 import {AlbumComponent} from './album/album.component';
 import {UploadSongComponent} from './upload-song/upload-song.component';
 import {UploadedListComponent} from './uploaded-list/uploaded-list.component';
+import {SongDetailComponent} from './song-detail/song-detail.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'uploaded-list',
     component: UploadedListComponent
+  },
+  {
+    path: 'song/:id',
+    component: SongDetailComponent
   }
 ];
 
