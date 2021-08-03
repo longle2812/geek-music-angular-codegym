@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
     if (this.userForm.valid) {
       this.authenticationService.login(this.userForm.get('username').value,
         this.userForm.get('password').value).subscribe(userToken => {
-          console.log(userToken);
           $('#myModal1').modal('hide');
           this.notificationService.showSuccessMessage('Login success');
           this.userService.findById(userToken.id).subscribe(user => {

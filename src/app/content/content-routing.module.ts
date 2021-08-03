@@ -4,6 +4,7 @@ import {HomeComponent} from './home/home.component';
 import {AlbumComponent} from './album/album.component';
 import {UploadSongComponent} from './upload-song/upload-song.component';
 import {EditProfileComponent} from './edit-profile/edit-profile.component';
+import {ChangePasswordComponent} from './change-password/change-password.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'users/:id',
     component: EditProfileComponent
+  },
+  {
+    path: 'users/pw/:id',
+    component: ChangePasswordComponent
   }
 ];
 

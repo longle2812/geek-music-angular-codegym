@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {UserService} from '../../service/user/user.service';
 import {User} from '../../model/user';
@@ -7,7 +7,6 @@ import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
 import {NotificationService} from '../../service/notification/notification.service';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
-import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'app-edit-profile',
@@ -43,8 +42,8 @@ export class EditProfileComponent implements OnInit {
       this.userForm = new FormGroup({
         name: new FormControl(user.name),
         address: new FormControl(user.address),
-        phoneNumber: new FormControl(user.phoneNumber),
-        email: new FormControl(user.email)
+        phoneNumber: new FormControl(user.phoneNumber, [Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})\\b'), Validators.required]),
+        email: new FormControl(user.email, [Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')])
       });
     });
   }

@@ -17,14 +17,12 @@
     </div>
     <div *ngIf="currentUser" class="ms_top_btn">
       <a routerLink="/upload" class="ms_btn">upload</a>
-      <a (click)="changeActive()" class="ms_admin_name" style="top: -7px; color: white">Hello {{currentUser.username}}
+      <a (click)="changeActive()" #dropdown class="ms_admin_name" style="top: -7px; color: white">Hello {{currentUser.username}}
         <img src="{{avatarUrl}}"  class="img-fluid" style="border-radius: 100%;">
       </a>
       <ul class="pro_dropdown_menu" [ngClass]="{'open_dropdown' : isActive}" style="top:74%;">
-        <li><a [routerLink]="['/users',currentUser.id]">Profile</a></li>
-        <li><a href="manage_acc.html" target="_blank">Pricing Plan</a></li>
-        <li><a href="blog.html" target="_blank">Blog</a></li>
-        <li><a href="#">Setting</a></li>
+        <li><a [routerLink]="['/users',currentUser.id]" (click)="dropdown.click()">Profile</a></li>
+        <li><a [routerLink]="['/users/pw',currentUser.id]" (click)="dropdown.click()">Change password</a></li>
         <li><a (click)="logout()">Logout</a></li>
       </ul>
     </div>

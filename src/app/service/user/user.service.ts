@@ -5,6 +5,8 @@ import {User} from '../../model/user';
 import {environment} from '../../../environments/environment';
 import {UserToken} from '../../model/user-token';
 import {AuthenticationService} from '../authentication/authentication.service';
+import {Router} from '@angular/router';
+import {NotificationService} from '../notification/notification.service';
 
 
 const API_URL = `${environment.apiUrl}`;
@@ -15,7 +17,8 @@ const API_URL = `${environment.apiUrl}`;
 export class UserService {
   currentUser: UserToken = {};
 
-  constructor(private authenticationService: AuthenticationService, private http: HttpClient) {
+  constructor(private notificationService: NotificationService,
+              private authenticationService: AuthenticationService, private http: HttpClient, private router: Router) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.currentUser = user;
     });
@@ -25,7 +28,8 @@ export class UserService {
     if (this.currentUser.id === id) {
       return this.http.get<User>(`${API_URL}/users/${id}`);
     }
-    alert('You don\'t have permission to do this');
+    this.notificationService.showErrorMessage('You don\'t have permission to do this');
+    this.router.navigateByUrl('/album');
   }
 
   saveUser(id: number, user: User): Observable<User> {

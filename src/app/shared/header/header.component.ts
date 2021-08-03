@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.isActive = false;
-    // this.getAvatarUrl();
+    this.getAvatarUrl();
   }
 
   logout() {
@@ -46,4 +46,5 @@ export class HeaderComponent implements OnInit {
       console.log(e);
     });
   }
+
 }

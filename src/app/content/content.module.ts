@@ -8,10 +8,11 @@ import { UploadSongComponent } from './upload-song/upload-song.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 @NgModule({
-  declarations: [HomeComponent, AlbumComponent, UploadSongComponent, EditProfileComponent],
+  declarations: [HomeComponent, AlbumComponent, UploadSongComponent, EditProfileComponent, ChangePasswordComponent],
   imports: [
     CommonModule,
     ContentRoutingModule,
