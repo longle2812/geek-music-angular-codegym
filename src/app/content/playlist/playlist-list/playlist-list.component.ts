@@ -28,9 +28,12 @@ export class PlaylistListComponent implements OnInit {
   }
 
   private getAllPlaylist() {
-    this.playlistService.getAllPlaylistBuyUser(this.userToken.id).subscribe(list => {
-      this.playlists = list;
-    });
+    if(this.userToken != null){
+      this.playlistService.getAllPlaylistBuyUser(this.userToken.id).subscribe(list => {
+        this.playlists = list;
+      });
+    }
+
   }
 
   delete(playlistId: number,userId: number) {
