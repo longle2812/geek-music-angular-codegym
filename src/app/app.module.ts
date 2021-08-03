@@ -16,6 +16,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ErrorInterceptor} from './helper/error-interceptor';
 import {JwtInterceptor} from './helper/jwt-interceptor';
+import { DeleteSongPopupComponent } from './shared/delete-song-popup/delete-song-popup.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {JwtInterceptor} from './helper/jwt-interceptor';
     HeaderComponent,
     LoginComponent,
     SignUpComponent,
+    DeleteSongPopupComponent,
   ],
   imports: [
     BrowserModule,

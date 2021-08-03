@@ -7,28 +7,31 @@
 						</span>
     </div>
     <div class="ms_top_trend">
-      <span><a href="#"  class="ms_color">Trending Songs :</a></span> <span class="top_marquee"><a href="#">Dream your moments, Until I Met You, Gimme Some Courage, Dark Alley (+8 More)</a></span>
+      <span><a href="#" class="ms_color">Trending Songs :</a></span> <span class="top_marquee"><a href="#">Dream your moments, Until I Met You, Gimme Some Courage, Dark Alley (+8 More)</a></span>
     </div>
   </div>
   <div class="ms_top_right">
     <div class="ms_top_lang">
-      <span data-toggle="modal" data-target="#lang_modal">languages <img src="/assets/images/svg/lang.svg" alt=""></span>
+      <span data-toggle="modal" data-target="#lang_modal">languages <img src="/assets/images/svg/lang.svg"
+                                                                         alt=""></span>
     </div>
     <div *ngIf="currentUser" class="ms_top_btn">
-      <a routerLink="/upload" class="ms_btn">upload</a>
-      <a (click)="changeActive()" class="ms_admin_name"  style="top: -7px; color: white">Hello {{currentUser.username}}<span class="ms_pro_name">NS</span>
+      <a style="cursor: pointer" routerLink="/upload" class="ms_btn">upload</a>
+      <a (click)="changeActive()" class="ms_admin_name"
+         style="top: -7px; color: white; cursor: pointer">Hello {{currentUser.username}}<span
+        class="ms_pro_name">NS</span>
       </a>
       <ul class="pro_dropdown_menu" [ngClass]="{'open_dropdown' : isActive == true}" style="top:74%;">
-        <li><a href="profile.html">Profile</a></li>
-        <li><a href="manage_acc.html" target="_blank">Pricing Plan</a></li>
-        <li><a href="blog.html" target="_blank">Blog</a></li>
-        <li><a href="#">Setting</a></li>
-        <li><a (click)="logout()">Logout</a></li>
+        <li><a>Profile</a></li>
+        <li><a>Pricing Plan</a></li>
+        <li><a>Blog</a></li>
+        <li><a>Setting</a></li>
+        <li><a style="cursor: pointer; color: black" (click)="logout()">Logout</a></li>
       </ul>
     </div>
     <div *ngIf="!currentUser" class="ms_top_btn">
-      <a href="javascript:;" class="ms_btn reg_btn" data-toggle="modal" data-target="#myModal"><span>register</span></a>
-      <a href="javascript:;" class="ms_btn login_btn" data-toggle="modal" data-target="#myModal1"><span>login</span></a>
+      <a  style="color: white; cursor: pointer" class="ms_btn reg_btn" data-toggle="modal" data-target="#myModal"><span>register</span></a>
+      <a  style="color: white; cursor: pointer" class="ms_btn login_btn" data-toggle="modal" data-target="#myModal1"><span>login</span></a>
     </div>
   </div>
 </div>

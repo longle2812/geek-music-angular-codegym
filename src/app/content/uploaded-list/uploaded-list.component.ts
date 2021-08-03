@@ -25,14 +25,12 @@ export class UploadedListComponent implements OnInit {
 
   ngOnInit() {
     this.loadScript('/assets/js/menu-slider.js');
-
   }
 
   getAllSong() {
     this.songService.getAllSongByUserId(this.currentUser.id).subscribe(
       songs => {
         this.songs = songs;
-        console.log(songs);
       }
     );
   }

@@ -73,7 +73,7 @@ export class UploadSongComponent implements OnInit {
         alert('error');
       } else {
         this.songService.createNewSong(this.songDto).subscribe(
-          song => console.log(song)
+          song => alert('Uploaded')
         );
       }
     } else {

@@ -27,4 +27,8 @@ export class SongService {
   getSongByNameOrAuthor(searchValue: string, userId: number): Observable<Song[]> {
     return this.http.get<Song[]>(`${API_URL}/song/search/${searchValue}/${userId}`);
   }
+
+  deleteSongByIdAndUserId(songId: number, userId: number): Observable<undefined> {
+    return this.http.delete<undefined>(`${API_URL}/song/${userId}/${songId}`);
+  }
 }

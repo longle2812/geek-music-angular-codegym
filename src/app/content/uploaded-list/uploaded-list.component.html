@@ -1,8 +1,9 @@
+
 <div class="ms_free_download ms_purchase_wrapper">
   <div class="ms_heading">
     <h1>Your Uploaded Tracks</h1>
     <div style="float: right; max-width: 30%;" class="ms_top_search">
-      <input type="text" class="form-control" [(ngModel)]="searchValue" placeholder="Track name, Singer,.." >
+      <input type="text" class="form-control" [(ngModel)]="searchValue" placeholder="Track name, Singer,..">
       <span (click)="search(searchValue)" class="search_icon">
 							<img src="/assets/images/svg/search.svg" alt="">
 						</span>
@@ -37,7 +38,7 @@
             </li>
           </ul>
         </li>
-        <li class="text-center"><a href="#"><span class="ms_close">
+        <li class="text-center"><a class="btn-confirm" [attr.data-song-id]="song.id" data-toggle="modal" data-target="#delete-confirm"><span class="ms_close">
 									<img src="/assets/images/svg/close.svg" alt=""></span></a></li>
       </ul>
       <!--      --Active song-- -->
@@ -685,3 +686,5 @@
   <div class="swiper-button-next4 slider_nav_next"></div>
   <div class="swiper-button-prev4 slider_nav_prev"></div>
 </div>
+
+
