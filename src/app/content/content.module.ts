@@ -8,6 +8,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UploadedListComponent} from './uploaded-list/uploaded-list.component';
 import {SongDetailComponent} from './song-detail/song-detail.component';
 import {HttpClientModule} from '@angular/common/http';
+import {PlaylistCreateComponent} from './playlist/playlist-create/playlist-create.component';
+import {PlaylistListComponent} from './playlist/playlist-list/playlist-list.component';
+import {PlaylistDetailComponent} from './playlist/playlist-detail/playlist-detail.component';
 import {EditProfileComponent} from './edit-profile/edit-profile.component';
 import {ChangePasswordComponent} from './change-password/change-password.component';
 
@@ -16,6 +19,9 @@ import {ChangePasswordComponent} from './change-password/change-password.compone
   declarations: [HomeComponent,
     AlbumComponent,
     UploadSongComponent,
+    PlaylistCreateComponent,
+    PlaylistListComponent,
+    PlaylistDetailComponent,
     UploadedListComponent,
     SongDetailComponent,
     EditProfileComponent,

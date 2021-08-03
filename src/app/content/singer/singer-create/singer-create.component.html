@@ -1,0 +1,60 @@
+<div class="ms_upload_wrapper marger_top60">
+  <div class="ms_upload_box">
+    <h2>Upload & Share Your Music With The World</h2>
+    <img src="images/svg/upload.svg" alt="">
+    <div class="ms_upload_btn">
+      <a href="#" class="ms_btn">save files</a>
+    </div>
+    <span> or </span>
+    <p>Drag And Drop Music Files</p>
+  </div>
+  <div class=" marger_top60">
+    <div class="ms_upload_box">
+      <div class="ms_heading">
+        <h1>Track Information</h1>
+      </div>
+      <div class="ms_pro_form">
+        <form #singerForm="ngForm" (ngSubmit)="create()">
+          <div class="form-group">
+            <label>Name *</label>
+            <input type="text"  class="form-control" #name="ngModel" [(ngModel)]="singer.name">
+          </div>
+          <div class="form-group">
+            <label> gender *</label>
+            <input type="text"  class="form-control" [(ngModel)]="singer.gender">
+          </div>
+          <div class="form-group">
+            <label> genres *</label>
+            <input type="text"  class="form-control" [(ngModel)]="singer.genres">
+          </div>
+          <div class="form-group">
+            <label> dOB *</label>
+            <input type="date"  class="form-control" [(ngModel)]="singer.dOB">
+          </div>
+          <div class="form-group">
+            <label> biography *</label>
+            <input type="text"  class="form-control" [(ngModel)]="singer.biography">
+          </div>
+          <div class="form-group">
+            <label> band *</label>
+            <input type="text"  class="form-control" [(ngModel)]="singer.band">
+          </div>
+          <div class="form-group">
+            <label> popularSong *</label>
+            <input type="text"  class="form-control" [(ngModel)]="singer.popularSong">
+          </div>
+          <div class="form-group">
+            <label> additionalInfo *</label>
+            <input type="text"  class="form-control" [(ngModel)]="singer.additionalInfo">
+          </div>
+          <div class="pro-form-btn text-center marger_top15">
+            <div class="ms_upload_btn">
+              <a href="#" class="ms_btn">Upload Now</a>
+              <a href="#" class="ms_btn">cancel</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
