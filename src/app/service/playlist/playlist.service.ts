@@ -18,4 +18,12 @@ export class PlaylistService {
   createPlayList(playlistDTO: PlaylistDTO): Observable<Playlist> {
     return this.http.post<Playlist>(`${API_URL}/playlists`, playlistDTO);
   }
+
+  getAllPlaylistBuyUser(id: number): Observable<Playlist[]> {
+    return this.http.get<Playlist[]>(`${API_URL}/playlists/user/${id}`);
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${API_URL}/playlists/${id}`);
+  }
 }

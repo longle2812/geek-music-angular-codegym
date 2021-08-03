@@ -18,6 +18,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ErrorInterceptor} from './helper/error-interceptor';
 import {JwtInterceptor} from './helper/jwt-interceptor';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +28,7 @@ import {JwtInterceptor} from './helper/jwt-interceptor';
     SingerCreateComponent,
     LoginComponent,
     SignUpComponent,
-  ],
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,

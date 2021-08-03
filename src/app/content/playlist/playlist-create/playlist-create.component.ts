@@ -28,13 +28,15 @@ export class PlaylistCreateComponent implements OnInit {
   playlistDTO: PlaylistDTO = {
     name: '',
     description: '',
-    genres: [],
+    genres:  [],
+    imgUrl: ''
   };
 
   constructor(private playlistService: PlaylistService,
               private genreService: GenreService,
               private storage: AngularFireStorage,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              ) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.user = user;
     });
@@ -55,6 +57,7 @@ export class PlaylistCreateComponent implements OnInit {
         finalize(() => {
           fileRef.getDownloadURL().subscribe(url => {
             console.log(url);
+            this.playlistDTO.imgUrl = url;
           });
         })).subscribe();
     }
@@ -75,7 +78,8 @@ export class PlaylistCreateComponent implements OnInit {
   create(playlistForm: NgForm) {
     this.playlistDTO.name = playlistForm.value.name;
     this.playlistDTO.description = playlistForm.value.description;
-    this.playlistDTO.genres.put(playlistForm.value.genres);
-    this.playlistDTO.user = this.user;
+    this.playlistDTO.genres =  {id: playlistForm.value.genres};
+    this.playlistDTO.user = {id: this.user.id};
+    this.playlistService.createPlayList(this.playlistDTO).subscribe(() => alert('tao moi play list thanh cong'));
   }
 }

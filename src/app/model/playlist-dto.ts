@@ -6,4 +6,5 @@ export interface PlaylistDTO {
   description?: string;
   genres?: any;
   user?: any;
+  imgUrl?: string;
 }
