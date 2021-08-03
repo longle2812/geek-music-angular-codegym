@@ -2,9 +2,11 @@
   <h1>Edit Profile</h1>
   <div class="ms_profile_box">
     <div class="ms_pro_img">
-      <img src="images/pro_img.jpg" alt="" class="img-fluid">
+      <img [src]="imgSrc" (click)="preview.click()" class="img-fluid">
       <div class="pro_img_overlay">
-        <i class="fa_icon edit_icon"></i>
+        <i class="fa_icon edit_icon">
+          <input type="file" #preview (change)="showPreviewImg($event)">
+        </i>
       </div>
     </div>
     <form [formGroup]="userForm" (ngSubmit)="update()">
@@ -27,7 +29,7 @@
         </div>
         <div class="pro-form-btn text-center marger_top15">
           <a class="ms_btn" (click)="update()">save</a>
-          <a routerLink="/home" class="ms_btn">cancel</a>
+          <a routerLink="/album" class="ms_btn">cancel</a>
         </div>
       </div>
     </form>
