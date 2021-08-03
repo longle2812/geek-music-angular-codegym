@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="ms_rcnt_box_text">
-            <h3><a routerLink="/playlist/detail/{{playlist.id}}">{{playlist.name}}</a></h3>
+            <h3><a routerLink="/playlist/{{playlist.id}}">{{playlist.name}}</a></h3>
             <p>{{playlist.songs.length}} song</p>
             <button class="btn-link" (click)="delete(playlist.id, playlist.user.id)">delete</button>
 

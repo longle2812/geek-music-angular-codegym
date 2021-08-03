@@ -6,6 +6,7 @@ import {SingerCreateComponent} from './singer/singer-create/singer-create.compon
 import {UploadSongComponent} from './upload-song/upload-song.component';
 import {PlaylistCreateComponent} from './playlist/playlist-create/playlist-create.component';
 import {PlaylistListComponent} from './playlist/playlist-list/playlist-list.component';
+import {PlaylistDetailComponent} from './playlist/playlist-detail/playlist-detail.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,11 @@ const routes: Routes = [
   {
     path: 'playlist/list',
     component: PlaylistListComponent
+  }
+  ,
+  {
+    path: 'playlist/:id',
+    component: PlaylistDetailComponent
   }
 ];
 

@@ -26,4 +26,7 @@ export class PlaylistService {
   delete(id: number): Observable<any> {
     return this.http.delete(`${API_URL}/playlists/${id}`);
   }
+  getPlaylist(id: number) :Observable<Playlist> {
+    return this.http.get<Playlist>(`${API_URL}/playlists/${id}`);
+  }
 }
