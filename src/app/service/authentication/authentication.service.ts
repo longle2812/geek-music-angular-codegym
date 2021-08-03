@@ -6,6 +6,7 @@ import {UserToken} from '../../model/user-token';
 import {map} from 'rxjs/operators';
 import {User} from '../../model/user';
 
+
 const API_URL = `${environment.apiUrl}`;
 
 @Injectable({
@@ -14,10 +15,15 @@ const API_URL = `${environment.apiUrl}`;
 export class AuthenticationService {
   public currentUserSubject: BehaviorSubject<UserToken>;
   public currentUser: Observable<UserToken>;
+  public currentUserAvatarSubject: BehaviorSubject<string>;
+  public currentUserAvatar: Observable<string>;
 
+  // private userService: UserService,
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<UserToken>(JSON.parse(localStorage.getItem('user')));
     this.currentUser = this.currentUserSubject.asObservable();
+    this.currentUserAvatarSubject = new BehaviorSubject<string>('');
+    this.currentUserAvatar = this.currentUserAvatarSubject.asObservable();
   }
 
   login(username: string, password: string) {
@@ -32,7 +38,6 @@ export class AuthenticationService {
   get currentUserValue() {
     return this.currentUserSubject.value;
   }
-
 
   logout() {
     localStorage.removeItem('user');

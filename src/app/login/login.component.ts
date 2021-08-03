@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AuthenticationService} from '../service/authentication/authentication.service';
 import {Router} from '@angular/router';
+import {NotificationService} from '../service/notification/notification.service';
+import {UserService} from '../service/user/user.service';
 
 declare var $: any;
 
@@ -15,8 +17,10 @@ export class LoginComponent implements OnInit {
     username: new FormControl(),
     password: new FormControl()
   });
+  errorMsg = '';
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) {
+  constructor(private userService: UserService, private notificationService: NotificationService,
+              private authenticationService: AuthenticationService, private router: Router) {
   }
 
   ngOnInit() {
@@ -24,22 +28,27 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (this.userForm.valid) {
-      this.authenticationService.login(this.userForm.get('username').value, this.userForm.get('password').value).subscribe(() => {
+      this.authenticationService.login(this.userForm.get('username').value,
+        this.userForm.get('password').value).subscribe(userToken => {
           $('#myModal1').modal('hide');
+          this.notificationService.showSuccessMessage('Login success');
+          this.userService.findById(userToken.id).subscribe(user => {
+            this.authenticationService.currentUserAvatarSubject.next(user.avatarUrl);
+          });
           this.reloadCurrentRoute();
         },
         e => {
-          console.log(e);
+          this.errorMsg = 'Wrong username or password!';
         }
       );
     }
   }
 
   reloadCurrentRoute() {
-    let currentUrl = this.router.url;
+    const currentUrl = this.router.url;
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
       this.router.navigate([currentUrl]);
-      console.log(currentUrl);
+      // console.log(currentUrl);
     });
   }
 }

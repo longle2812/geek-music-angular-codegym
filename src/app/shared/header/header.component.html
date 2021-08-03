@@ -16,22 +16,19 @@
                                                                          alt=""></span>
     </div>
     <div *ngIf="currentUser" class="ms_top_btn">
-      <a style="cursor: pointer" routerLink="/upload" class="ms_btn">upload</a>
-      <a (click)="changeActive()" class="ms_admin_name"
-         style="top: -7px; color: white; cursor: pointer">Hello {{currentUser.username}}<span
-        class="ms_pro_name">NS</span>
+      <a routerLink="/upload" class="ms_btn">upload</a>
+      <a (click)="changeActive()" #dropdown class="ms_admin_name" style="top: -7px; color: white">Hello {{currentUser.username}}
+        <img src="{{avatarUrl}}"  class="img-fluid" style="border-radius: 100%;">
       </a>
-      <ul class="pro_dropdown_menu" [ngClass]="{'open_dropdown' : isActive == true}" style="top:74%;">
-        <li><a>Profile</a></li>
-        <li><a>Pricing Plan</a></li>
-        <li><a>Blog</a></li>
-        <li><a>Setting</a></li>
-        <li><a style="cursor: pointer; color: black" (click)="logout()">Logout</a></li>
+      <ul class="pro_dropdown_menu" [ngClass]="{'open_dropdown' : isActive}" style="top:74%;">
+        <li><a [routerLink]="['/users',currentUser.id]" (click)="dropdown.click()">Profile</a></li>
+        <li><a [routerLink]="['/users/pw',currentUser.id]" (click)="dropdown.click()">Change password</a></li>
+        <li><a (click)="logout()">Logout</a></li>
       </ul>
     </div>
     <div *ngIf="!currentUser" class="ms_top_btn">
-      <a  style="color: white; cursor: pointer" class="ms_btn reg_btn" data-toggle="modal" data-target="#myModal"><span>register</span></a>
-      <a  style="color: white; cursor: pointer" class="ms_btn login_btn" data-toggle="modal" data-target="#myModal1"><span>login</span></a>
+      <a href="javascript:;" class="ms_btn reg_btn" data-toggle="modal" data-target="#myModal"><span>register</span></a>
+      <a href="javascript:;" class="ms_btn login_btn" data-toggle="modal" data-target="#myModal1"><span>login</span></a>
     </div>
   </div>
 </div>
