@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.loadScript('/assets/js/plugins/player/volume.js');
+    this.loadScript('/assets/js/plugins/player/volume.js');
     // this.loadScript('/assets/js/plugins/player/audio-player.js');
     // this.loadScript('/assets/js/plugins/player/jquery.jplayer.min.js');
     // this.loadScript('/assets/js/plugins/player/jplayer.playlist.min.js');
