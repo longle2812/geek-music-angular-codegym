@@ -1,7 +1,14 @@
-<div class="ms_header">
+<div class="ms_header" id="header" (click)="hideSelectOption($event)">
   <div class="ms_top_left">
+    <select data-trigger="" name="choices-single-default" id="selectBtn">
+      <option placeholder="" class="selectChild">Song</option>
+      <option class="selectChild">Playlist</option>
+    </select>
     <div class="ms_top_search">
-      <input type="text" class="form-control" placeholder="Search Music Here..">
+      <input type="text" class="form-control" placeholder="Search Here.." id="btn">
+      <span class="search_icon">
+							<img src="/assets/images/svg/search.svg" alt="">
+						</span>
       <span class="search_icon">
 							<img src="/assets/images/svg/search.svg" alt="">
 						</span>
@@ -17,8 +24,9 @@
     </div>
     <div *ngIf="currentUser" class="ms_top_btn">
       <a routerLink="/upload" class="ms_btn">upload</a>
-      <a (click)="changeActive()" #dropdown class="ms_admin_name" style="top: -7px; color: white">Hello {{currentUser.username}}
-        <img src="{{avatarUrl}}"  class="img-fluid" style="border-radius: 100%;">
+      <a (click)="changeActive()" #dropdown class="ms_admin_name"
+         style="top: -7px; color: white">Hello {{currentUser.username}}
+        <img src="{{avatarUrl}}" class="img-fluid" style="border-radius: 100%;">
       </a>
       <ul class="pro_dropdown_menu" [ngClass]="{'open_dropdown' : isActive}" style="top:74%;">
         <li><a [routerLink]="['/users',currentUser.id]" (click)="dropdown.click()">Profile</a></li>
@@ -29,6 +37,35 @@
     <div *ngIf="!currentUser" class="ms_top_btn">
       <a href="javascript:;" class="ms_btn reg_btn" data-toggle="modal" data-target="#myModal"><span>register</span></a>
       <a href="javascript:;" class="ms_btn login_btn" data-toggle="modal" data-target="#myModal1"><span>login</span></a>
+    </div>
+  </div>
+  <div class="advance-search" style="border: 1px solid black">
+    <span class="desc">Advanced Search</span>
+    <div class="row">
+      <div class="input-field">
+        <div class="input-select">
+          <label>User:</label>
+          <input type="text">
+        </div>
+      </div>
+      <div class="input-field">
+        <div class="input-select">
+          <label>Genre:</label>
+          <input type="text">
+        </div>
+      </div>
+      <div class="input-field">
+        <label >From:</label>
+        <input type="date" id="startDate" name="trip-start"
+               value="2018-07-22"
+               min="2018-01-01" max="2018-12-31">
+      </div>
+      <div class="input-field">
+        <label >To:</label>
+        <input type="date" id="endDate" name="trip-start"
+               value="2018-07-22"
+               min="2018-01-01" max="2018-12-31">
+      </div>
     </div>
   </div>
 </div>
