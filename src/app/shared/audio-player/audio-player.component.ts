@@ -10,7 +10,7 @@ declare var $: any;
   styleUrls: ['./audio-player.component.css']
 })
 export class AudioPlayerComponent implements OnInit {
-  queue: any[];
+  queue: any;
   myPlaylist = new jPlayerPlaylist;
 
   constructor(private queueService: QueueService) {
@@ -24,7 +24,7 @@ export class AudioPlayerComponent implements OnInit {
         this.myPlaylist = new jPlayerPlaylist({
           jPlayer: '#jquery_jplayer_1',
           cssSelectorAncestor: '#jp_container_1'
-        }, this.queue, {
+        }, [], {
           swfPath: 'js/plugins',
           supplied: 'oga, mp3',
           wmode: 'window',
@@ -36,6 +36,13 @@ export class AudioPlayerComponent implements OnInit {
             autoPlay: false
           }
         });
+        this.myPlaylist.add({
+          image: '/assets/images/weekly/song1.jpg',
+          title: 'Test',
+          artist: 'test',
+          mp3: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+          option: myPlayListOtion
+        })
         $('#jquery_jplayer_1').on($.jPlayer.event.ready + ' ' + $.jPlayer.event.play, (event) => {
           var current = this.myPlaylist.current;
           var playlist = this.myPlaylist.playlist;
@@ -130,17 +137,19 @@ export class AudioPlayerComponent implements OnInit {
             this.myPlaylist.play(playlistId);
           });
         });
-        console.log(this.myPlaylist);
       }
     });
   }
 
   ngOnInit() {
-    const myPlayListOtion = '<ul class="more_option"><li><a href="#"><span class="opt_icon" title="Add To Favourites"><span class="icon icon_fav"></span></span></a></li><li><a href="#"><span class="opt_icon" title="Add To Queue"><span class="icon icon_queue"></span></span></a></li><li><a href="#"><span class="opt_icon" title="Download Now"><span class="icon icon_dwn"></span></span></a></li><li><a href="#"><span class="opt_icon" title="Add To Playlist"><span class="icon icon_playlst"></span></span></a></li><li><a href="#"><span class="opt_icon" title="Share"><span class="icon icon_share"></span></span></a></li></ul>';
     this.queueService.currentQueueSubject.subscribe(
       queue => {
-        this.queue = queue;
-        this.myPlaylist.add(queue);
+        if (queue.title === 'add'){
+          this.myPlaylist.add(queue.song);
+        }
+        if (queue.title === 'play'){
+          this.myPlaylist.add(queue.song,[true]);
+        }
       }
     );
   }

@@ -73,7 +73,12 @@ export class UploadedListComponent implements OnInit {
       title: song.name,
       artist: song.author,
       mp3: song.fileMp3,
-      option: myPlayListOtion};
-      this.queueService.addSongtoQueue(songTest);
+      option: myPlayListOtion
+    };
+    const request = {
+      title: 'play',
+      song: songTest
     }
+    this.queueService.sendQueueRequest(request);
   }
+}
