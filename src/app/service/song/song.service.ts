@@ -40,4 +40,10 @@ export class SongService {
     return this.http.put<Song>(`${API_URL}/song`, songdto);
 
   }
+  getSongsSortByCreateAt(): Observable<Song[]> {
+    return this.http.get<Song[]>(`${API_URL}/song/new`);
+  }
+  getSongsSortByListenCount(): Observable<Song[]> {
+    return this.http.get<Song[]>(`${API_URL}/song/count`);
+  }
 }
