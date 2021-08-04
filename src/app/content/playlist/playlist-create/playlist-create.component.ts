@@ -21,7 +21,6 @@ import {AuthenticationService} from '../../../service/authentication/authenticat
 })
 export class PlaylistCreateComponent implements OnInit {
   selectedPlaylist = null;
-  playlistUrl = '';
   genreList: Genre[] = [];
   initGenre = 1;
   user: UserToken = {};
@@ -66,7 +65,7 @@ export class PlaylistCreateComponent implements OnInit {
   showPreview(event) {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
-      reader.onload = (e: any) => this.playlistUrl = event.target.result;
+      reader.onload = (e: any) => this.playlistDTO.imgUrl = event.target.result;
       reader.readAsDataURL(event.target.files[0]);
       this.selectedPlaylist = event.target.files[0];
       this.uploadFile();
@@ -80,6 +79,12 @@ export class PlaylistCreateComponent implements OnInit {
     this.playlistDTO.description = playlistForm.value.description;
     this.playlistDTO.genres =  {id: playlistForm.value.genres};
     this.playlistDTO.user = {id: this.user.id};
-    this.playlistService.createPlayList(this.playlistDTO).subscribe(() => alert('tao moi play list thanh cong'));
+    this.playlistService.createPlayList(this.playlistDTO).subscribe(() => {
+      alert('tao moi play list thanh cong');
+      this.playlistDTO.name = '';
+      this.playlistDTO.description = '';
+      this.playlistDTO.genres = [];
+      this.playlistDTO.imgUrl = '';
+    });
   }
 }
