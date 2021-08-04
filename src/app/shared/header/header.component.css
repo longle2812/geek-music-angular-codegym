@@ -1,6 +1,6 @@
 #selectBtn {
   display: none;
-  float:left;
+  float: left;
   height: 40px;
   padding: 0px 20px;
   font-size: 15px;
@@ -10,18 +10,22 @@
   border-radius: 5px;
   margin-right: 7px;
 }
-.input-field{
-  display:block;
+
+.input-field {
+  display: block;
 }
-.advance-search{
+
+.advance-search {
+  display: none;
   background-color: var(--white);
   overflow: hidden auto;
   position: relative;
   border-radius: 2px;
   width: 30%;
 }
-.row{
-  display:flex;
+
+.row {
+  display: flex;
   padding: 8px 16px;
 }
 

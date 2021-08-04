@@ -20,7 +20,8 @@ export class SignUpComponent implements OnInit {
     phoneNumber: new FormControl('', [Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})\\b'), Validators.required])
   });
 
-  constructor(private notificationService: NotificationService, private authenticationService: AuthenticationService) {
+  constructor(private notificationService: NotificationService,
+              private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -31,8 +32,7 @@ export class SignUpComponent implements OnInit {
       const user = this.userForm.value;
       user.password = user.pwGroup.password;
       delete user.pwGroup;
-      // tslint:disable-next-line:max-line-length
-      user.avatarUrl = '(../../assets/images/users/default_avatar.png)';
+      user.avatarUrl = '/assets/images/users/default_avatar.png';
       this.authenticationService.register(user).subscribe(() => {
         $('#myModal').modal('hide');
         $('#myModal1').modal('show');

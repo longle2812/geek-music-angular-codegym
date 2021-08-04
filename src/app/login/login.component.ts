@@ -27,23 +27,23 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    // if (this.userForm.valid) {
-    //   this.authenticationService.login(this.userForm.get('username').value,
-    //     this.userForm.get('password').value).subscribe(userToken => {
-    //       $('#myModal1').modal('hide');
-    //       this.notificationService.showSuccessMessage('Login success');
-    //       this.userService.findById(userToken.id).subscribe(user => {
-    //         this.authenticationService.currentUserAvatarSubject.next(user.avatarUrl);
-    //       });
-    //       this.userForm.reset();
-    //       this.reloadCurrentRoute();
-    //     },
-    //     e => {
-    //       this.errorMsg = 'Wrong username or password!';
-    //     }
-    //   );
-    // }
-    this.notificationService.showSuccessMessage('success');
+    if (this.userForm.valid) {
+      this.authenticationService.login(this.userForm.get('username').value,
+        this.userForm.get('password').value).subscribe(userToken => {
+          $('#myModal1').modal('hide');
+          this.notificationService.showSuccessMessage('Login success');
+          this.userService.findById(userToken.id).subscribe(user => {
+            this.authenticationService.currentUserAvatarSubject.next(user.avatarUrl);
+          });
+          this.userForm.reset();
+          this.reloadCurrentRoute();
+        },
+        e => {
+          this.errorMsg = 'Wrong username or password!';
+        }
+      );
+    }
+    // this.notificationService.showSuccessMessage('success');
   }
 
   reloadCurrentRoute() {

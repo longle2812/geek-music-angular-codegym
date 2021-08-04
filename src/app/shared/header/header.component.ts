@@ -3,6 +3,8 @@ import {UserToken} from '../../model/user-token';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
 import {Router} from '@angular/router';
 import {UserService} from '../../service/user/user.service';
+import {PlaylistService} from '../../service/playlist/playlist.service';
+import {Playlist} from '../../model/playlist';
 
 declare var $: any;
 
@@ -16,7 +18,8 @@ export class HeaderComponent implements OnInit {
   currentUser: UserToken = {};
   avatarUrl = '';
 
-  constructor(private userService: UserService, private authenticationService: AuthenticationService, private router: Router) {
+  constructor(private userService: UserService, private authenticationService: AuthenticationService,
+              private router: Router, private playlistService: PlaylistService) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.currentUser = user;
     });
@@ -26,7 +29,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isActive = true;
+    this.isActive = false;
     this.getAvatarUrl();
   }
 
@@ -51,11 +54,29 @@ export class HeaderComponent implements OnInit {
   hideSelectOption(e) {
     const selectDropdown = document.getElementById('selectBtn');
     const target = $(e.target);
-    if (target.is('#btn') || target.is('#selectBtn') || target.is('.selectChild')) {
+    if (target.is('#searchPlaylistInput') || target.is('#selectBtn')
+      || target.is('.selectChild') || target.is('.searchIcon')) {
       selectDropdown.style.display = 'block';
     } else {
-      $('#selectBtn').hide();
       selectDropdown.style.display = 'none';
     }
+  }
+
+  search() {
+    let searchOption = $('#selectBtn :selected').text();
+    console.log(searchOption);
+    if (searchOption === 'Playlist') {
+      this.searchPlayList();
+    }
+  }
+
+  searchPlayList() {
+    const name = $('#searchPlaylistInput').val();
+    console.log(name);
+    this.playlistService.searchByName(name).subscribe((playlists: Playlist[]) => {
+      console.log(playlists);
+      this.playlistService.currentSearchPlaylistSubject.next(playlists);
+      this.router.navigateByUrl('/playlists/search');
+    });
   }
 }

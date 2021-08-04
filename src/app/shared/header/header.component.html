@@ -1,17 +1,14 @@
 <div class="ms_header" id="header" (click)="hideSelectOption($event)">
   <div class="ms_top_left">
     <select data-trigger="" name="choices-single-default" id="selectBtn">
-      <option placeholder="" class="selectChild">Song</option>
-      <option class="selectChild">Playlist</option>
+      <option placeholder="" class="selectChild" selected="selected" >Song</option>
+      <option class="selectChild" >Playlist</option>
     </select>
-    <div class="ms_top_search">
-      <input type="text" class="form-control" placeholder="Search Here.." id="btn">
-      <span class="search_icon">
-							<img src="/assets/images/svg/search.svg" alt="">
-						</span>
-      <span class="search_icon">
-							<img src="/assets/images/svg/search.svg" alt="">
-						</span>
+    <div class="ms_top_search" >
+      <input type="text" class="form-control" placeholder="Search Here.." id="searchPlaylistInput">
+      <span  class="search_icon searchIcon">
+        <img  class="searchIcon" src="/assets/images/svg/search.svg" alt="" (click)="search()">
+      </span>
     </div>
     <div class="ms_top_trend">
       <span><a href="#" class="ms_color">Trending Songs :</a></span> <span class="top_marquee"><a href="#">Dream your moments, Until I Met You, Gimme Some Courage, Dark Alley (+8 More)</a></span>
@@ -28,7 +25,7 @@
          style="top: -7px; color: white">Hello {{currentUser.username}}
         <img src="{{avatarUrl}}" class="img-fluid" style="border-radius: 100%;">
       </a>
-      <ul class="pro_dropdown_menu" [ngClass]="{'open_dropdown' : isActive}" style="top:74%;">
+      <ul class="pro_dropdown_menu" [ngClass]="{'open_dropdown' : isActive === true}" style="top:74%;">
         <li><a [routerLink]="['/users',currentUser.id]" (click)="dropdown.click()">Profile</a></li>
         <li><a [routerLink]="['/users/pw',currentUser.id]" (click)="dropdown.click()">Change password</a></li>
         <li><a (click)="logout()">Logout</a></li>
@@ -55,13 +52,13 @@
         </div>
       </div>
       <div class="input-field">
-        <label >From:</label>
+        <label>From:</label>
         <input type="date" id="startDate" name="trip-start"
                value="2018-07-22"
                min="2018-01-01" max="2018-12-31">
       </div>
       <div class="input-field">
-        <label >To:</label>
+        <label>To:</label>
         <input type="date" id="endDate" name="trip-start"
                value="2018-07-22"
                min="2018-01-01" max="2018-12-31">
