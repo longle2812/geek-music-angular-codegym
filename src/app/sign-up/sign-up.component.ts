@@ -33,7 +33,6 @@ export class SignUpComponent implements OnInit {
       delete user.pwGroup;
       // tslint:disable-next-line:max-line-length
       user.avatarUrl = 'https://firebasestorage.googleapis.com/v0/b/geekmusic-1834d.appspot.com/o/default_avatar?alt=media&token=d8c2b373-9dfd-4fcd-943d-a2611774b892';
-      console.log(user);
       this.authenticationService.register(user).subscribe(() => {
         $('#myModal').modal('hide');
         $('#myModal1').modal('show');
