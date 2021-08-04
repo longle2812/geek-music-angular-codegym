@@ -18,6 +18,9 @@ export class QueueService {
       option: myPlayListOtion
     }]);
     this.currentQueue = this.currentQueueSubject.asObservable();
+  }
 
+  addSongtoQueue(queue: any){
+    this.currentQueueSubject.next(queue);
   }
 }
