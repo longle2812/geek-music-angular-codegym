@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isActive = false;
+    this.isActive = true;
     this.getAvatarUrl();
   }
 
@@ -47,4 +47,15 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+
+  hideSelectOption(e) {
+    const selectDropdown = document.getElementById('selectBtn');
+    const target = $(e.target);
+    if (target.is('#btn') || target.is('#selectBtn') || target.is('.selectChild')) {
+      selectDropdown.style.display = 'block';
+    } else {
+      $('#selectBtn').hide();
+      selectDropdown.style.display = 'none';
+    }
+  }
 }

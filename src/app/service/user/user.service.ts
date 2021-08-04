@@ -35,4 +35,8 @@ export class UserService {
   saveUser(id: number, user: User): Observable<User> {
     return this.http.put<User>(`${API_URL}/users/edit/${id}`, user);
   }
+
+  changePassword(id: number, user: User): Observable<User> {
+    return this.http.put<User>(`${API_URL}/users/changePass/${id}`, user);
+  }
 }

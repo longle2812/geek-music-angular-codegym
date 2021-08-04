@@ -3,6 +3,7 @@ import {UserService} from '../../service/user/user.service';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {User} from '../../model/user';
+import {NotificationService} from '../../service/notification/notification.service';
 
 @Component({
   selector: 'app-change-password',
@@ -16,7 +17,8 @@ export class ChangePasswordComponent implements OnInit {
     confirmPassword: new FormControl('')
   }, this.comparePassword);
 
-  constructor(private userService: UserService, private activatedRoute: ActivatedRoute) {
+  constructor(private notificationService: NotificationService, private userService: UserService,
+              private activatedRoute: ActivatedRoute) {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       this.id = +paramMap.get('id');
       this.checkPermission();
@@ -32,9 +34,15 @@ export class ChangePasswordComponent implements OnInit {
 
   changePass() {
     if (this.pwGroup.valid) {
-      const user: User = this.pwGroup.value.password;
-      console.log(this.pwGroup.value.password);
-      // user.password = user.password;
+      // tslint:disable-next-line:prefer-const
+      let user: User = {password: ''};
+      user.password = this.pwGroup.value.password;
+      this.userService.changePassword(this.id, user).subscribe(() => {
+        this.notificationService.showSuccessMessage('Success');
+        this.pwGroup.reset();
+      }, () => {
+        this.notificationService.showErrorMessage('Can not change password');
+      });
     }
   }
 
