@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 
 declare var $: any;
-declare var Swal: any;
+declare var toastr: any;
 
 @Injectable({
   providedIn: 'root'
@@ -13,31 +13,21 @@ export class NotificationService {
 
   showSuccessMessage(message) {
     $(() => {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-      });
-      Toast.fire({
-        icon: 'success',
-        title: message
-      });
+      toastr.options.closeButton = true;
+      toastr.options.closeMethod = 'fadeOut';
+      toastr.options.closeDuration = 300;
+      toastr.options.closeEasing = 'swing';
+      toastr.success(message);
     });
   }
 
   showErrorMessage(message) {
     $(() => {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-      });
-      Toast.fire({
-        icon: 'error',
-        title: message
-      });
+      toastr.options.closeButton = true;
+      toastr.options.closeMethod = 'fadeOut';
+      toastr.options.closeDuration = 300;
+      toastr.options.closeEasing = 'swing';
+      toastr.error(message);
     });
   }
 }
