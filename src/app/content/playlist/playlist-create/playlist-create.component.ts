@@ -22,7 +22,7 @@ import {AuthenticationService} from '../../../service/authentication/authenticat
 export class PlaylistCreateComponent implements OnInit {
   selectedPlaylist = null;
   genreList: Genre[] = [];
-  initGenre = 1;
+  initGenre = -1;
   user: UserToken = {};
   playlistDTO: PlaylistDTO = {
     name: '',
@@ -44,7 +44,12 @@ export class PlaylistCreateComponent implements OnInit {
 
   ngOnInit() {
     this.genreService.getAll().subscribe(
-      genresList => this.genreList = genresList
+      genresList => {
+        this.genreList = genresList;
+        if(genresList.length>0){
+          this.initGenre = genresList[0].id;
+        }
+      }
     );
   }
 
@@ -76,7 +81,7 @@ export class PlaylistCreateComponent implements OnInit {
 
   create(playlistForm: NgForm) {
     this.isSubmitted = true;
-    if(playlistForm.valid && this.isSubmitted ){
+    if(playlistForm.valid ){
       this.playlistDTO.name = playlistForm.value.name;
       this.playlistDTO.description = playlistForm.value.description;
       this.playlistDTO.genres =  {id: playlistForm.value.genres};

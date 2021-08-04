@@ -49,7 +49,12 @@ export class PlaylistEditComponent implements OnInit {
 
   ngOnInit() {
     this.genreService.getAll().subscribe(
-      genresList => this.genreList = genresList
+      genresList => {
+        this.genreList = genresList;
+        if(genresList.length>0){
+          this.initGenre = genresList[0].id;
+        }
+      }
     );
   }
 
@@ -84,6 +89,7 @@ export class PlaylistEditComponent implements OnInit {
       this.playlistDTO.description = playlist.description;
       if(playlist.genres.length > 0){
         this.playlistDTO.genres = playlist.genres[0];
+        console.log('------------>'+this.playlistDTO.genres)
       }
       this.playlistDTO.imgUrl = playlist.imgUrl;
       this.idPlaylist = playlist.id;
