@@ -20,9 +20,9 @@
       <span><img src="assets/images/svg/more.svg" alt=""></span>
     </div>
     <ul class="more_option">
-      <li><a href="#"><span class="opt_icon"><span class="icon icon_fav"></span></span>Edit</a>
+      <li><a *ngIf="userToken.id == playlist.user.id" routerLink="/playlist/edit/{{playlist.id}}"><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a>
       </li>
-      <li><a href="#"><span class="opt_icon"><span class="icon icon_queue"></span></span>Delete</a></li>
+      <li><a *ngIf="userToken.id == playlist.user.id" href="#" (click)="delete(playlist.id)"><span class="opt_icon"><span class="icon icon_queue"></span></span>Delete</a></li>
     </ul>
   </div>
   <!----Song List---->
@@ -32,15 +32,13 @@
         <li>#</li>
         <li>Song Title</li>
         <li>Artist</li>
-        <li class="text-center">Duration</li>
         <li class="text-center">Add To Favourites</li>
         <li class="text-center">More</li>
       </ul>
       <ul *ngFor="let song of playlist.songs; index as i">
         <li><a href="#"><span class="play_no">{{i+1}}</span><span class="play_hover"></span></a></li>
         <li><a href="#">{{song.name}}</a></li>
-        <li><span *ngFor="let genre of song.genres">{{genre.name}}</span></li>
-        <li class="text-center"><a href="#">5:26</a></li>
+        <li><span *ngFor="let genre of song.genres"> {{genre.name}} </span></li>
         <li class="text-center"><a href="#"><span class="ms_icon1 ms_fav_icon"></span></a></li>
         <li class="text-center ms_more_icon"><a href="javascript:;"><span
           class="ms_icon1 ms_active_icon"></span></a>

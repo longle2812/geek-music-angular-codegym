@@ -19,7 +19,7 @@
         <div class="ms_pro_form">
           <div class="form-group">
             <label>Playlist Name *</label>
-            <input type="text" required #name="ngModel" name="name" class="form-control" [(ngModel)]="playlistDTO.name">
+            <input type="text" equired #name="ngModel"  name="name" class="form-control" [(ngModel)]="playlistDTO.name">
           </div>
           <div *ngIf="!name.valid && name.touched && isSubmitted"
                class="alert alert-danger" role="alert">
@@ -33,14 +33,14 @@
           </div>
           <div class="form-group">
             <label>Select Genre</label>
-            <select class="form-control" [(ngModel)]="playlistDTO.genres" name="genres">
-              <option [value]="undefined">Select Genre</option>
-              <option *ngFor="let genre of genreList" [value]="genre.id" [selected]="initGenre == genre.id">{{genre.name}}</option>
+            <select class="form-control" ngModel name="genres">
+              <!--              <option [value]="undefined">Select Genre</option>-->
+              <option *ngFor="let genre of genreList" [value]="genre.id" [selected]="playlistDTO.genres.id == genre.id">{{genre.name}}</option>
             </select>
           </div>
-                  <div class="pro-form-btn text-center marger_top15">
+          <div class="pro-form-btn text-center marger_top15">
             <div class="ms_upload_btn">
-              <a style="color: white" class="ms_btn" (click)="create(playlistForm)">Create</a>
+              <a style="color: white" class="ms_btn" (click)="edit(playlistForm)">Edit</a>
               <a style="color: white" class="ms_btn">Cancel</a>
             </div>
           </div>
@@ -50,3 +50,4 @@
   </div>
   <p>${{playlistDTO| json}}</p>
 </form>
+

@@ -30,7 +30,7 @@ export class PlaylistCreateComponent implements OnInit {
     genres:  [],
     imgUrl: ''
   };
-
+  isSubmitted = false;
   constructor(private playlistService: PlaylistService,
               private genreService: GenreService,
               private storage: AngularFireStorage,
@@ -75,16 +75,24 @@ export class PlaylistCreateComponent implements OnInit {
   }
 
   create(playlistForm: NgForm) {
-    this.playlistDTO.name = playlistForm.value.name;
-    this.playlistDTO.description = playlistForm.value.description;
-    this.playlistDTO.genres =  {id: playlistForm.value.genres};
-    this.playlistDTO.user = {id: this.user.id};
-    this.playlistService.createPlayList(this.playlistDTO).subscribe(() => {
-      alert('tao moi play list thanh cong');
-      this.playlistDTO.name = '';
-      this.playlistDTO.description = '';
-      this.playlistDTO.genres = [];
-      this.playlistDTO.imgUrl = '';
-    });
+    this.isSubmitted = true;
+    if(playlistForm.valid && this.isSubmitted ){
+      this.playlistDTO.name = playlistForm.value.name;
+      this.playlistDTO.description = playlistForm.value.description;
+      this.playlistDTO.genres =  {id: playlistForm.value.genres};
+      this.playlistDTO.user = {id: this.user.id};
+      if(this.playlistDTO.imgUrl == ''){
+        this.playlistDTO.imgUrl = 'assets/images/album/album.jpg';
+      }
+      this.playlistService.createPlayList(this.playlistDTO).subscribe(() => {
+        alert('tao moi play list thanh cong');
+        this.playlistDTO.name = '';
+        this.playlistDTO.description = '';
+        this.playlistDTO.genres = [];
+        this.playlistDTO.imgUrl = '';
+        this.isSubmitted = false;
+      });
+    }
+
   }
 }

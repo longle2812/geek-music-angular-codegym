@@ -21,8 +21,6 @@
           <div class="ms_rcnt_box_text">
             <h3><a routerLink="/playlist/{{playlist.id}}">{{playlist.name}}</a></h3>
             <p>{{playlist.songs.length}} song</p>
-            <button class="btn-link" (click)="delete(playlist.id, playlist.user.id)">delete</button>
-
           </div>
         </div>
       </div>
@@ -33,7 +31,7 @@
             <i class="ms_icon icon_playlist"></i>
           </div>
           <div class="ms_rcnt_box_text">
-            <h3><a *ngIf="userToken" routerLink="/playlist/create">Create New Playlist</a></h3>
+            <h3><a *ngIf="userToken != null" routerLink="/playlist/create">Create New Playlist</a></h3>
           </div>
         </div>
       </div>

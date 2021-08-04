@@ -36,16 +36,4 @@ export class PlaylistListComponent implements OnInit {
 
   }
 
-  delete(playlistId: number,userId: number) {
-    if(this.userToken.id == userId ){
-      let isDelete = confirm('Delete playlist?');
-      if(isDelete){
-        this.playlistService.delete(playlistId).subscribe(() =>{
-          this.getAllPlaylist();
-        });
-      }
-    }else {
-      alert('you don\'t have permission')
-    }
-  }
 }
