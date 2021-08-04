@@ -12,13 +12,13 @@ declare var $: any;
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  isActive = false;
   currentUser: UserToken = {};
   avatarUrl = '';
 
   constructor(private userService: UserService, private authenticationService: AuthenticationService, private router: Router) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.currentUser = user;
+      this.loadScript('/assets/js/profile-on-click.js');
     });
     this.authenticationService.currentUserAvatarSubject.subscribe(avatarUrl => {
       this.avatarUrl = avatarUrl;
@@ -26,17 +26,12 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isActive = false;
     this.getAvatarUrl();
   }
 
   logout() {
     this.authenticationService.logout();
     this.router.navigateByUrl('');
-  }
-
-  changeActive() {
-    this.isActive = !this.isActive;
   }
 
   getAvatarUrl() {
@@ -47,4 +42,13 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  public loadScript(url: string) {
+    const body = document.body as HTMLDivElement;
+    const script = document.createElement('script');
+    script.innerHTML = '';
+    script.src = url;
+    script.async = false;
+    script.defer = true;
+    body.appendChild(script);
+  }
 }
