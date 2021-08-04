@@ -18,6 +18,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ErrorInterceptor} from './helper/error-interceptor';
 import {JwtInterceptor} from './helper/jwt-interceptor';
 import { DeleteSongPopupComponent } from './shared/delete-song-popup/delete-song-popup.component';
+import { AudioPlayerComponent } from './shared/audio-player/audio-player.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { DeleteSongPopupComponent } from './shared/delete-song-popup/delete-song
     LoginComponent,
     SignUpComponent,
     DeleteSongPopupComponent,
+    AudioPlayerComponent,
   ],
   imports: [
     BrowserModule,
