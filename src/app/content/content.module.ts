@@ -17,6 +17,8 @@ import {TopSongComponent} from './top-song/top-song.component';
 import {PlaylistEditComponent} from './playlist/playlist-edit/playlist-edit.component';
 import {NewSongComponent} from './song/new-songs/new-song.component';
 import {NewReleasesComponent} from './home/new-releases/new-releases.component';
+import { PlaylistSearchComponent } from './playlist/playlist-search/playlist-search.component';
+import { SongSearchComponent } from './song-search/song-search.component';
 
 
 @NgModule({
@@ -33,7 +35,9 @@ import {NewReleasesComponent} from './home/new-releases/new-releases.component';
     TopSongComponent,
     PlaylistEditComponent,
     NewSongComponent,
-    NewReleasesComponent],
+    NewReleasesComponent,
+    PlaylistSearchComponent,
+    SongSearchComponent],
   imports: [
     CommonModule,
     ContentRoutingModule,

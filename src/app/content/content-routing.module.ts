@@ -14,6 +14,8 @@ import {PlaylistDetailComponent} from './playlist/playlist-detail/playlist-detai
 import {PlaylistEditComponent} from './playlist/playlist-edit/playlist-edit.component';
 import {NewSongComponent} from './song/new-songs/new-song.component';
 import {TopSongComponent} from './top-song/top-song.component';
+import {PlaylistSearchComponent} from './playlist/playlist-search/playlist-search.component';
+import {SongSearchComponent} from './song-search/song-search.component';
 
 
 const routes: Routes = [
@@ -72,6 +74,12 @@ const routes: Routes = [
   {
     path: 'new-songs',
     component: NewSongComponent
+  }, {
+    path: 'playlists/search',
+    component: PlaylistSearchComponent
+  }, {
+    path: 'songs/search',
+    component: SongSearchComponent
   }
 ];
 

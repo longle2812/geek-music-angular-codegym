@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
           this.userService.findById(userToken.id).subscribe(user => {
             this.authenticationService.currentUserAvatarSubject.next(user.avatarUrl);
           });
+          this.userForm.reset();
           this.reloadCurrentRoute();
         },
         e => {
@@ -42,6 +43,7 @@ export class LoginComponent implements OnInit {
         }
       );
     }
+    // this.notificationService.showSuccessMessage('success');
   }
 
   reloadCurrentRoute() {

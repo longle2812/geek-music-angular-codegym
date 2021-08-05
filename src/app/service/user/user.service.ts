@@ -39,4 +39,10 @@ export class UserService {
   changePassword(id: number, user: User): Observable<User> {
     return this.http.put<User>(`${API_URL}/users/changePass/${id}`, user);
   }
+
+
+  findAll(): Observable<User[]> {
+      return this.http.get<User[]>(`${API_URL}/users/list`);
+  }
+
 }

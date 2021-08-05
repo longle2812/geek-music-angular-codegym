@@ -20,7 +20,8 @@ export class SignUpComponent implements OnInit {
     phoneNumber: new FormControl('', [Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})\\b'), Validators.required])
   });
 
-  constructor(private notificationService: NotificationService, private authenticationService: AuthenticationService) {
+  constructor(private notificationService: NotificationService,
+              private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -31,12 +32,12 @@ export class SignUpComponent implements OnInit {
       const user = this.userForm.value;
       user.password = user.pwGroup.password;
       delete user.pwGroup;
-      // tslint:disable-next-line:max-line-length
-      user.avatarUrl = 'https://firebasestorage.googleapis.com/v0/b/geekmusic-1834d.appspot.com/o/default_avatar?alt=media&token=d8c2b373-9dfd-4fcd-943d-a2611774b892';
+      user.avatarUrl = '/assets/images/users/default_avatar.png';
       this.authenticationService.register(user).subscribe(() => {
         $('#myModal').modal('hide');
         $('#myModal1').modal('show');
         this.notificationService.showSuccessMessage('Sign up success!');
+        this.userForm.reset();
       }, e => {
         this.notificationService.showErrorMessage('Error');
       });

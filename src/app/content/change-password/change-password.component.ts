@@ -39,6 +39,7 @@ export class ChangePasswordComponent implements OnInit {
       user.password = this.pwGroup.value.password;
       this.userService.changePassword(this.id, user).subscribe(() => {
         this.notificationService.showSuccessMessage('Success');
+        this.pwGroup.reset();
       }, () => {
         this.notificationService.showErrorMessage('Can not change password');
       });

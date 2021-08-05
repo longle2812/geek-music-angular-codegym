@@ -92,7 +92,7 @@ export class PlaylistCreateComponent implements OnInit {
         this.playlistDTO.imgUrl = 'assets/images/album/album.jpg';
       }
       this.playlistService.createPlayList(this.playlistDTO).subscribe(() => {
-        this.notificationService.showErrorMessage('create success');
+        this.notificationService.showSuccessMessage('create success');
         this.playlistDTO.name = '';
         this.playlistDTO.description = '';
         this.playlistDTO.genres = [];
@@ -100,7 +100,7 @@ export class PlaylistCreateComponent implements OnInit {
         this.isSubmitted = false;
       },
       () => {
-        this.notificationService.showSuccessMessage("create error")
+        this.notificationService.showErrorMessage("create error")
       }
       );
     }
