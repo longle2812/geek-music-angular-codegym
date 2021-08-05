@@ -103,6 +103,9 @@ export class PlaylistCreateComponent implements OnInit {
         this.notificationService.showErrorMessage("create error")
       }
       );
+    }else {
+      this.notificationService.showErrorMessage("data invalid")
+
     }
 
   }

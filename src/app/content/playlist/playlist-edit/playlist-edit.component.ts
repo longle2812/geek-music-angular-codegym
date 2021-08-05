@@ -106,6 +106,7 @@ export class PlaylistEditComponent implements OnInit {
         this.playlistDTO.genres =  {id: playlistForm.value.genres};
         this.playlistService.editPlaylistInfo(this.idPlaylist,this.playlistDTO).subscribe(() => {
           this.notificationService.showSuccessMessage('edit success')
+          this.isSubmitted = false;
           this.router.navigateByUrl('/playlist/'+ this.idPlaylist);
         },
           ()=> {
