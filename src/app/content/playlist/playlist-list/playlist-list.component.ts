@@ -5,6 +5,9 @@ import {PlaylistService} from '../../../service/playlist/playlist.service';
 import {GenreService} from '../../../service/genres/genre.service';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {AuthenticationService} from '../../../service/authentication/authentication.service';
+import {ReactiveFormsModule} from '@angular/forms';
+import {Router} from '@angular/router';
+import {NotificationService} from '../../../service/notification/notification.service';
 
 @Component({
   selector: 'app-playlist-list',
@@ -16,7 +19,9 @@ export class PlaylistListComponent implements OnInit {
   userToken: UserToken = {};
   constructor(private playlistService: PlaylistService,
               private genreService: GenreService,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private router: Router,
+              private notificationService: NotificationService) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
     });
@@ -36,4 +41,7 @@ export class PlaylistListComponent implements OnInit {
 
   }
 
+  message() {
+    this.notificationService.showErrorMessage('You must be logged in to create a new playlist');
+  }
 }

@@ -54,7 +54,7 @@ export class PlaylistDetailComponent implements OnInit {
     let isDelete = confirm('Delete playlist?');
     if(isDelete){
       this.playlistService.delete(playlistId).subscribe(() =>{
-        this.router.navigateByUrl('playlist/list');
+        this.router.navigateByUrl('/playlist/list');
       });
     }
   }

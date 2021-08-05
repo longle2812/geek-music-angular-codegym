@@ -31,7 +31,10 @@
             <i class="ms_icon icon_playlist"></i>
           </div>
           <div class="ms_rcnt_box_text">
-            <h3><a *ngIf="userToken != null" routerLink="/playlist/create">Create New Playlist</a></h3>
+            <h3>
+              <a *ngIf="userToken != null" routerLink="/playlist/create">Create New Playlist</a>
+              <a *ngIf="userToken == null" (click)="message()" style="cursor: pointer">Create New Playlist</a>
+            </h3>
           </div>
         </div>
       </div>

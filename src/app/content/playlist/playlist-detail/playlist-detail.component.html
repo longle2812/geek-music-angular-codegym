@@ -22,7 +22,7 @@
     <ul class="more_option">
       <li><a *ngIf="userToken.id == playlist.user.id" routerLink="/playlist/edit/{{playlist.id}}"><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a>
       </li>
-      <li><a *ngIf="userToken.id == playlist.user.id" href="#" (click)="delete(playlist.id)"><span class="opt_icon"><span class="icon icon_queue"></span></span>Delete</a></li>
+      <li><a *ngIf="userToken.id == playlist.user.id" (click)="delete(playlist.id)"><span class="opt_icon"><span class="icon icon_queue"></span></span>Delete</a></li>
     </ul>
   </div>
   <!----Song List---->

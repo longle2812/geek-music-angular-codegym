@@ -10,6 +10,7 @@ import {finalize} from 'rxjs/operators';
 import {NgForm} from '@angular/forms';
 import {Playlist} from '../../../model/playlist';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NotificationService} from '../../../service/notification/notification.service';
 
 @Component({
   selector: 'app-playlist-edit',
@@ -35,7 +36,8 @@ export class PlaylistEditComponent implements OnInit {
               private storage: AngularFireStorage,
               private authenticationService: AuthenticationService,
               private activatedRouter: ActivatedRoute,
-              private router: Router
+              private router: Router,
+              private notificationService: NotificationService
   ) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.user = user;
@@ -89,7 +91,6 @@ export class PlaylistEditComponent implements OnInit {
       this.playlistDTO.description = playlist.description;
       if(playlist.genres.length > 0){
         this.playlistDTO.genres = playlist.genres[0];
-        console.log('------------>'+this.playlistDTO.genres)
       }
       this.playlistDTO.imgUrl = playlist.imgUrl;
       this.idPlaylist = playlist.id;
@@ -104,9 +105,16 @@ export class PlaylistEditComponent implements OnInit {
         this.playlistDTO.description = playlistForm.value.description;
         this.playlistDTO.genres =  {id: playlistForm.value.genres};
         this.playlistService.editPlaylistInfo(this.idPlaylist,this.playlistDTO).subscribe(() => {
+          this.notificationService.showSuccessMessage('edit success')
           this.router.navigateByUrl('/playlist/'+ this.idPlaylist);
-        })
+        },
+          ()=> {
+            this.notificationService.showErrorMessage('edit error')
+          }
+        )
       }
+    }else {
+      this.notificationService.showErrorMessage('Data invalid')
     }
 
   }

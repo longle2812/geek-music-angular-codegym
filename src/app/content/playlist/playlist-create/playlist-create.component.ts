@@ -13,6 +13,7 @@ import {NgForm} from '@angular/forms';
 import {User} from '../../../model/user';
 import {UserToken} from '../../../model/user-token';
 import {AuthenticationService} from '../../../service/authentication/authentication.service';
+import {NotificationService} from '../../../service/notification/notification.service';
 
 @Component({
   selector: 'app-playlist-create',
@@ -35,6 +36,7 @@ export class PlaylistCreateComponent implements OnInit {
               private genreService: GenreService,
               private storage: AngularFireStorage,
               private authenticationService: AuthenticationService,
+              private notificationService: NotificationService
               ) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.user = user;
@@ -90,13 +92,17 @@ export class PlaylistCreateComponent implements OnInit {
         this.playlistDTO.imgUrl = 'assets/images/album/album.jpg';
       }
       this.playlistService.createPlayList(this.playlistDTO).subscribe(() => {
-        alert('tao moi play list thanh cong');
+        this.notificationService.showErrorMessage('create success');
         this.playlistDTO.name = '';
         this.playlistDTO.description = '';
         this.playlistDTO.genres = [];
         this.playlistDTO.imgUrl = '';
         this.isSubmitted = false;
-      });
+      },
+      () => {
+        this.notificationService.showSuccessMessage("create error")
+      }
+      );
     }
 
   }
