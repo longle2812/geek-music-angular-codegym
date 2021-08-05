@@ -46,7 +46,6 @@ export class HeaderComponent implements OnInit {
   getAllUsers() {
     this.userService.findAll().subscribe(users => {
       this.users = users;
-      console.log(`a/${this.users}`);
     }, e => {
       console.log(e);
     });
@@ -55,7 +54,6 @@ export class HeaderComponent implements OnInit {
   getAllGenres() {
     this.genreService.getAll().subscribe(genres => {
       this.genres = genres;
-      console.log(genres);
     }, e => {
       console.log(e);
     });
@@ -92,10 +90,15 @@ export class HeaderComponent implements OnInit {
     const advancedSearch = document.getElementById('advance-search');
     const target = $(e.target);
     if (target.is('.dropDownChild')) {
-      advancedSearch.style.display = 'block';
+      if (advancedSearch.style.display === 'block') {
+        advancedSearch.style.display = 'none';
+      } else {
+        advancedSearch.style.display = 'block';
+      }
     }
     if (target.is('#searchPlaylistInput') || target.is('#selectBtn')
-      || target.is('.selectChild') || target.is('.searchIcon') || target.is('#arrow_drop_down') || target.is('.selectMenu')) {
+      || target.is('.selectChild') || target.is('.searchIcon') ||
+      target.is('#arrow_drop_down') || target.is('.selectMenu')) {
       selectDropdown.style.display = 'block';
       searchBar.style.width = '25%';
       arrowDropdown.style.display = 'block';
@@ -141,7 +144,6 @@ export class HeaderComponent implements OnInit {
     const songName = $('#searchPlaylistInput').val();
     this.songService.searchSongByName(songName).subscribe((songs: Song[]) => {
       this.songService.currentSearchSongSubject.next(songs);
-      console.log(songs);
       this.router.navigateByUrl('/songs/search');
     }, e => {
       console.log(e);

@@ -10,7 +10,7 @@
         <i class="fa fa-arrow-down fa-lg selectChild dropDownChild" aria-hidden="true"></i>
       </span>
       <span class="search_icon searchIcon" (click)="search()">
-        <img class="searchIcon" src="/assets/images/svg/search.svg" alt="" >
+        <img class="searchIcon" src="/assets/images/svg/search.svg" alt="">
       </span>
     </div>
     <div class="ms_top_trend">
@@ -26,7 +26,7 @@
     <div *ngIf="currentUser" class="ms_top_btn">
       <a routerLink="/upload" class="ms_btn">upload</a>
       <a class="ms_admin_name" style="top: -7px; color: white">Hello {{currentUser.username}}
-        <img src="{{avatarUrl}}"  class="img-fluid" style="border-radius: 100%;">
+        <img src="{{avatarUrl}}" class="img-fluid" style="border-radius: 100%;">
       </a>
       <ul class="pro_dropdown_menu" style="top:74%;">
         <li><a [routerLink]="['/users',currentUser.id]" (click)="hideDropDown()">Profile</a></li>
@@ -41,36 +41,39 @@
   </div>
 </div>
 <form action="">
-  <div id="advance-search" style="border: 1px solid black">
-    <span class="desc">Advanced Search</span>
+  <div id="advance-search" style="border: 1px solid black" style="border: 1px solid black;
+    margin-top: -18px;
+    padding-top: 10px;">
+    <span class="desc" style="font-size: 25px;font-weight: bold;color: black;margin-left: 12px;">Advanced Search</span>
     <div class="row">
-      <div class="input-field">
-        <div class="input-select">
-          <label class="selectChild">User:</label>
-          <select class="selectChild" id="userSelected">
+      <div class="input-field" style="width: 100%;margin-bottom: 9px;">
+        <div class="input-select" >
+          <label class="selectChild bold-word">User:</label>
+          <select class="selectChild" id="userSelected" style="margin-left: 5%;">
+            <option selected disabled>Choose here</option>
             <option class="selectChild" *ngFor="let user of users" [value]="user.id">{{user.name}}</option>
           </select>
         </div>
       </div>
-      <div class="input-field">
+      <div class="input-field" style="width: 100%;margin-bottom: 9px;">
         <div class="input-select">
-          <label class="selectChild">Genre:</label>
-          <select class="selectChild" id="genreSelected">
+          <label class="selectChild bold-word">Genre:</label>
+          <select class="selectChild" id="genreSelected" style="margin-left: 2%;width: 30%;">
             <option class="selectChild" *ngFor="let genre of genres" [value]="genre.name">{{genre.name}}</option>
           </select>
         </div>
       </div>
       <div class="input-field">
-        <label class="selectChild">From:</label>
+        <label class="selectChild bold-word">From:</label>
         <input class="selectChild" type="date" id="startDate" name="trip-start"
-               value="2021-08-05"
+               value="2021-08-01"
                min="2021-01-01" max="2021-12-31"
         >
       </div>
       <div class="input-field">
-        <label class="selectChild">To:</label>
+        <label class="selectChild bold-word" style="margin-left: 6px;">To:</label>
         <input class="selectChild" type="date" id="endDate" name="trip-start"
-               value="2021-08-06"
+               value="2021-08-09"
                min="2021-01-01" max="2021-12-31">
       </div>
     </div>
