@@ -79,7 +79,6 @@ export class HeaderComponent implements OnInit {
     const searchBar = document.getElementById('searchBar');
     const arrowDropdown = document.getElementById('arrow_drop_down');
     const advancedSearch = document.getElementById('advance-search');
-    // console.log(searchBar);
     const target = $(e.target);
     if (target.is('.dropDownChild')) {
       advancedSearch.style.display = 'block';
@@ -99,10 +98,6 @@ export class HeaderComponent implements OnInit {
 
   search() {
     const searchOption = $('#selectBtn :selected').text();
-    // console.log(searchOption);
-    // console.log($('#endDate').val());
-    // console.log($('#userSelected :selected').val());
-    // console.log($('#genreSelected :selected').val());
     if (searchOption === 'Playlist') {
       this.searchPlayList();
     }
@@ -117,7 +112,7 @@ export class HeaderComponent implements OnInit {
     const advancedSearch = document.getElementById('advance-search');
     if (advancedSearch.style.display === 'block') {
       this.playlistService.searchAdvanced(genre, playlistName, startDate, endDate, userId).subscribe((playlists: Playlist[]) => {
-        console.log(playlists);
+        // console.log(playlists);
         this.playlistService.currentSearchPlaylistSubject.next(playlists);
       });
     } else {
