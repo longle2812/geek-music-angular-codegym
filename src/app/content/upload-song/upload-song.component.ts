@@ -11,6 +11,7 @@ import {finalize} from 'rxjs/operators';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
 import {UserToken} from '../../model/user-token';
 import {Observable} from 'rxjs';
+import {NotificationService} from '../../service/notification/notification.service';
 
 declare var $: any;
 
@@ -20,6 +21,7 @@ declare var $: any;
   styleUrls: ['./upload-song.component.css']
 })
 export class UploadSongComponent implements OnInit {
+  uploadMessage = false;
   uploadSongProgress$: Observable<number>;
   uploadImgProgress$: Observable<number>;
   selectedSong = null;
@@ -47,7 +49,8 @@ export class UploadSongComponent implements OnInit {
               private genreService: GenreService,
               private singerService: SingerService,
               private storage: AngularFireStorage,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private notificationService: NotificationService) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.currentUser = user;
     });
@@ -78,7 +81,13 @@ export class UploadSongComponent implements OnInit {
         alert('error');
       } else {
         this.songService.createNewSong(this.songDto).subscribe(
-          song => alert('Uploaded')
+          song => {
+            this.notificationService.showSuccessMessage("Upload Song Completed");
+            uploadSongForm.resetForm();
+            this.uploadMessage = false;
+            this.imgUrl = '';
+            this.songUrl ='';
+          }
         );
       }
     } else {
@@ -87,6 +96,7 @@ export class UploadSongComponent implements OnInit {
   }
 
   uploadSongUrl() {
+    this.uploadMessage = false;
     if (this.selectedSong != null) {
       const filePath = `${this.selectedSong.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
       const fileRef = this.storage.ref(filePath);
@@ -98,18 +108,18 @@ export class UploadSongComponent implements OnInit {
           if (percent == 100) {
             setTimeout(() => {
               this.uploadSongProgress$ = undefined;
+              task.snapshotChanges().pipe(
+                finalize(() => {
+                  fileRef.getDownloadURL().subscribe(url => {
+                    console.log(url);
+                    this.songUrl = url;
+                    this.uploadMessage = true;
+                  });
+                })).subscribe();
             }, 1000);
           }
         }
       );
-
-      task.snapshotChanges().pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe(url => {
-            console.log(url);
-            this.songUrl = url;
-          });
-        })).subscribe();
     }
   }
 
