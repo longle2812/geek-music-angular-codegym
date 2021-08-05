@@ -10,6 +10,9 @@ import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
 import {UserToken} from '../../model/user-token';
+import {Observable} from 'rxjs';
+
+declare var $: any;
 
 @Component({
   selector: 'app-upload-song',
@@ -17,6 +20,8 @@ import {UserToken} from '../../model/user-token';
   styleUrls: ['./upload-song.component.css']
 })
 export class UploadSongComponent implements OnInit {
+  uploadSongProgress$: Observable<number>;
+  uploadImgProgress$: Observable<number>;
   selectedSong = null;
   selectedImg = null;
   songUrl = '';
@@ -85,7 +90,20 @@ export class UploadSongComponent implements OnInit {
     if (this.selectedSong != null) {
       const filePath = `${this.selectedSong.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
       const fileRef = this.storage.ref(filePath);
-      this.storage.upload(filePath, this.selectedSong).snapshotChanges().pipe(
+      const task = this.storage.upload(filePath, this.selectedSong);
+      this.uploadSongProgress$ = task.percentageChanges();
+
+      this.uploadSongProgress$.subscribe(
+        percent => {
+          if (percent == 100) {
+            setTimeout(() => {
+              this.uploadSongProgress$ = undefined;
+            }, 1000);
+          }
+        }
+      );
+
+      task.snapshotChanges().pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe(url => {
             console.log(url);
@@ -123,6 +141,20 @@ export class UploadSongComponent implements OnInit {
     if (this.selectedImg != null) {
       const filePath = `${this.selectedImg.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
       const fileRef = this.storage.ref(filePath);
+
+      const task = this.storage.upload(filePath, this.selectedImg);
+      this.uploadImgProgress$ = task.percentageChanges();
+
+      this.uploadImgProgress$.subscribe(
+        percent => {
+          if (percent == 100) {
+            setTimeout(() => {
+              this.uploadImgProgress$ = undefined;
+            }, 1000);
+          }
+        }
+      );
+
       this.storage.upload(filePath, this.selectedImg).snapshotChanges().pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe(url => {

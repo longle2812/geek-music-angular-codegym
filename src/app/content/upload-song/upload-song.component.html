@@ -5,9 +5,18 @@
       <img src="/assets/images/svg/upload.svg" alt="">
       <div class="ms_upload_btn">
         <input class="ms_btn" id="image" type="file" (change)="changeSongUrl($event)">
-        <!--               #preview (change)="showPreview($event)">-->
-        <!--        <a href="#" class="ms_btn">save files</a>-->
+        <!-- // Progress Bar //     -->
       </div>
+      <div id="song-progress">
+        <div class="container-progress" >
+          <div class="progress-test" *ngIf="uploadSongProgress$ | async as progress">
+            <div class="bar-test food indeterminate-150 " [ngStyle]="{ 'width': progress + '%' }"></div>
+          </div>
+        </div>
+      </div>
+      <!-- // Success checkmark //     -->
+
+
       <p style="margin-top: 20px" *ngIf="songUrl !== ''">{{selectedSong.name}}</p>
       <!--      Upload image-->
       <h2 style="margin-top: 50px">Choose your cover image</h2>
@@ -18,6 +27,14 @@
         <!--        <a href="#" class="ms_btn">save files</a>-->
 
       </div>
+      <div id="img-progress">
+        <div class="container-progress" >
+          <div class="progress-test" *ngIf="uploadImgProgress$ | async as imgProgress">
+            <div class="bar-test ticTac indeterminate-150 " [ngStyle]="{ 'width': imgProgress + '%' }"></div>
+          </div>
+        </div>
+      </div>
+
       <img style="width: 40%;" *ngIf="imgUrl !== ''" src="{{imgUrl}}">
     </div>
     <div class=" marger_top60">
@@ -84,3 +101,4 @@
     </div>
   </div>
 </form>
+
