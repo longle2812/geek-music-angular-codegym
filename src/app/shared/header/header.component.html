@@ -53,14 +53,20 @@
             <option selected disabled>Choose here</option>
             <option class="selectChild" *ngFor="let user of users" [value]="user.id">{{user.name}}</option>
           </select>
+<!--          <input list="userSelected" id="userName">-->
+<!--          <datalist class="selectChild" id="userSelected" style="margin-left: 5%;">-->
+<!--&lt;!&ndash;            <option selected disabled>Choose here</option>&ndash;&gt;-->
+<!--            <option class="selectChild" *ngFor="let user of users" [value]="user.name"></option>-->
+<!--          </datalist>-->
         </div>
       </div>
       <div class="input-field" style="width: 100%;margin-bottom: 9px;">
         <div class="input-select">
           <label class="selectChild bold-word">Genre:</label>
-          <select class="selectChild" id="genreSelected" style="margin-left: 2%;width: 30%;">
-            <option class="selectChild" *ngFor="let genre of genres" [value]="genre.name">{{genre.name}}</option>
-          </select>
+          <input list="genreSelected" id="genreName">
+          <datalist class="selectChild" id="genreSelected" style="margin-left: 2%;width: 30%;">
+            <option class="selectChild" *ngFor="let genre of genres" [value]="genre.name"></option>
+          </datalist>
         </div>
       </div>
       <div class="input-field">

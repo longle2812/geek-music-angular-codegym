@@ -121,14 +121,16 @@ export class HeaderComponent implements OnInit {
   }
 
   searchPlayList() {
-    const genre = $('#genreSelected :selected').val();
+    // const genre = $('#genreSelected :selected').val();
+    const genreName = $('#genreName').val();
     const playlistName = $('#searchPlaylistInput').val();
     const startDate = $('#startDate').val();
     const endDate = $('#endDate').val();
     const userId = +$('#userSelected :selected').val();
+    const userName = $('#userName').val();
     const advancedSearch = document.getElementById('advance-search');
     if (advancedSearch.style.display === 'block') {
-      this.playlistService.searchAdvanced(genre, playlistName, startDate, endDate, userId).subscribe((playlists: Playlist[]) => {
+      this.playlistService.searchAdvanced(genreName, playlistName, startDate, endDate, userId).subscribe((playlists: Playlist[]) => {
         this.playlistService.currentSearchPlaylistSubject.next(playlists);
       });
     } else {
