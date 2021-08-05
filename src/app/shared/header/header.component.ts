@@ -8,6 +8,8 @@ import {Playlist} from '../../model/playlist';
 import {User} from '../../model/user';
 import {Genre} from '../../model/genre';
 import {GenreService} from '../../service/genres/genre.service';
+import {SongService} from '../../service/song/song.service';
+import {Song} from '../../model/song';
 
 declare var $: any;
 
@@ -24,7 +26,8 @@ export class HeaderComponent implements OnInit {
   genres: Genre[];
 
   constructor(private userService: UserService, private authenticationService: AuthenticationService,
-              private router: Router, private playlistService: PlaylistService, private genreService: GenreService) {
+              private router: Router, private playlistService: PlaylistService, private genreService: GenreService,
+              private songService: SongService) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.currentUser = user;
     });
@@ -101,6 +104,9 @@ export class HeaderComponent implements OnInit {
     if (searchOption === 'Playlist') {
       this.searchPlayList();
     }
+    if (searchOption === 'Song') {
+      this.searchSong();
+    }
   }
 
   searchPlayList() {
@@ -112,7 +118,6 @@ export class HeaderComponent implements OnInit {
     const advancedSearch = document.getElementById('advance-search');
     if (advancedSearch.style.display === 'block') {
       this.playlistService.searchAdvanced(genre, playlistName, startDate, endDate, userId).subscribe((playlists: Playlist[]) => {
-        // console.log(playlists);
         this.playlistService.currentSearchPlaylistSubject.next(playlists);
       });
     } else {
@@ -122,5 +127,16 @@ export class HeaderComponent implements OnInit {
       });
     }
     this.router.navigateByUrl('/playlists/search');
+  }
+
+  private searchSong() {
+    const songName = $('#searchPlaylistInput').val();
+    this.songService.searchSongByName(songName).subscribe((songs: Song[]) => {
+      this.songService.currentSearchSongSubject.next(songs);
+      console.log(songs);
+      this.router.navigateByUrl('/songs/search');
+    }, e => {
+      console.log(e);
+    });
   }
 }

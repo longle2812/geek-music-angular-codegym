@@ -14,6 +14,7 @@ import {PlaylistDetailComponent} from './playlist/playlist-detail/playlist-detai
 import {EditProfileComponent} from './edit-profile/edit-profile.component';
 import {ChangePasswordComponent} from './change-password/change-password.component';
 import { PlaylistSearchComponent } from './playlist/playlist-search/playlist-search.component';
+import { SongSearchComponent } from './song-search/song-search.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { PlaylistSearchComponent } from './playlist/playlist-search/playlist-sea
     SongDetailComponent,
     EditProfileComponent,
     ChangePasswordComponent,
-    PlaylistSearchComponent],
+    PlaylistSearchComponent,
+    SongSearchComponent],
   imports: [
     CommonModule,
     ContentRoutingModule,
