@@ -4,7 +4,6 @@ import {HttpClient} from '@angular/common/http';
 import {Song} from '../../model/song';
 import {environment} from '../../../environments/environment';
 import {Songdto} from '../../model/songdto';
-import {Playlist} from '../../model/playlist';
 
 const API_URL = `${environment.apiUrl}`;
 
