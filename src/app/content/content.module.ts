@@ -13,7 +13,10 @@ import {PlaylistListComponent} from './playlist/playlist-list/playlist-list.comp
 import {PlaylistDetailComponent} from './playlist/playlist-detail/playlist-detail.component';
 import {EditProfileComponent} from './edit-profile/edit-profile.component';
 import {ChangePasswordComponent} from './change-password/change-password.component';
-import { TopSongComponent } from './top-song/top-song.component';
+import {TopSongComponent} from './top-song/top-song.component';
+import {PlaylistEditComponent} from './playlist/playlist-edit/playlist-edit.component';
+import {NewSongComponent} from './song/new-songs/new-song.component';
+import {NewReleasesComponent} from './home/new-releases/new-releases.component';
 
 
 @NgModule({
@@ -27,7 +30,10 @@ import { TopSongComponent } from './top-song/top-song.component';
     SongDetailComponent,
     EditProfileComponent,
     ChangePasswordComponent,
-    TopSongComponent],
+    TopSongComponent,
+    PlaylistEditComponent,
+    NewSongComponent,
+    NewReleasesComponent],
   imports: [
     CommonModule,
     ContentRoutingModule,
@@ -36,5 +42,6 @@ import { TopSongComponent } from './top-song/top-song.component';
     HttpClientModule
   ]
 })
+
 export class ContentModule {
 }

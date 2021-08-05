@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {PlaylistService} from '../../../service/playlist/playlist.service';
 import {Playlist} from '../../../model/playlist';
+import {AuthenticationService} from '../../../service/authentication/authentication.service';
+import {UserToken} from '../../../model/user-token';
 
 @Component({
   selector: 'app-playlist-detail',
@@ -10,23 +12,50 @@ import {Playlist} from '../../../model/playlist';
 })
 export class PlaylistDetailComponent implements OnInit {
   playlist: Playlist = {};
-
+  userToken: UserToken ={};
   constructor(private activatedRouter: ActivatedRoute,
-              private playlistService: PlaylistService) {
+              private playlistService: PlaylistService,
+              private router: Router,
+              private authenticationService: AuthenticationService
+              ) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       const id = paramMap.get('id');
       this.getPlaylist(id);
     });
+    this.authenticationService.currentUserSubject.subscribe(user =>{
+      this.userToken = user;
+    })
 
   }
 
-  ngOnInit() {
 
+  ngOnInit() {
+    this.loadScript('/assets/js/menu-slider.js');
   }
 
   private getPlaylist(id) {
     this.playlistService.getPlaylist(id).subscribe(playlist => {
       this.playlist = playlist;
     });
+  }
+
+
+  public loadScript(url: string) {
+    const body = document.body as HTMLDivElement;
+    const script = document.createElement('script');
+    script.innerHTML = '';
+    script.src = url;
+    script.async = false;
+    script.defer = true;
+    body.appendChild(script);
+  }
+
+  delete(playlistId: number) {
+    let isDelete = confirm('Delete playlist?');
+    if(isDelete){
+      this.playlistService.delete(playlistId).subscribe(() =>{
+        this.router.navigateByUrl('/playlist/list');
+      });
+    }
   }
 }

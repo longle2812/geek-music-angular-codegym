@@ -43,4 +43,8 @@ export class SongService {
   getTopListenSong(): Observable<Song[]> {
     return this.http.get<Song[]>(`${API_URL}/toplisten`);
   }
+  getSongsSortByCreateTime(offset: number, limit: number): Observable<Song[]> {
+    return this.http.get<Song[]>(`${API_URL}/song/new?offset=${offset}&limit=${limit}`);
+  }
+
 }

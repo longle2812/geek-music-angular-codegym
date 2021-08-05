@@ -29,4 +29,7 @@ export class PlaylistService {
   getPlaylist(id: number) :Observable<Playlist> {
     return this.http.get<Playlist>(`${API_URL}/playlists/${id}`);
   }
+  editPlaylistInfo(id: number, playlistDTO: PlaylistDTO): Observable<Playlist> {
+    return this.http.put<Playlist>(`${API_URL}/playlists/${id}`,playlistDTO);
+  }
 }
