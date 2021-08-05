@@ -13,6 +13,7 @@ import {PlaylistListComponent} from './playlist/playlist-list/playlist-list.comp
 import {PlaylistDetailComponent} from './playlist/playlist-detail/playlist-detail.component';
 import {EditProfileComponent} from './edit-profile/edit-profile.component';
 import {ChangePasswordComponent} from './change-password/change-password.component';
+import { TopSongComponent } from './top-song/top-song.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {ChangePasswordComponent} from './change-password/change-password.compone
     UploadedListComponent,
     SongDetailComponent,
     EditProfileComponent,
-    ChangePasswordComponent],
+    ChangePasswordComponent,
+    TopSongComponent],
   imports: [
     CommonModule,
     ContentRoutingModule,

@@ -11,6 +11,7 @@ import {SongDetailComponent} from './song-detail/song-detail.component';
 import {PlaylistCreateComponent} from './playlist/playlist-create/playlist-create.component';
 import {PlaylistListComponent} from './playlist/playlist-list/playlist-list.component';
 import {PlaylistDetailComponent} from './playlist/playlist-detail/playlist-detail.component';
+import {TopSongComponent} from './top-song/top-song.component';
 
 
 const routes: Routes = [
@@ -55,6 +56,10 @@ const routes: Routes = [
   {
     path: 'playlist/:id',
     component: PlaylistDetailComponent
+  },
+  {
+    path: 'toplisten',
+    component: TopSongComponent
   }
 ];
 

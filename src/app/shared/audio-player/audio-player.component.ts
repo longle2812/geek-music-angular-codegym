@@ -33,7 +33,8 @@ export class AudioPlayerComponent implements OnInit {
           smoothPlayBar: true,
           keyEnabled: true,
           playlistOptions: {
-            autoPlay: false
+            autoPlay: false,
+            shuffleOnLoop: true,
           }
         });
         this.myPlaylist.add({

@@ -38,6 +38,9 @@ export class SongService {
 
   updateSong(songdto: Songdto): Observable<Song> {
     return this.http.put<Song>(`${API_URL}/song`, songdto);
+  }
 
+  getTopListenSong(): Observable<Song[]> {
+    return this.http.get<Song[]>(`${API_URL}/toplisten`);
   }
 }
