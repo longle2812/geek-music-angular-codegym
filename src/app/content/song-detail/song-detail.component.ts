@@ -8,6 +8,7 @@ import {SingerService} from '../../service/singer/singer.service';
 import {Genre} from '../../model/genre';
 import {Singer} from '../../model/singer';
 import {finalize} from 'rxjs/operators';
+import {NotificationService} from '../../service/notification/notification.service';
 
 @Component({
   selector: 'app-song-detail',
@@ -40,7 +41,8 @@ export class SongDetailComponent implements OnInit {
               private storage: AngularFireStorage,
               private activatedRoute: ActivatedRoute,
               private genresService: GenreService,
-              private singerService: SingerService) {
+              private singerService: SingerService,
+              private notificationService: NotificationService) {
     this.activatedRoute.paramMap.subscribe(paramMap => {
         const id = paramMap.get('id');
         this.songService.getSongById(Number(id)).subscribe(songDto => {
@@ -127,12 +129,14 @@ export class SongDetailComponent implements OnInit {
         });
       }
       this.songService.updateSong(this.songDetailForm.value).subscribe(song =>
-        console.log(song));
-    } else {
-      alert('error');
+        this.notificationService.showSuccessMessage('Update completed')
+      )} else {
+      this.notificationService.showErrorMessage('Something\'s wrong');
     }
   }
 
-  get f() { return this.songDetailForm.controls; }
+  get f() {
+    return this.songDetailForm.controls;
+  }
 
 }

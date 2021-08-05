@@ -3,6 +3,7 @@ import {SongService} from '../../service/song/song.service';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
 import {UserToken} from '../../model/user-token';
 import {Router} from '@angular/router';
+import {NotificationService} from '../../service/notification/notification.service';
 
 declare var $: any;
 @Component({
@@ -15,7 +16,8 @@ export class DeleteSongPopupComponent implements OnInit {
 
   constructor(private songService: SongService,
               private authenticationService: AuthenticationService,
-              private router: Router) {
+              private router: Router,
+              private notificationService: NotificationService) {
     this.authenticationService.currentUserSubject.subscribe(
       user => this.currentUser = user
     );
@@ -39,10 +41,11 @@ export class DeleteSongPopupComponent implements OnInit {
     const songId = element.getAttribute('data-song-id');
     this.songService.deleteSongByIdAndUserId(Number(songId), this.currentUser.id).subscribe(
       () => {
-        alert('ok');
+        this.notificationService.showSuccessMessage("Delete Successfully");
         $('#delete-confirm').modal('hide');
         this.reloadCurrentRoute();
-      }
+      },
+      () => {this.notificationService.showErrorMessage("Something's wrong..")}
     );
   }
 
