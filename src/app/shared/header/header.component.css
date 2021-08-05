@@ -15,17 +15,34 @@
   display: block;
 }
 
-.advance-search {
+#advance-search {
   display: none;
   background-color: var(--white);
   overflow: hidden auto;
   position: relative;
   border-radius: 2px;
-  width: 30%;
+  width: 32%;
+  left: -31px;
 }
+
 
 .row {
   display: flex;
   padding: 8px 16px;
+}
+
+#searchBar {
+  width: 15%;
+  max-width: 20%;
+}
+#arrow_drop_down{
+  position: absolute;
+  right: 35px;
+  top: 2px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 0px 5px 5px 0px;
+  padding: 0px 16px;
+  cursor: pointer; display: none
 }
 

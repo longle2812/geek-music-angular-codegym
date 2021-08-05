@@ -40,4 +40,8 @@ export class PlaylistService {
   searchByName(name: string): Observable<Playlist[]> {
     return this.http.get<Playlist[]>(`${API_URL}/playlists/searchByName/${name}`);
   }
+
+  searchAdvanced(genre: string, playlistName: string, startDate: string, endDate: string, userId: number): Observable<Playlist[]> {
+    return this.http.get<Playlist[]>(`${API_URL}/playlists/searchAdvanced/${genre}/${playlistName}/${startDate}/${endDate}/${userId}`);
+  }
 }

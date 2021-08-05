@@ -1,19 +1,23 @@
 <div class="ms_header" id="header" (click)="hideSelectOption($event)">
   <div class="ms_top_left">
     <select data-trigger="" name="choices-single-default" id="selectBtn">
-      <option placeholder="" class="selectChild" selected="selected" >Song</option>
-      <option class="selectChild" >Playlist</option>
+      <option placeholder="" class="selectChild" selected="selected">Song</option>
+      <option class="selectChild">Playlist</option>
     </select>
-    <div class="ms_top_search" >
+    <div class="ms_top_search" id="searchBar">
       <input type="text" class="form-control" placeholder="Search Here.." id="searchPlaylistInput">
-      <span  class="search_icon searchIcon">
-        <img  class="searchIcon" src="/assets/images/svg/search.svg" alt="" (click)="search()">
+      <span id="arrow_drop_down" class="selectChild dropDownChild">
+        <i class="fa fa-arrow-down fa-lg selectChild dropDownChild" aria-hidden="true"></i>
+      </span>
+      <span class="search_icon searchIcon">
+        <img class="searchIcon" src="/assets/images/svg/search.svg" alt="" (click)="search()">
       </span>
     </div>
     <div class="ms_top_trend">
       <span><a href="#" class="ms_color">Trending Songs :</a></span> <span class="top_marquee"><a href="#">Dream your moments, Until I Met You, Gimme Some Courage, Dark Alley (+8 More)</a></span>
     </div>
   </div>
+
   <div class="ms_top_right">
     <div class="ms_top_lang">
       <span data-toggle="modal" data-target="#lang_modal">languages <img src="/assets/images/svg/lang.svg"
@@ -36,33 +40,41 @@
       <a href="javascript:;" class="ms_btn login_btn" data-toggle="modal" data-target="#myModal1"><span>login</span></a>
     </div>
   </div>
-  <div class="advance-search" style="border: 1px solid black">
+</div>
+<form action="">
+  <div id="advance-search" style="border: 1px solid black">
     <span class="desc">Advanced Search</span>
     <div class="row">
       <div class="input-field">
         <div class="input-select">
-          <label>User:</label>
-          <input type="text">
+          <label class="selectChild">User:</label>
+          <select class="selectChild" id="userSelected">
+            <option class="selectChild" *ngFor="let user of users" [value]="user.id">{{user.name}}</option>
+          </select>
         </div>
       </div>
       <div class="input-field">
         <div class="input-select">
-          <label>Genre:</label>
-          <input type="text">
+          <label class="selectChild">Genre:</label>
+          <select class="selectChild" id="genreSelected">
+            <option class="selectChild" *ngFor="let genre of genres" [value]="genre.name">{{genre.name}}</option>
+          </select>
         </div>
       </div>
       <div class="input-field">
-        <label>From:</label>
-        <input type="date" id="startDate" name="trip-start"
-               value="2018-07-22"
-               min="2018-01-01" max="2018-12-31">
+        <label class="selectChild">From:</label>
+        <input class="selectChild" type="date" id="startDate" name="trip-start"
+               value="2021-08-05"
+               min="2021-01-01" max="2021-12-31"
+        >
       </div>
       <div class="input-field">
-        <label>To:</label>
-        <input type="date" id="endDate" name="trip-start"
-               value="2018-07-22"
-               min="2018-01-01" max="2018-12-31">
+        <label class="selectChild">To:</label>
+        <input class="selectChild" type="date" id="endDate" name="trip-start"
+               value="2021-08-06"
+               min="2021-01-01" max="2021-12-31">
       </div>
     </div>
   </div>
-</div>
+</form>
+
