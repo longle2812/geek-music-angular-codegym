@@ -71,15 +71,17 @@ export class UploadedListComponent implements OnInit {
   playMusic(song: Song) {
     const request = {
       title: 'play',
-      song: song
+      song: song,
+      songId: song.id
     };
     this.queueService.sendQueueRequest(request);
   }
 
-  addToQueue(song: Song) {
+  addToQueue(song: any) {
     const request = {
       title: 'add',
-      song: song
+      song: song,
+      songId: song.id
     };
     this.queueService.sendQueueRequest(request);
   }

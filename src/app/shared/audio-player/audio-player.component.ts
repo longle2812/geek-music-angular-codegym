@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {QueueService} from '../../service/queue/queue.service';
+import {SongService} from '../../service/song/song.service';
 const {jPlayerPlaylist} = require('../../../assets/js/plugins/player/jplayer.playlist.min');
 
 declare var $: any;
@@ -13,10 +14,12 @@ export class AudioPlayerComponent implements OnInit {
   queue: any;
   myPlaylist = new jPlayerPlaylist;
 
-  constructor(private queueService: QueueService) {
+  constructor(private queueService: QueueService,
+              private songService: SongService) {
     this.loadScript('assets/js/plugins/player/jquery.jplayer.min');
     this.loadScript('/assets/js/plugins/player/jplayer.playlist.min');
     $('#jquery_jplayer_1').jPlayer('destroy');
+    this.queue = [];
     $(() => {
       'use strict';
       if ($('.audio-player').length) {
@@ -24,7 +27,7 @@ export class AudioPlayerComponent implements OnInit {
         this.myPlaylist = new jPlayerPlaylist({
           jPlayer: '#jquery_jplayer_1',
           cssSelectorAncestor: '#jp_container_1'
-        }, [], {
+        }, this.queue, {
           swfPath: 'js/plugins',
           supplied: 'oga, mp3',
           wmode: 'window',
@@ -37,13 +40,6 @@ export class AudioPlayerComponent implements OnInit {
             shuffleOnLoop: true,
           }
         });
-        this.myPlaylist.add({
-          image: '/assets/images/weekly/song1.jpg',
-          title: 'Test',
-          artist: 'test',
-          mp3: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-          option: myPlayListOtion
-        })
         $('#jquery_jplayer_1').on($.jPlayer.event.ready + ' ' + $.jPlayer.event.play, (event) => {
           var current = this.myPlaylist.current;
           var playlist = this.myPlaylist.playlist;
@@ -140,20 +136,67 @@ export class AudioPlayerComponent implements OnInit {
         });
       }
     });
+    ;
   }
 
   ngOnInit() {
-    this.queueService.currentQueueSubject.subscribe(
-      queue => {
-        if (queue.title === 'add'){
-          this.myPlaylist.add(queue.song);
-        }
-        if (queue.title === 'play'){
-          this.myPlaylist.add(queue.song,[true]);
-        }
+    this.queueService.currentQueueRequest.subscribe(
+      (queue) => {
         if (queue.title === 'reset'){
           this.myPlaylist.remove();
         }
+        else if (queue.title === 'delete'){
+          let i = 0;
+          while ( i < this.queue.length){
+            if (this.queue[i].id == queue.songId){
+              this.queue.splice(i, 1);
+              break;
+            }
+            i++;
+          }
+          let tempQueue = [];
+          for (let i = 0; i < this.queue.length; i++){
+            const myPlayListOtion = '<ul class="more_option"><li><a href="#"><span class="opt_icon" title="Add To Favourites"><span class="icon icon_fav"></span></span></a></li><li><a href="#"><span class="opt_icon" title="Add To Queue"><span class="icon icon_queue"></span></span></a></li><li><a href="#"><span class="opt_icon" title="Download Now"><span class="icon icon_dwn"></span></span></a></li><li><a href="#"><span class="opt_icon" title="Add To Playlist"><span class="icon icon_playlst"></span></span></a></li><li><a href="#"><span class="opt_icon" title="Share"><span class="icon icon_share"></span></span></a></li></ul>';
+            const songUpdate = {
+              image: this.queue[i].imgUrl,
+              title: this.queue[i].name,
+              artist: this.queue[i].author,
+              mp3: this.queue[i].mp3Url,
+              option: myPlayListOtion
+            };
+            tempQueue.push(songUpdate);
+          }
+          this.myPlaylist.setPlaylist(tempQueue);
+          $('#jp_playing_artist').text('');
+          $('#jp_playing_img').attr('src','assets/images/album/album.jpg');
+          $('#jp_playing_title').text('');
+          this.myPlaylist.play(0);
+        }
+        else if (queue.song !== undefined) {
+          this.songService.getSongById(queue.songId).subscribe(
+            song => {
+              let isExist = false;
+              for (let i = 0; i < this.queue.length; i++){
+                if (this.queue[i].id == queue.songId) {
+                  isExist = true;
+                }
+              }
+              if (!isExist){
+                if (queue.title === 'add' && queue.songId !== -1){
+                  this.queue.push(song);
+                  this.myPlaylist.add(queue.song);
+                  console.log(this.queue);
+                }
+                if (queue.title === 'play' && queue.songId !== -1){
+                  this.myPlaylist.add(queue.song,[true]);
+                  this.queue.push(song);
+                }
+
+              }
+            }
+          )
+        }
+
       }
     );
   }
