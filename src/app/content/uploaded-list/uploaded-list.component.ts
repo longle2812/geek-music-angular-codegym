@@ -71,4 +71,12 @@ export class UploadedListComponent implements OnInit {
     };
     this.queueService.sendQueueRequest(request);
   }
+
+  addToQueue(song: Song){
+    const request = {
+      title: 'add',
+      song: song
+    }
+     this.queueService.sendQueueRequest(request);
+  }
 }

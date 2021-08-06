@@ -19,6 +19,7 @@ import {ErrorInterceptor} from './helper/error-interceptor';
 import {JwtInterceptor} from './helper/jwt-interceptor';
 import { DeleteSongPopupComponent } from './shared/delete-song-popup/delete-song-popup.component';
 import { AudioPlayerComponent } from './shared/audio-player/audio-player.component';
+import { AddSongPlaylistComponent } from './shared/add-song-playlist/add-song-playlist.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { AudioPlayerComponent } from './shared/audio-player/audio-player.compone
     SignUpComponent,
     DeleteSongPopupComponent,
     AudioPlayerComponent,
+    AddSongPlaylistComponent,
   ],
   imports: [
     BrowserModule,
