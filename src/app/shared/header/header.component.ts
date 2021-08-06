@@ -112,43 +112,44 @@ export class HeaderComponent implements OnInit {
 
   search() {
     const searchOption = $('#selectBtn :selected').text();
-    if (searchOption === 'Playlist') {
-      this.searchPlayList();
-    }
-    if (searchOption === 'Song') {
-      this.searchSong();
-    }
-  }
-
-  searchPlayList() {
     const genreName = $('#genreName').val();
-    const playlistName = $('#searchPlaylistInput').val();
+    const keyWord = $('#searchPlaylistInput').val();
     const startDate = $('#startDate').val();
     const endDate = $('#endDate').val();
     const userName = $('#userSelected').val();
-    console.log(userName);
     const advancedSearch = document.getElementById('advance-search');
+    if (searchOption === 'Playlist') {
+      this.searchPlayList(genreName, keyWord, startDate, endDate, userName, advancedSearch);
+    }
+    if (searchOption === 'Song') {
+      this.searchSong(genreName, keyWord, startDate, endDate, userName, advancedSearch);
+    }
+  }
+
+  searchPlayList(genreName, keyWord, startDate, endDate, userName, advancedSearch) {
     if (advancedSearch.style.display === 'block') {
-      this.playlistService.searchAdvanced(genreName, playlistName, startDate, endDate, userName).subscribe((playlists: Playlist[]) => {
+      this.playlistService.searchAdvanced(genreName, keyWord, startDate, endDate, userName).subscribe((playlists: Playlist[]) => {
         this.playlistService.currentSearchPlaylistSubject.next(playlists);
       });
     } else {
-      this.playlistService.searchByName(playlistName).subscribe((playlists: Playlist[]) => {
-        console.log(playlists);
+      this.playlistService.searchByName(keyWord).subscribe((playlists: Playlist[]) => {
         this.playlistService.currentSearchPlaylistSubject.next(playlists);
       });
     }
     this.router.navigateByUrl('/playlists/search');
   }
 
-  private searchSong() {
-    const songName = $('#searchPlaylistInput').val();
-    this.songService.searchSongByName(songName).subscribe((songs: Song[]) => {
-      this.songService.currentSearchSongSubject.next(songs);
-      this.router.navigateByUrl('/songs/search');
-    }, e => {
-      console.log(e);
-    });
+  private searchSong(genreName, keyWord, startDate, endDate, userName, advancedSearch) {
+    if (advancedSearch.style.display === 'block') {
+      this.songService.searchSongAdvance(keyWord, userName, genreName, startDate, endDate).subscribe((songs: Song[]) => {
+        this.songService.currentSearchSongSubject.next(songs);
+      });
+    } else {
+      this.songService.searchSongByName(keyWord).subscribe((songs: Song[]) => {
+        this.songService.currentSearchSongSubject.next(songs);
+      });
+    }
+    this.router.navigateByUrl('/songs/search');
   }
 
   hideDropDown() {

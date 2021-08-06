@@ -14,8 +14,8 @@ declare var $: any;
 })
 export class LoginComponent implements OnInit {
   userForm: FormGroup = new FormGroup({
-    username: new FormControl(),
-    password: new FormControl()
+    username: new FormControl(''),
+    password: new FormControl('')
   });
   errorMsg = '';
 
@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
         }
       );
     }
-    // this.notificationService.showSuccessMessage('success');
   }
 
   reloadCurrentRoute() {
@@ -52,5 +51,14 @@ export class LoginComponent implements OnInit {
       this.router.navigate([currentUrl]);
       // console.log(currentUrl);
     });
+  }
+
+  togglePasswordLogin() {
+    const passInput = $('#password_input_login')[0];
+    if (passInput.type === 'password') {
+      passInput.type = 'text';
+    } else {
+      passInput.type = 'password';
+    }
   }
 }
