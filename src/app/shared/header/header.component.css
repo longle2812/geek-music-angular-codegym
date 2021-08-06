@@ -21,7 +21,7 @@
   overflow: hidden auto;
   position: relative;
   border-radius: 2px;
-  width: 32%;
+  width: 42%;
   left: -31px;
 }
 
@@ -32,8 +32,8 @@
 }
 
 #searchBar {
-  width: 15%;
-  max-width: 20%;
+  width: 20%;
+  max-width: 30%;
 }
 #arrow_drop_down{
   position: absolute;
@@ -49,4 +49,19 @@
   font-weight:bold;
   color: black;
 }
-
+.input-box{
+  width: 100%;
+  padding: 8px;
+  display: block;
+  border: none;
+  border-bottom: 1px solid black;
+}
+.input-date-box{
+  border: none;
+  border-bottom: 1px solid black;
+  width:42%;
+}
+.label-drop-down{
+  padding-top: 16px;
+  margin-right: 10px;
+}

@@ -100,11 +100,11 @@ export class HeaderComponent implements OnInit {
       || target.is('.selectChild') || target.is('.searchIcon') ||
       target.is('#arrow_drop_down') || target.is('.selectMenu')) {
       selectDropdown.style.display = 'block';
-      searchBar.style.width = '25%';
+      searchBar.style.width = '30%';
       arrowDropdown.style.display = 'block';
     } else {
       selectDropdown.style.display = 'none';
-      searchBar.style.width = '20%';
+      searchBar.style.width = '25%';
       arrowDropdown.style.display = 'none';
       advancedSearch.style.display = 'none';
     }
@@ -121,16 +121,15 @@ export class HeaderComponent implements OnInit {
   }
 
   searchPlayList() {
-    // const genre = $('#genreSelected :selected').val();
     const genreName = $('#genreName').val();
     const playlistName = $('#searchPlaylistInput').val();
     const startDate = $('#startDate').val();
     const endDate = $('#endDate').val();
-    const userId = +$('#userSelected :selected').val();
-    const userName = $('#userName').val();
+    const userName = $('#userSelected').val();
+    console.log(userName);
     const advancedSearch = document.getElementById('advance-search');
     if (advancedSearch.style.display === 'block') {
-      this.playlistService.searchAdvanced(genreName, playlistName, startDate, endDate, userId).subscribe((playlists: Playlist[]) => {
+      this.playlistService.searchAdvanced(genreName, playlistName, startDate, endDate, userName).subscribe((playlists: Playlist[]) => {
         this.playlistService.currentSearchPlaylistSubject.next(playlists);
       });
     } else {

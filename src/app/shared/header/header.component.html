@@ -5,7 +5,7 @@
       <option class="selectChild">Playlist</option>
     </select>
     <div class="ms_top_search" id="searchBar">
-      <input type="text" class="form-control" placeholder="Search Here.." id="searchPlaylistInput">
+      <input type="text" class="form-control" placeholder="Search Here.." id="searchPlaylistInput" autocomplete="off">
       <span id="arrow_drop_down" class="selectChild dropDownChild">
         <i class="fa fa-arrow-down fa-lg selectChild dropDownChild" aria-hidden="true"></i>
       </span>
@@ -19,10 +19,10 @@
   </div>
 
   <div class="ms_top_right">
-    <div class="ms_top_lang">
-      <span data-toggle="modal" data-target="#lang_modal">languages <img src="/assets/images/svg/lang.svg"
-                                                                         alt=""></span>
-    </div>
+<!--    <div class="ms_top_lang">-->
+<!--      <span data-toggle="modal" data-target="#lang_modal">languages <img src="/assets/images/svg/lang.svg"-->
+<!--                                                                         alt=""></span>-->
+<!--    </div>-->
     <div *ngIf="currentUser" class="ms_top_btn">
       <a routerLink="/upload" class="ms_btn">upload</a>
       <a class="ms_admin_name" style="top: -7px; color: white">Hello {{currentUser.username}}
@@ -40,49 +40,39 @@
     </div>
   </div>
 </div>
-<form action="">
-  <div id="advance-search" style="border: 1px solid black" style="border: 1px solid black;
-    margin-top: -18px;
-    padding-top: 10px;">
-    <span class="desc" style="font-size: 25px;font-weight: bold;color: black;margin-left: 12px;">Advanced Search</span>
-    <div class="row">
-      <div class="input-field" style="width: 100%;margin-bottom: 9px;">
-        <div class="input-select" >
-          <label class="selectChild bold-word">User:</label>
-          <select class="selectChild" id="userSelected" style="margin-left: 5%;">
-            <option selected disabled>Choose here</option>
-            <option class="selectChild" *ngFor="let user of users" [value]="user.id">{{user.name}}</option>
-          </select>
-<!--          <input list="userSelected" id="userName">-->
-<!--          <datalist class="selectChild" id="userSelected" style="margin-left: 5%;">-->
-<!--&lt;!&ndash;            <option selected disabled>Choose here</option>&ndash;&gt;-->
-<!--            <option class="selectChild" *ngFor="let user of users" [value]="user.name"></option>-->
-<!--          </datalist>-->
-        </div>
-      </div>
-      <div class="input-field" style="width: 100%;margin-bottom: 9px;">
-        <div class="input-select">
-          <label class="selectChild bold-word">Genre:</label>
-          <input list="genreSelected" id="genreName">
-          <datalist class="selectChild" id="genreSelected" style="margin-left: 2%;width: 30%;">
-            <option class="selectChild" *ngFor="let genre of genres" [value]="genre.name"></option>
-          </datalist>
-        </div>
-      </div>
-      <div class="input-field">
-        <label class="selectChild bold-word">From:</label>
-        <input class="selectChild" type="date" id="startDate" name="trip-start"
-               value="2021-08-01"
-               min="2021-01-01" max="2021-12-31"
-        >
-      </div>
-      <div class="input-field">
-        <label class="selectChild bold-word" style="margin-left: 6px;">To:</label>
-        <input class="selectChild" type="date" id="endDate" name="trip-start"
-               value="2021-08-09"
-               min="2021-01-01" max="2021-12-31">
-      </div>
+  <div id="advance-search" style="border: 1px solid black" style="border: 1px solid black;margin-top: -18px;">
+    <div style="padding: 8px 16px 21px 16px">
+        <table style="width:100%">
+          <tr>
+            <td><label class="selectChild bold-word label-drop-down">User</label></td>
+            <td>
+              <input list="usernameSelected" id="userSelected" class="input-box" autocomplete="off">
+              <datalist class="selectChild" id="usernameSelected">
+                <option *ngFor="let user of users" [value]="user.username"></option>
+              </datalist>
+          </tr>
+          <tr>
+            <td><label class="selectChild bold-word label-drop-down">Genre</label></td>
+            <td><input list="genreSelected" id="genreName" class="input-box" autocomplete="off">
+              <datalist class="selectChild" id="genreSelected" >
+                <option class="selectChild" *ngFor="let genre of genres" [value]="genre.name"></option>
+              </datalist></td>
+          </tr>
+          <tr>
+            <td><label class="selectChild bold-word label-drop-down">From</label></td>
+            <td><div style="margin-top: 10px">
+              <input class="selectChild input-date-box" type="date" id="startDate" name="trip-start"
+                     value="2021-08-01"
+                     min="2021-01-01" max="2021-12-31">
+              <span style="margin-left: 5%;margin-right: 4%;font-size:15px"> to: </span>
+              <input class="selectChild input-date-box" type="date" id="endDate" name="trip-start"
+                     value="2021-08-09"
+                     min="2021-01-01" max="2021-12-31">
+            </div>
+              </td>
+          </tr>
+        </table>
     </div>
   </div>
-</form>
+
 
