@@ -23,11 +23,12 @@ export class AddSongPlaylistComponent implements OnInit {
               private notificationService: NotificationService) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
+      this.getAllPlaylist();
     });
   }
 
   ngOnInit() {
-    this.getAllPlaylist();
+
   }
 
   private getAllPlaylist() {
@@ -36,6 +37,7 @@ export class AddSongPlaylistComponent implements OnInit {
         this.playlists = list;
       });
     }
+    else this.playlists = [];
 
   }
 

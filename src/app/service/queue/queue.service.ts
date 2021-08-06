@@ -26,4 +26,11 @@ export class QueueService {
     };
     this.currentQueueSubject.next(request);
   }
+
+  resetQueue() {
+    const request = {
+      title: "reset"
+    }
+    this.currentQueueSubject.next(request);
+  }
 }

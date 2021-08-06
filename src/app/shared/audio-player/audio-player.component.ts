@@ -151,6 +151,9 @@ export class AudioPlayerComponent implements OnInit {
         if (queue.title === 'play'){
           this.myPlaylist.add(queue.song,[true]);
         }
+        if (queue.title === 'reset'){
+          this.myPlaylist.remove();
+        }
       }
     );
   }

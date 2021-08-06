@@ -10,6 +10,7 @@ import {Genre} from '../../model/genre';
 import {GenreService} from '../../service/genres/genre.service';
 import {SongService} from '../../service/song/song.service';
 import {Song} from '../../model/song';
+import {QueueService} from '../../service/queue/queue.service';
 
 declare var $: any;
 
@@ -26,7 +27,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private userService: UserService, private authenticationService: AuthenticationService,
               private router: Router, private playlistService: PlaylistService, private genreService: GenreService,
-              private songService: SongService) {
+              private songService: SongService, private queueService: QueueService) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.currentUser = user;
       this.loadScript('/assets/js/profile-on-click.js');
@@ -61,6 +62,8 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.authenticationService.logout();
     this.router.navigateByUrl('');
+    this.queueService.resetQueue();
+    this.playlistService.currentSearchPlaylistSubject.next(null);
   }
 
   getAvatarUrl() {
