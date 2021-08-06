@@ -176,9 +176,11 @@ export class AudioPlayerComponent implements OnInit {
           this.songService.getSongById(queue.songId).subscribe(
             song => {
               let isExist = false;
+              let index = -1;
               for (let i = 0; i < this.queue.length; i++){
                 if (this.queue[i].id == queue.songId) {
                   isExist = true;
+                  index = i;
                 }
               }
               if (!isExist){
@@ -191,7 +193,9 @@ export class AudioPlayerComponent implements OnInit {
                   this.myPlaylist.add(queue.song,[true]);
                   this.queue.push(song);
                 }
-
+              }
+              else {
+                this.myPlaylist.play(index);
               }
             }
           )
