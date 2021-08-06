@@ -41,6 +41,9 @@ export class SignUpComponent implements OnInit {
       }, e => {
         this.notificationService.showErrorMessage('Error');
       });
+    } else {
+      this.userForm.markAllAsTouched();
+      // this.userForm.markAsTouched();
     }
   }
 

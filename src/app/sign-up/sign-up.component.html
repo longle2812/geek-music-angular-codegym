@@ -17,7 +17,7 @@
               <span class="form_icon">
 							<i class="fa_icon form-user" aria-hidden="true"></i>
 							</span>
-              <div *ngIf="userForm.get('username').touched ">
+              <div *ngIf="userForm.get('username').touched">
                 <p class="showErrorInput" style="color:red" *ngIf="userForm.get('username').errors?.required">Username
                   required</p>
               </div>
@@ -51,7 +51,7 @@
               <span class="form_icon">
 						<i class=" fa_icon form-lock" aria-hidden="true"></i>
 						</span>
-              <div *ngIf="userForm.get('pwGroup.confirmPassword').touched ">
+              <div *ngIf="userForm.get('pwGroup.confirmPassword').dirty ">
                 <p class="showErrorInput"  *ngIf="userForm.get('pwGroup.confirmPassword').errors">
                   Confirm pass is required</p>
                 <p class="showErrorInput"  *ngIf="userForm.hasError('passnotmatch',['pwGroup'])">
