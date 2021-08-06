@@ -4,6 +4,7 @@ import {PlaylistService} from '../../../service/playlist/playlist.service';
 import {Playlist} from '../../../model/playlist';
 import {AuthenticationService} from '../../../service/authentication/authentication.service';
 import {UserToken} from '../../../model/user-token';
+import {NotificationService} from '../../../service/notification/notification.service';
 
 @Component({
   selector: 'app-playlist-detail',
@@ -16,7 +17,8 @@ export class PlaylistDetailComponent implements OnInit {
   constructor(private activatedRouter: ActivatedRoute,
               private playlistService: PlaylistService,
               private router: Router,
-              private authenticationService: AuthenticationService
+              private authenticationService: AuthenticationService,
+              private notificationService: NotificationService
               ) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       const id = paramMap.get('id');
@@ -50,12 +52,14 @@ export class PlaylistDetailComponent implements OnInit {
     body.appendChild(script);
   }
 
-  delete(playlistId: number) {
-    let isDelete = confirm('Delete playlist?');
-    if(isDelete){
-      this.playlistService.delete(playlistId).subscribe(() =>{
+  delete(element: HTMLAnchorElement) {
+    const playlistId = element.getAttribute('data-playlist-id');
+
+      this.playlistService.delete(Number(playlistId)).subscribe(() =>{
         this.router.navigateByUrl('/playlist/list');
+        this.notificationService.showSuccessMessage("Delete Successfully");
+        $('#deletePlaylistModal').modal('hide');
       });
-    }
+
   }
 }

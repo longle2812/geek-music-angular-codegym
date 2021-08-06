@@ -93,6 +93,7 @@ export class PlaylistCreateComponent implements OnInit {
       }
       this.playlistService.createPlayList(this.playlistDTO).subscribe(() => {
         this.notificationService.showSuccessMessage('create success');
+        playlistForm.resetForm();
         this.playlistDTO.name = '';
         this.playlistDTO.description = '';
         this.playlistDTO.genres = [];
