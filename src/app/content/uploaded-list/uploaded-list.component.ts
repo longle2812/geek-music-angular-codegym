@@ -19,6 +19,7 @@ export class UploadedListComponent implements OnInit {
   currentUser: UserToken = {};
   genres: '';
   searchValue = '';
+  songId: number;
 
   constructor(private songService: SongService,
               private authenticationService: AuthenticationService,
@@ -27,6 +28,9 @@ export class UploadedListComponent implements OnInit {
       this.currentUser = user;
     });
     this.getAllSong();
+    this.songService.currentSongId.subscribe(
+      songId => this.songId = songId
+    )
   }
 
   ngOnInit() {
@@ -72,11 +76,18 @@ export class UploadedListComponent implements OnInit {
     this.queueService.sendQueueRequest(request);
   }
 
-  addToQueue(song: Song){
+  addToQueue(song: Song) {
     const request = {
       title: 'add',
       song: song
-    }
-     this.queueService.sendQueueRequest(request);
+    };
+    this.queueService.sendQueueRequest(request);
+  }
+
+  toogle(element: HTMLAnchorElement) {
+    $('#add-song').show();
+    const songId = element.getAttribute('data-song-id');
+    console.log(songId);
+    this.songService.changeSongId(songId);
   }
 }

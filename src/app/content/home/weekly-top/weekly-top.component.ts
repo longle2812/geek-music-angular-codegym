@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Song} from '../../../model/song';
 import {SongService} from '../../../service/song/song.service';
 import {QueueService} from '../../../service/queue/queue.service';
+declare var $: any;
 
 @Component({
   selector: 'app-weekly-top',
@@ -40,5 +41,19 @@ export class WeeklyTopComponent implements OnInit {
       song: song
     }
     this.queueService.sendQueueRequest(request);
+  }
+
+  addToQueue(song: Song) {
+    const request = {
+      title: 'add',
+      song: song
+    };
+    this.queueService.sendQueueRequest(request);
+  }
+
+  toogle(element: HTMLAnchorElement) {
+    $('#add-song').show();
+    const songId = element.getAttribute('data-song-id');
+    this.songService.changeSongId(songId);
   }
 }

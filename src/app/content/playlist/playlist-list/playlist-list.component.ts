@@ -29,7 +29,6 @@ export class PlaylistListComponent implements OnInit {
 
   ngOnInit() {
     this.getAllPlaylist();
-
   }
 
   private getAllPlaylist() {

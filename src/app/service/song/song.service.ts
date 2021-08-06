@@ -14,10 +14,14 @@ const API_URL = `${environment.apiUrl}`;
 export class SongService {
   public currentSearchSongSubject: BehaviorSubject<Song[]>;
   public currentSearchSong: Observable<Song[]>;
+  public currentSongSubject: BehaviorSubject<number>;
+  public currentSongId: Observable<number>;
 
   constructor(private http: HttpClient) {
     this.currentSearchSongSubject = new BehaviorSubject<Song[]>([]);
     this.currentSearchSong = this.currentSearchSongSubject.asObservable();
+    this.currentSongSubject = new BehaviorSubject<number>(-1);
+    this.currentSongId = this.currentSongSubject.asObservable();
   }
 
   createNewSong(song: Songdto): Observable<Song> {
@@ -54,5 +58,13 @@ export class SongService {
 
   getSongsSortByCreateTime(offset: number, limit: number): Observable<Song[]> {
     return this.http.get<Song[]>(`${API_URL}/song/new?offset=${offset}&limit=${limit}`);
+  }
+
+  addSongToPlayList(songId: number, playlistId: number): Observable<any> {
+    return this.http.get<any>(`${API_URL}/playlists/${songId}/${playlistId}`)
+  }
+
+  changeSongId(songID: any) {
+    this.currentSongSubject.next(songID);
   }
 }

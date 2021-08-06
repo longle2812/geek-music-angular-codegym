@@ -32,7 +32,7 @@
           <ul class="more_option">
             <li><a (click)="addToQueue(song)" style="color: black"><span class="opt_icon"><span class="icon icon_queue"></span></span>Add To Queue</a>
             </li>
-            <li><a [attr.data-song-id]="song.id" style="color: black" data-target="#playlist-add"><span class="opt_icon"><span class="icon icon_playlst"></span></span>Add To
+            <li><a #addButton class="songId" style="color: black" (click)="toogle(addButton)" [attr.data-song-id]="song.id"><span class="opt_icon"><span class="icon icon_playlst"></span></span>Add To
               Playlist</a></li>
             <li><a style="color: black"><span class="opt_icon"><span class="icon icon_share"></span></span>Share</a>
             </li>
