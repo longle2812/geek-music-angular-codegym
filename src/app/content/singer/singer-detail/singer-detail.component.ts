@@ -15,7 +15,6 @@ import {SongService} from '../../../service/song/song.service';
   styleUrls: ['./singer-detail.component.css']
 })
 export class SingerDetailComponent implements OnInit {
-
   singer: Singer = {};
   userToken: UserToken ={};
   songs: Song[] = []
@@ -27,7 +26,8 @@ export class SingerDetailComponent implements OnInit {
   ) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       const id = paramMap.get('id');
-      this.getPlaylist(id);
+      this.getSinger(id);
+      this.getSongs(id);
     });
     this.authenticationService.currentUserSubject.subscribe(user =>{
       this.userToken = user;
@@ -35,15 +35,21 @@ export class SingerDetailComponent implements OnInit {
 
   }
 
-  private getPlaylist(id) {
+  private getSinger(id) {
     this.singerService.getById(id).subscribe(singer => {
       this.singer = singer;
+      console.log(this.singer.id,this.singer.name,this.singer.dateOfBirth,this.singer.band,this.singer.additionalInfo)
     });
   }
-
+  private getSongs(id ) {
+    this.songService.getSongBySingerId(id).subscribe(songs =>{
+      this.songs = songs;
+      console.log('songs ',songs.length)
+    })
+  }
 
   ngOnInit() {
-    this.loadScript('/assets/js/delete-song.js');
+    this.loadScript('/assets/js/more-option.js');
   }
 
   public loadScript(url: string) {
@@ -55,6 +61,7 @@ export class SingerDetailComponent implements OnInit {
     script.defer = true;
     body.appendChild(script);
   }
+
 
 
 }

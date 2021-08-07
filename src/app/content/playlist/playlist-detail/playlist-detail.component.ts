@@ -4,6 +4,7 @@ import {PlaylistService} from '../../../service/playlist/playlist.service';
 import {Playlist} from '../../../model/playlist';
 import {AuthenticationService} from '../../../service/authentication/authentication.service';
 import {UserToken} from '../../../model/user-token';
+import {NotificationService} from '../../../service/notification/notification.service';
 
 @Component({
   selector: 'app-playlist-detail',
@@ -16,11 +17,12 @@ export class PlaylistDetailComponent implements OnInit {
   constructor(private activatedRouter: ActivatedRoute,
               private playlistService: PlaylistService,
               private router: Router,
-              private authenticationService: AuthenticationService
+              private authenticationService: AuthenticationService,
+              private notificationService: NotificationService
               ) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       const id = paramMap.get('id');
-      this.getPlaylist(id);
+      this.getPlaylist(Number(id));
     });
     this.authenticationService.currentUserSubject.subscribe(user =>{
       this.userToken = user;
@@ -28,7 +30,7 @@ export class PlaylistDetailComponent implements OnInit {
 
   }
 
-  private getPlaylist(id) {
+  private getPlaylist(id:number) {
     this.playlistService.getPlaylist(id).subscribe(playlist => {
       this.playlist = playlist;
     });
@@ -36,7 +38,7 @@ export class PlaylistDetailComponent implements OnInit {
 
 
   ngOnInit() {
-    this.loadScript('/assets/js/delete-song.js');
+    this.loadScript('/assets/js/more-option.js');
   }
 
   public loadScript(url: string) {
@@ -49,5 +51,31 @@ export class PlaylistDetailComponent implements OnInit {
     body.appendChild(script);
   }
 
+  deletePlaylist() {
+    if(this.userToken.id == this.playlist.user.id){
+      let isConfirm = confirm('Confirm delete playlist');
+      if(isConfirm){
+        this.playlistService.delete(this.playlist.id).subscribe(() =>{
+            this.notificationService.showSuccessMessage("Delete success");
+            this.router.navigateByUrl('/playlist/list');
+          },
+          () =>{
+            this.notificationService.showErrorMessage("Delete error")
+          });
+      }
+    }else {
+      this.notificationService.showErrorMessage('you have no authority for this' );
+    }
+
+
+  }
+
+  editPlaylist() {
+    if(this.userToken.id == this.playlist.user.id){
+      this.router.navigateByUrl('/playlist/edit/'+this.playlist.id);
+    }else {
+      this.notificationService.showErrorMessage('you have no authority for this' );
+    }
+  }
 
 }

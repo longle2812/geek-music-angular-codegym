@@ -23,10 +23,10 @@
       <span><img src="assets/images/svg/more.svg" alt=""></span>
     </div>
     <ul class="more_option">
-      <li><a *ngIf="userToken.id == playlist.user.id" routerLink="/playlist/edit/{{playlist.id}}"><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a>
+      <li><a (click)="editPlaylist()" ><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a>
       </li>
       <li>
-        <a *ngIf="userToken.id == playlist.user.id" class="btn-confirm" [attr.data-playlistId]="playlist.id" data-toggle="modal" data-target="#delete-playlist-confirm">
+        <a  class="btn-confirm" (click)="deletePlaylist()">
         <span class="opt_icon"><span class="icon icon_queue"></span></span>Delete</a></li>
     </ul>
   </div>

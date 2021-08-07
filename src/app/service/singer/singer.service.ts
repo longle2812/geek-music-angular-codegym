@@ -24,7 +24,7 @@ export class SingerService {
   }
 
   getById(id: number): Observable<Singer> {
-    return this.http.get<Singer>(`${API_URL}/${id}`);
+    return this.http.get<Singer>(`${API_URL}/singers/${id}`);
   }
 
   update(id: number,singerDTO: Singerdto): Observable<Singer> {

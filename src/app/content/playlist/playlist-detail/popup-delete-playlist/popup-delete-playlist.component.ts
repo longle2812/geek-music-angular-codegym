@@ -37,4 +37,5 @@ export class PopupDeletePlaylistComponent implements OnInit {
       this.notificationService.showErrorMessage("delete error")
       });
   }
+
 }

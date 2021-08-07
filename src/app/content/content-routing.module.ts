@@ -17,6 +17,7 @@ import {PlaylistSearchComponent} from './playlist/playlist-search/playlist-searc
 import {SongSearchComponent} from './song-search/song-search.component';
 import {SingerCreateComponent} from './singer/singer-create/singer-create.component';
 import {SingerListComponent} from './singer/singer-list/singer-list.component';
+import {SingerDetailComponent} from './singer/singer-detail/singer-detail.component';
 
 
 const routes: Routes = [
@@ -91,6 +92,11 @@ const routes: Routes = [
   {
     path: 'singer/list',
     component: SingerListComponent
+  }
+  ,
+  {
+    path: 'singer/:id',
+    component: SingerDetailComponent
   }
 ];
 

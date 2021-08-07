@@ -48,7 +48,6 @@ import { SingerDetailComponent } from './singer/singer-detail/singer-detail.comp
     SingerDetailComponent
   ],
   exports: [
-    PopupDeletePlaylistComponent,
   ],
   imports: [
     CommonModule,
