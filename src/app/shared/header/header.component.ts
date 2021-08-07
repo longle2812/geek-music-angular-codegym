@@ -64,6 +64,9 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('');
     this.queueService.resetQueue();
     this.playlistService.currentSearchPlaylistSubject.next(null);
+    $('#jp_playing_artist').text('');
+    $('#jp_playing_img').attr('src','assets/images/album/album.jpg');
+    $('#jp_playing_title').text('');
   }
 
   getAvatarUrl() {

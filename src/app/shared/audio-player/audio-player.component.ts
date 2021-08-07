@@ -148,6 +148,7 @@ export class AudioPlayerComponent implements OnInit {
       (queue) => {
         if (queue.title === 'reset'){
           this.myPlaylist.remove();
+          this.queue = [];
         }
         else if (queue.title === 'delete'){
           let i = 0;
