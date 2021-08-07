@@ -19,6 +19,8 @@ import {ErrorInterceptor} from './helper/error-interceptor';
 import {JwtInterceptor} from './helper/jwt-interceptor';
 import { DeleteSongPopupComponent } from './shared/delete-song-popup/delete-song-popup.component';
 import { AudioPlayerComponent } from './shared/audio-player/audio-player.component';
+import {ContentModule} from './content/content.module';
+import {PopupDeletePlaylistComponent} from './content/playlist/playlist-detail/popup-delete-playlist/popup-delete-playlist.component';
 
 
 
@@ -28,22 +30,22 @@ import { AudioPlayerComponent } from './shared/audio-player/audio-player.compone
     LoaderStartComponent,
     SlideMenuComponent,
     HeaderComponent,
-    SingerCreateComponent,
     LoginComponent,
     SignUpComponent,
     DeleteSongPopupComponent,
     AudioPlayerComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireStorageModule,
-    AngularFireDatabaseModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    FormsModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFireStorageModule,
+        AngularFireDatabaseModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        FormsModule,
+        ContentModule
+    ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}

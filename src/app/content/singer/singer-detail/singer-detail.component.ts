@@ -1,23 +1,30 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {Playlist} from '../../../model/playlist';
+import {UserToken} from '../../../model/user-token';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PlaylistService} from '../../../service/playlist/playlist.service';
-import {Playlist} from '../../../model/playlist';
 import {AuthenticationService} from '../../../service/authentication/authentication.service';
-import {UserToken} from '../../../model/user-token';
+import {Singer} from '../../../model/singer';
+import {SingerService} from '../../../service/singer/singer.service';
+import {Song} from '../../../model/song';
+import {SongService} from '../../../service/song/song.service';
 
 @Component({
-  selector: 'app-playlist-detail',
-  templateUrl: './playlist-detail.component.html',
-  styleUrls: ['./playlist-detail.component.css']
+  selector: 'app-singer-detail',
+  templateUrl: './singer-detail.component.html',
+  styleUrls: ['./singer-detail.component.css']
 })
-export class PlaylistDetailComponent implements OnInit {
-  playlist: Playlist = {};
+export class SingerDetailComponent implements OnInit {
+
+  singer: Singer = {};
   userToken: UserToken ={};
+  songs: Song[] = []
   constructor(private activatedRouter: ActivatedRoute,
-              private playlistService: PlaylistService,
+              private singerService: SingerService,
               private router: Router,
-              private authenticationService: AuthenticationService
-              ) {
+              private authenticationService: AuthenticationService,
+              private songService: SongService
+  ) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       const id = paramMap.get('id');
       this.getPlaylist(id);
@@ -29,8 +36,8 @@ export class PlaylistDetailComponent implements OnInit {
   }
 
   private getPlaylist(id) {
-    this.playlistService.getPlaylist(id).subscribe(playlist => {
-      this.playlist = playlist;
+    this.singerService.getById(id).subscribe(singer => {
+      this.singer = singer;
     });
   }
 

@@ -2,16 +2,32 @@
 <div class="ms_album_single_wrapper ms_artist_single">
   <div class="album_single_data">
     <div class="album_single_img">
-      <img src="{{playlist.imgUrl}}" alt="" class="img-fluid">
+      <img src="{{singer.imageUrl}}" alt="" class="img-fluid">
     </div>
     <div class="album_single_text">
-      <h2>{{playlist.name}}</h2>
+      <h2>{{singer.name}}</h2>
       <div class="singer_name">
-        <span *ngFor="let genre of playlist.genres">{{genre.name}} </span>
+        <span > DOB: {{singer.dateOfBirth}} </span>
       </div>
-      <div class="about_artist">
-        {{playlist.description}}
+      <div class="singer_name">
+        <span > Gender: {{singer.gender}} </span>
       </div>
+      <div class="singer_name">
+        <span > popularSong: {{singer.popularSong}} </span>
+      </div>
+      <div class="singer_name">
+        <span > band: {{singer.band}} </span>
+      </div>
+      <div class="singer_name">
+        <span> Genres: </span> <span *ngFor="let genre of singer.genres">{{genre.name}} </span>
+      </div>
+      <div class="singer_name">
+        <span > biography: {{singer.biography}} </span>
+      </div>
+      <div class="singer_name">
+        <span > additionalInfo: {{singer.additionalInfo}} </span>
+      </div>
+
       <div class="album_btn">
         <a href="#" class="ms_btn play_btn"><span class="play_all"><img src="assets/images/svg/play_all.svg"
                                                                         alt="">Play All</span><span
@@ -23,11 +39,11 @@
       <span><img src="assets/images/svg/more.svg" alt=""></span>
     </div>
     <ul class="more_option">
-      <li><a *ngIf="userToken.id == playlist.user.id" routerLink="/playlist/edit/{{playlist.id}}"><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a>
+      <li><a *ngIf="userToken.id == singer.user.id" routerLink="/singer/edit/{{singer.id}}"><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a>
       </li>
       <li>
-        <a *ngIf="userToken.id == playlist.user.id" class="btn-confirm" [attr.data-playlistId]="playlist.id" data-toggle="modal" data-target="#delete-playlist-confirm">
-        <span class="opt_icon"><span class="icon icon_queue"></span></span>Delete</a></li>
+        <a *ngIf="userToken.id == singer.user.id" class="btn-confirm" [attr.data-playlistId]="singer.id" data-toggle="modal" data-target="#delete-playlist-confirm">
+          <span class="opt_icon"><span class="icon icon_queue"></span></span>Delete</a></li>
     </ul>
   </div>
   <!----Song List---->
@@ -40,7 +56,7 @@
         <li class="text-center">Add To Favourites</li>
         <li class="text-center">More</li>
       </ul>
-      <ul *ngFor="let song of playlist.songs; index as i">
+      <ul *ngFor="let song of singer.songs; index as i">
         <li><a href="#"><span class="play_no">{{i+1}}</span><span class="play_hover"></span></a></li>
         <li><a href="#">{{song.name}}</a></li>
         <li><span *ngFor="let genre of song.genres"> {{genre.name}} </span></li>

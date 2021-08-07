@@ -7,8 +7,6 @@
         <input class="ms_btn" id="image" type="file" #preview (change)="showPreview($event)">
         <br>
         <img *ngIf="playlistDTO.imgUrl != null" style="width: 300px; height: 300px" [src]="playlistDTO.imgUrl" (click)="preview.click()">
-        <!--               #preview (change)="showPreview($event)">-->
-        <!--        <a href="#" class="ms_btn">save files</a>-->
       </div>
     </div>
     <div class=" marger_top60">

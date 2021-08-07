@@ -7,8 +7,7 @@
   "files": [
     "src/main.ts",
     "src/polyfills.ts",
-    "node_modules/@types/node/index.d.ts",
-    "node_modules/@types/jquery/misc.d.ts"
+    "node_modules/@types/node/index.d.ts"
   ],
   "include": [
     "src/**/*.ts"
