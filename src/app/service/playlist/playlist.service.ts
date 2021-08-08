@@ -47,5 +47,7 @@ export class PlaylistService {
     return this.http.get<Playlist[]>(`${API_URL}/playlists/searchAdvanced/${genre}/${playlistName}/${startDate}/${endDate}/${userId}`);
   }
 
-
+  getAllPlaylistByListenCount(limit: number, offset: number): Observable<Playlist[]> {
+    return this.http.get<Playlist[]>(`${API_URL}/playlists/toplisten?limit=${limit}&offset=${offset}`);
+  }
 }

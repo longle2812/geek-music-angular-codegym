@@ -19,8 +19,9 @@ import {NewSongComponent} from './song/new-songs/new-song.component';
 import {NewReleasesComponent} from './home/new-releases/new-releases.component';
 import { PlaylistSearchComponent } from './playlist/playlist-search/playlist-search.component';
 import { SongSearchComponent } from './song-search/song-search.component';
-import { RecentlyPlayedComponent } from './home/recently-played/recently-played.component';
+import { RecentlyPlayedComponent } from './home/recently-added/recently-played.component';
 import { WeeklyTopComponent } from './home/weekly-top/weekly-top.component';
+import { FeaturedAlbumComponent } from './home/featured-album/featured-album.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { WeeklyTopComponent } from './home/weekly-top/weekly-top.component';
     PlaylistSearchComponent,
     SongSearchComponent,
     RecentlyPlayedComponent,
-    WeeklyTopComponent],
+    WeeklyTopComponent,
+    FeaturedAlbumComponent],
   imports: [
     CommonModule,
     ContentRoutingModule,

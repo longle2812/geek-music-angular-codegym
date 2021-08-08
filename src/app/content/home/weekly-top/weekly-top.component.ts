@@ -38,7 +38,8 @@ export class WeeklyTopComponent implements OnInit {
   playSong(song: Song) {
     const request = {
       title: 'play',
-      song: song
+      song: song,
+      songId: song.id
     }
     this.queueService.sendQueueRequest(request);
   }
@@ -46,7 +47,8 @@ export class WeeklyTopComponent implements OnInit {
   addToQueue(song: Song) {
     const request = {
       title: 'add',
-      song: song
+      song: song,
+      songId: song.id
     };
     this.queueService.sendQueueRequest(request);
   }

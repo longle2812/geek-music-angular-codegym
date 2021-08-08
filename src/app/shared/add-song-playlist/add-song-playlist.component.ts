@@ -51,7 +51,7 @@ export class AddSongPlaylistComponent implements OnInit {
         this.songId = songId
     )
     this.songService.addSongToPlayList(this.songId,playListId).subscribe( () =>
-      this.notificationService.showSuccessMessage("ngon")
+      this.notificationService.showSuccessMessage("Your song added to playlist")
     )
   }
 }

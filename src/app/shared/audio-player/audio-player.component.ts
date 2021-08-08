@@ -202,8 +202,8 @@ export class AudioPlayerComponent implements OnInit {
                   this.queue.push(song);
                 }
               }
-              else {
-                this.myPlaylist.play(index);
+              else if(queue.title === 'play') {
+                  this.myPlaylist.play(index);
               }
             }
           )
