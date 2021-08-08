@@ -13,7 +13,7 @@ declare var $: any;
 export class SignUpComponent implements OnInit {
   dupUsername = '';
   userForm: FormGroup = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.pattern('/^\\S*$/')]),
+    username: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z0-9]*$')]),
     pwGroup: new FormGroup({
       password: new FormControl('', [Validators.minLength(6), Validators.maxLength(8), Validators.required]),
       confirmPassword: new FormControl('', [Validators.required])
