@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Playlist} from '../../../model/playlist';
 import {PlaylistService} from '../../../service/playlist/playlist.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-featured-album',
@@ -10,13 +11,13 @@ import {PlaylistService} from '../../../service/playlist/playlist.service';
 export class FeaturedAlbumComponent implements OnInit {
   playlists: Playlist[] = [];
 
-  constructor(private playlistService: PlaylistService) {
-    this.playlistService.getAllPlaylistByListenCount(5,0).subscribe(
-      playlists => this.playlists = playlists
-    )
+  constructor(private playlistService: PlaylistService, private router: Router) {
   }
 
   ngOnInit() {
+    this.playlistService.getAllPlaylistByListenCount(5,0).subscribe(
+      playlists => this.playlists = playlists
+    )
   }
 
 }

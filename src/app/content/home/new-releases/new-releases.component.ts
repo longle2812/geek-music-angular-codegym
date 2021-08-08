@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Song} from '../../../model/song';
 import {SongService} from '../../../service/song/song.service';
+import {QueueService} from '../../../service/queue/queue.service';
 
 @Component({
   selector: 'app-new-releases',
@@ -12,7 +13,7 @@ export class NewReleasesComponent implements OnInit {
   songs: Song[] = [];
   offset: number = 0;
   limit:number = 5;
-  constructor(private songService: SongService) { }
+  constructor(private songService: SongService, private queueService: QueueService) { }
 
   ngOnInit() {
     this.getSongsSortByCreateTime();
@@ -34,4 +35,12 @@ export class NewReleasesComponent implements OnInit {
     })
   }
 
+  playSong(song: any) {
+    const request = {
+      title: 'play',
+      song: song,
+      songId: song.id
+    }
+    this.queueService.sendQueueRequest(request);
+  }
 }

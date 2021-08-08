@@ -21,7 +21,7 @@ import { PlaylistSearchComponent } from './playlist/playlist-search/playlist-sea
 import { SongSearchComponent } from './song-search/song-search.component';
 import { RecentlyPlayedComponent } from './home/recently-added/recently-played.component';
 import { WeeklyTopComponent } from './home/weekly-top/weekly-top.component';
-import { FeaturedAlbumComponent } from './home/featured-album/featured-album.component';
+import { FeaturedAlbumComponent } from './home/most-stream-playlist/featured-album.component';
 
 
 @NgModule({

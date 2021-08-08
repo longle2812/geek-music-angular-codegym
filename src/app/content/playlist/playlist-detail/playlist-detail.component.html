@@ -16,13 +16,13 @@
         <a href="#" class="ms_btn"><span class="play_all"><img src="assets/images/svg/add_q.svg" alt="">Add To Queue</span></a>
       </div>
     </div>
-    <div class="album_more_optn ms_more_icon">
+    <div class="album_more_optn ms_more_icon" *ngIf="userToken.id == playlist.user.id">
       <span><img src="assets/images/svg/more.svg" alt=""></span>
     </div>
-    <ul class="more_option">
-      <li><a *ngIf="userToken.id == playlist.user.id" routerLink="/playlist/edit/{{playlist.id}}"><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a>
+    <ul class="more_option" >
+      <li><a routerLink="/playlist/edit/{{playlist.id}}"><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a>
       </li>
-      <li><a *ngIf="userToken.id == playlist.user.id" (click)="delete(playlist.id)"><span class="opt_icon"><span class="icon icon_queue"></span></span>Delete</a></li>
+      <li><a (click)="delete(playlist.id)"><span class="opt_icon"><span class="icon icon_queue"></span></span>Delete</a></li>
     </ul>
   </div>
   <!----Song List---->
