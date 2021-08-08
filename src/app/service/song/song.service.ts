@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Song} from '../../model/song';
 import {environment} from '../../../environments/environment';
 import {Songdto} from '../../model/songdto';
+import {Playlist} from '../../model/playlist';
 
 const API_URL = `${environment.apiUrl}`;
 
@@ -58,6 +59,10 @@ export class SongService {
 
   getSongsSortByCreateTime(offset: number, limit: number): Observable<Song[]> {
     return this.http.get<Song[]>(`${API_URL}/song/new?offset=${offset}&limit=${limit}`);
+  }
+
+  searchSongAdvance(songName: string, userName: string, genreName: string, statDate: string, endDate: string): Observable<Song[]> {
+    return this.http.get<Song[]>(`${API_URL}/songs/findSongFull/${songName}/${userName}/${genreName}/${statDate}/${endDate}`);
   }
 
   addSongToPlayList(songId: number, playlistId: number): Observable<any> {

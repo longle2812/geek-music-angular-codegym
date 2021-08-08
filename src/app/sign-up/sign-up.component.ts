@@ -11,8 +11,9 @@ declare var $: any;
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
+  dupUsername = '';
   userForm: FormGroup = new FormGroup({
-    username: new FormControl('', [Validators.required]),
+    username: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z0-9]*$')]),
     pwGroup: new FormGroup({
       password: new FormControl('', [Validators.minLength(6), Validators.maxLength(8), Validators.required]),
       confirmPassword: new FormControl('', [Validators.required])
@@ -38,14 +39,33 @@ export class SignUpComponent implements OnInit {
         $('#myModal1').modal('show');
         this.notificationService.showSuccessMessage('Sign up success!');
         this.userForm.reset();
+        this.dupUsername = '';
       }, e => {
-        this.notificationService.showErrorMessage('Error');
+        if (e.error === 'Username has been taken') {
+          this.dupUsername = e.error;
+        } else {
+          this.notificationService.showErrorMessage('Can\'t create account.Please check all field');
+        }
       });
+    } else {
+      this.userForm.markAllAsTouched();
     }
   }
 
   comparePassword(c: AbstractControl) {
     const v = c.value;
     return (v.password === v.confirmPassword) ? null : {passnotmatch: true};
+  }
+
+  togglePassword() {
+    const passInput = $('#password_input')[0];
+    const confirmPassInput = $('#confirm_pass_input')[0];
+    if (passInput.type === 'password') {
+      passInput.type = 'text';
+      confirmPassInput.type = 'text';
+    } else {
+      passInput.type = 'password';
+      confirmPassInput.type = 'password';
+    }
   }
 }

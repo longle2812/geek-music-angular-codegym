@@ -4,7 +4,7 @@ import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/form
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {User} from '../../model/user';
 import {NotificationService} from '../../service/notification/notification.service';
-
+declare var $: any;
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
@@ -40,8 +40,12 @@ export class ChangePasswordComponent implements OnInit {
       this.userService.changePassword(this.id, user).subscribe(() => {
         this.notificationService.showSuccessMessage('Success');
         this.pwGroup.reset();
-      }, () => {
-        this.notificationService.showErrorMessage('Can not change password');
+      }, (e) => {
+        if (e.error === 'duplicate password') {
+          this.notificationService.showErrorMessage('New password can not be your old password');
+        } else {
+          this.notificationService.showErrorMessage('Can not change password');
+        }
       });
     }
   }
@@ -49,5 +53,17 @@ export class ChangePasswordComponent implements OnInit {
   comparePassword(c: AbstractControl) {
     const v = c.value;
     return (v.password === v.confirmPassword) ? null : {passnotmatch: true};
+  }
+
+  togglePassword() {
+    const passInput = $('#password_input')[0];
+    const confirmPassInput = $('#confirm_pass_input')[0];
+    if (passInput.type === 'password') {
+      passInput.type = 'text';
+      confirmPassInput.type = 'text';
+    } else {
+      passInput.type = 'password';
+      confirmPassInput.type = 'password';
+    }
   }
 }

@@ -11,6 +11,7 @@ import {GenreService} from '../../service/genres/genre.service';
 import {SongService} from '../../service/song/song.service';
 import {Song} from '../../model/song';
 import {QueueService} from '../../service/queue/queue.service';
+import {NotificationService} from '../../service/notification/notification.service';
 
 declare var $: any;
 
@@ -27,7 +28,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private userService: UserService, private authenticationService: AuthenticationService,
               private router: Router, private playlistService: PlaylistService, private genreService: GenreService,
-              private songService: SongService, private queueService: QueueService) {
+              private songService: SongService, private queueService: QueueService,private notificationService: NotificationService) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.currentUser = user;
       this.loadScript('/assets/js/profile-on-click.js');
@@ -61,6 +62,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authenticationService.logout();
+    this.notificationService.showLogoutMessage('Goodbye. You have logged out!');
     this.router.navigateByUrl('');
     this.queueService.resetQueue();
     this.playlistService.currentSearchPlaylistSubject.next(null);
@@ -94,16 +96,21 @@ export class HeaderComponent implements OnInit {
     const advancedSearch = document.getElementById('advance-search');
     const target = $(e.target);
     if (target.is('.dropDownChild')) {
-      advancedSearch.style.display = 'block';
+      if (advancedSearch.style.display === 'block') {
+        advancedSearch.style.display = 'none';
+      } else {
+        advancedSearch.style.display = 'block';
+      }
     }
     if (target.is('#searchPlaylistInput') || target.is('#selectBtn')
-      || target.is('.selectChild') || target.is('.searchIcon') || target.is('#arrow_drop_down') || target.is('.selectMenu')) {
+      || target.is('.selectChild') || target.is('.searchIcon') ||
+      target.is('#arrow_drop_down') || target.is('.selectMenu')) {
       selectDropdown.style.display = 'block';
-      searchBar.style.width = '25%';
+      searchBar.style.width = '30%';
       arrowDropdown.style.display = 'block';
     } else {
       selectDropdown.style.display = 'none';
-      searchBar.style.width = '20%';
+      searchBar.style.width = '25%';
       arrowDropdown.style.display = 'none';
       advancedSearch.style.display = 'none';
     }
@@ -111,42 +118,47 @@ export class HeaderComponent implements OnInit {
 
   search() {
     const searchOption = $('#selectBtn :selected').text();
+    const genreName = $('#genreName').val();
+    const keyWord = $('#searchPlaylistInput').val();
+    const startDate = $('#startDate').val();
+    const endDate = $('#endDate').val();
+    const userName = $('#userSelected').val();
+    const advancedSearch = document.getElementById('advance-search');
     if (searchOption === 'Playlist') {
-      this.searchPlayList();
+      this.searchPlayList(genreName, keyWord, startDate, endDate, userName, advancedSearch);
     }
     if (searchOption === 'Song') {
-      this.searchSong();
+      this.searchSong(genreName, keyWord, startDate, endDate, userName, advancedSearch);
     }
   }
 
-  searchPlayList() {
-    const genre = $('#genreSelected :selected').val();
-    const playlistName = $('#searchPlaylistInput').val();
-    const startDate = $('#startDate').val();
-    const endDate = $('#endDate').val();
-    const userId = +$('#userSelected :selected').val();
-    const advancedSearch = document.getElementById('advance-search');
+  searchPlayList(genreName, keyWord, startDate, endDate, userName, advancedSearch) {
     if (advancedSearch.style.display === 'block') {
-      this.playlistService.searchAdvanced(genre, playlistName, startDate, endDate, userId).subscribe((playlists: Playlist[]) => {
+      this.playlistService.searchAdvanced(genreName, keyWord, startDate, endDate, userName).subscribe((playlists: Playlist[]) => {
         this.playlistService.currentSearchPlaylistSubject.next(playlists);
       });
     } else {
-      this.playlistService.searchByName(playlistName).subscribe((playlists: Playlist[]) => {
-        console.log(playlists);
+      this.playlistService.searchByName(keyWord).subscribe((playlists: Playlist[]) => {
         this.playlistService.currentSearchPlaylistSubject.next(playlists);
       });
     }
     this.router.navigateByUrl('/playlists/search');
   }
 
-  private searchSong() {
-    const songName = $('#searchPlaylistInput').val();
-    this.songService.searchSongByName(songName).subscribe((songs: Song[]) => {
-      this.songService.currentSearchSongSubject.next(songs);
-      console.log(songs);
-      this.router.navigateByUrl('/songs/search');
-    }, e => {
-      console.log(e);
-    });
+  private searchSong(genreName, keyWord, startDate, endDate, userName, advancedSearch) {
+    if (advancedSearch.style.display === 'block') {
+      this.songService.searchSongAdvance(keyWord, userName, genreName, startDate, endDate).subscribe((songs: Song[]) => {
+        this.songService.currentSearchSongSubject.next(songs);
+      });
+    } else {
+      this.songService.searchSongByName(keyWord).subscribe((songs: Song[]) => {
+        this.songService.currentSearchSongSubject.next(songs);
+      });
+    }
+    this.router.navigateByUrl('/songs/search');
+  }
+
+  hideDropDown() {
+    $('.pro_dropdown_menu').toggleClass('open_dropdown');
   }
 }
