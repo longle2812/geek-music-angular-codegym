@@ -19,15 +19,17 @@
         <div class="ms_pro_form">
           <div class="form-group">
             <label>Playlist Name *</label>
-            <input type="text"  #name="ngModel"  name="name" required minlength="2" class="form-control" [(ngModel)]="playlistDTO.name">
+            <input type="text"  #name="ngModel"  name="name" required minlength="2" class="form-control"
+                   [(ngModel)]="playlistDTO.name"
+                   [ngClass]="{'has-danger': name.invalid && (name.dirty || name.touched || isSubmitted),
+                                'has-success': name.valid && (name.dirty || name.touched)}">
           </div>
-          <div *ngIf="!name.valid && name.touched "
-               class="alert alert-danger" role="alert">
+          <div *ngIf="!name.valid && (name.touched||name.dirty)">
             <p style="color: red; margin-top: 5px"  *ngIf="name?.errors?.minlength">
-              name more than 2 characters
+              Minlength is 2 characters
             </p>
             <p style="color: red; margin-top: 5px"  *ngIf="name?.errors?.required">
-              name not be empty
+              Name not be empty
             </p>
           </div>
           <div class="form-group">
@@ -44,7 +46,7 @@
           <div class="pro-form-btn text-center marger_top15">
             <div class="ms_upload_btn">
               <a style="color: white" class="ms_btn" (click)="edit(playlistForm)">Edit</a>
-              <a style="color: white" class="ms_btn">Cancel</a>
+              <a routerLink="/playlist/{{playlistID}}" style="color: white" class="ms_btn">Cancel</a>
             </div>
           </div>
         </div>

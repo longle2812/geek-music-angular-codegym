@@ -1,12 +1,10 @@
 import {Genres} from './genres';
-import {Comment} from './comment';
 
-export interface Singer {
-  id?: number;
+export interface Singerdto {
   name?: string;
   gender?: string;
   genres?: any;
-  dateOfBirth?: string;
+  dateOfBirth?: any;
   biography?: string;
   band?: string;
   popularSong?: string;

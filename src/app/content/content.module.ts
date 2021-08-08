@@ -17,11 +17,15 @@ import {TopSongComponent} from './top-song/top-song.component';
 import {PlaylistEditComponent} from './playlist/playlist-edit/playlist-edit.component';
 import {NewSongComponent} from './song/new-songs/new-song.component';
 import {NewReleasesComponent} from './home/new-releases/new-releases.component';
-import { PlaylistSearchComponent } from './playlist/playlist-search/playlist-search.component';
-import { SongSearchComponent } from './song-search/song-search.component';
 import { RecentlyPlayedComponent } from './home/recently-added/recently-played.component';
 import { WeeklyTopComponent } from './home/weekly-top/weekly-top.component';
 import { FeaturedAlbumComponent } from './home/most-stream-playlist/featured-album.component';
+import {PlaylistSearchComponent} from './playlist/playlist-search/playlist-search.component';
+import {SongSearchComponent} from './song-search/song-search.component';
+import {PopupDeletePlaylistComponent} from './playlist/playlist-detail/popup-delete-playlist/popup-delete-playlist.component';
+import {SingerCreateComponent} from './singer/singer-create/singer-create.component';
+import { SingerListComponent } from './singer/singer-list/singer-list.component';
+import { SingerDetailComponent } from './singer/singer-detail/singer-detail.component';
 
 
 @NgModule({
@@ -40,10 +44,17 @@ import { FeaturedAlbumComponent } from './home/most-stream-playlist/featured-alb
     NewSongComponent,
     NewReleasesComponent,
     PlaylistSearchComponent,
-    SongSearchComponent,
     RecentlyPlayedComponent,
     WeeklyTopComponent,
-    FeaturedAlbumComponent],
+    FeaturedAlbumComponent,
+    SongSearchComponent,
+    PopupDeletePlaylistComponent,
+    SingerCreateComponent,
+    SingerListComponent,
+    SingerDetailComponent
+  ],
+  exports: [
+  ],
   imports: [
     CommonModule,
     ContentRoutingModule,

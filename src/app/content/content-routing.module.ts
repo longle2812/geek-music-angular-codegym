@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {HomeComponent} from './home/home.component';
 import {AlbumComponent} from './album/album.component';
-import {SingerCreateComponent} from './singer/singer-create/singer-create.component';
 import {UploadSongComponent} from './upload-song/upload-song.component';
 import {EditProfileComponent} from './edit-profile/edit-profile.component';
 import {ChangePasswordComponent} from './change-password/change-password.component';
@@ -16,6 +15,9 @@ import {NewSongComponent} from './song/new-songs/new-song.component';
 import {TopSongComponent} from './top-song/top-song.component';
 import {PlaylistSearchComponent} from './playlist/playlist-search/playlist-search.component';
 import {SongSearchComponent} from './song-search/song-search.component';
+import {SingerCreateComponent} from './singer/singer-create/singer-create.component';
+import {SingerListComponent} from './singer/singer-list/singer-list.component';
+import {SingerDetailComponent} from './singer/singer-detail/singer-detail.component';
 
 
 const routes: Routes = [
@@ -80,6 +82,21 @@ const routes: Routes = [
   }, {
     path: 'songs/search',
     component: SongSearchComponent
+  }
+  ,
+  {
+    path: 'singer/create',
+    component: SingerCreateComponent
+  }
+  ,
+  {
+    path: 'singer/list',
+    component: SingerListComponent
+  }
+  ,
+  {
+    path: 'singer/:id',
+    component: SingerDetailComponent
   }
 ];
 

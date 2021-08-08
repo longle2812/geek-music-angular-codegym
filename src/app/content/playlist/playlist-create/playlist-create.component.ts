@@ -92,17 +92,21 @@ export class PlaylistCreateComponent implements OnInit {
         this.playlistDTO.imgUrl = 'assets/images/album/album.jpg';
       }
       this.playlistService.createPlayList(this.playlistDTO).subscribe(() => {
-        this.notificationService.showSuccessMessage('create success');
-        this.playlistDTO.name = '';
-        this.playlistDTO.description = '';
-        this.playlistDTO.genres = [];
-        this.playlistDTO.imgUrl = '';
+        this.notificationService.showSuccessMessage('Create success');
+        playlistForm.resetForm();
+        // this.playlistDTO.name = '';
+        // this.playlistDTO.description = '';
+        // this.playlistDTO.genres = [];
+        // this.playlistDTO.imgUrl = '';
         this.isSubmitted = false;
       },
       () => {
-        this.notificationService.showErrorMessage("create error")
+        this.notificationService.showErrorMessage("Create error")
       }
       );
+    }else {
+      this.notificationService.showErrorMessage("Data invalid")
+
     }
 
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Genre} from '../../../model/genre';
 import {UserToken} from '../../../model/user-token';
 import {PlaylistDTO} from '../../../model/playlist-dto';
@@ -18,19 +18,19 @@ import {NotificationService} from '../../../service/notification/notification.se
   styleUrls: ['./playlist-edit.component.css']
 })
 export class PlaylistEditComponent implements OnInit {
-
+  playlistID: number;
   selectedPlaylist = null;
   genreList: Genre[] = [];
-  initGenre = -1;
   user: UserToken = {};
   playlistDTO: PlaylistDTO = {
     name: '',
-    description:'',
+    description: '',
     genres: {},
-    imgUrl:''
+    imgUrl: ''
   };
-  idPlaylist: number =-1;
+  idPlaylist: number = -1;
   isSubmitted = false;
+
   constructor(private playlistService: PlaylistService,
               private genreService: GenreService,
               private storage: AngularFireStorage,
@@ -42,10 +42,10 @@ export class PlaylistEditComponent implements OnInit {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.user = user;
     });
-    this.activatedRouter.paramMap.subscribe(paramMap =>{
+    this.activatedRouter.paramMap.subscribe(paramMap => {
       const id = paramMap.get('id');
       this.getPlaylist(id);
-    })
+    });
 
   }
 
@@ -53,9 +53,7 @@ export class PlaylistEditComponent implements OnInit {
     this.genreService.getAll().subscribe(
       genresList => {
         this.genreList = genresList;
-        if(genresList.length>0){
-          this.initGenre = genresList[0].id;
-        }
+
       }
     );
   }
@@ -85,36 +83,40 @@ export class PlaylistEditComponent implements OnInit {
       this.selectedPlaylist = null;
     }
   }
+
   private getPlaylist(id) {
     this.playlistService.getPlaylist(id).subscribe(playlist => {
+      this.playlistID=playlist.id;
       this.playlistDTO.name = playlist.name;
       this.playlistDTO.description = playlist.description;
-      if(playlist.genres.length > 0){
+      if (playlist.genres.length > 0) {
         this.playlistDTO.genres = playlist.genres[0];
       }
       this.playlistDTO.imgUrl = playlist.imgUrl;
       this.idPlaylist = playlist.id;
     });
   }
+
   edit(playlistForm: NgForm) {
     this.isSubmitted = true;
-    if(playlistForm.valid ){
+    if (playlistForm.valid) {
       let isEdit = confirm('Edit info playlist?');
-      if(isEdit){
+      if (isEdit) {
         this.playlistDTO.name = playlistForm.value.name;
         this.playlistDTO.description = playlistForm.value.description;
-        this.playlistDTO.genres =  {id: playlistForm.value.genres};
-        this.playlistService.editPlaylistInfo(this.idPlaylist,this.playlistDTO).subscribe(() => {
-          this.notificationService.showSuccessMessage('edit success')
-          this.router.navigateByUrl('/playlist/'+ this.idPlaylist);
-        },
-          ()=> {
-            this.notificationService.showErrorMessage('edit error')
+        this.playlistDTO.genres = {id: playlistForm.value.genres};
+        this.playlistService.editPlaylistInfo(this.idPlaylist, this.playlistDTO).subscribe(() => {
+            this.notificationService.showSuccessMessage('edit success');
+            this.isSubmitted = false;
+            this.router.navigateByUrl('/playlist/' + this.idPlaylist);
+          },
+          () => {
+            this.notificationService.showErrorMessage('edit error');
           }
-        )
+        );
       }
-    }else {
-      this.notificationService.showErrorMessage('Data invalid')
+    } else {
+      this.notificationService.showErrorMessage('Data invalid');
     }
 
   }

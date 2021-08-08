@@ -7,8 +7,6 @@
         <input class="ms_btn" id="image" type="file" #preview (change)="showPreview($event)">
         <br>
         <img *ngIf="playlistDTO.imgUrl != null" style="width: 300px; height: 300px" [src]="playlistDTO.imgUrl" (click)="preview.click()">
-        <!--               #preview (change)="showPreview($event)">-->
-        <!--        <a href="#" class="ms_btn">save files</a>-->
       </div>
     </div>
     <div class=" marger_top60">
@@ -19,16 +17,18 @@
         <div class="ms_pro_form">
           <div class="form-group">
             <label>Playlist Name *</label>
-            <input type="text" required minlength="2" #name="ngModel" name="name" class="form-control" [(ngModel)]="playlistDTO.name">
-          </div>
-          <div *ngIf="!name.valid  && name.touched"
-               class="alert alert-danger" role="alert">
-            <p style="color: red; margin-top: 5px"  *ngIf="name?.errors?.minlength">
-              name more than 2 characters
-            </p>
-            <p style="color: red; margin-top: 5px"  *ngIf="name?.errors?.required">
-              name not be empty
-            </p>
+            <input type="text" required minlength="2" #name="ngModel" name="name"
+                   class="form-control" [(ngModel)]="playlistDTO.name"
+                   [ngClass]="{'has-danger': name.invalid && (name.dirty || name.touched || isSubmitted),
+                                'has-success': name.valid && (name.dirty || name.touched)}">
+            <div *ngIf="!name.valid  && (name.touched || name.dirty || isSubmitted)">
+              <p style="color: red; margin-top: 5px"  *ngIf="name?.errors?.minlength">
+                Minlength is 2 characters
+              </p>
+              <p style="color: red; margin-top: 5px"  *ngIf="name?.errors?.required">
+                Name not be empty
+              </p>
+            </div>
           </div>
           <div class="form-group">
             <label>Description *</label>
@@ -43,7 +43,7 @@
                   <div class="pro-form-btn text-center marger_top15">
             <div class="ms_upload_btn">
               <a style="color: white" class="ms_btn" (click)="create(playlistForm)">Create</a>
-              <a style="color: white" class="ms_btn" routerLink="">Cancel</a>
+              <a style="color: white" class="ms_btn" routerLink="/playlist/list">Cancel</a>
             </div>
           </div>
         </div>

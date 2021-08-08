@@ -1,23 +1,23 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Playlist} from '../../../model/playlist';
 import {UserToken} from '../../../model/user-token';
 import {PlaylistService} from '../../../service/playlist/playlist.service';
 import {GenreService} from '../../../service/genres/genre.service';
-import {AngularFireStorage} from '@angular/fire/storage';
 import {AuthenticationService} from '../../../service/authentication/authentication.service';
-import {ReactiveFormsModule} from '@angular/forms';
 import {Router} from '@angular/router';
 import {NotificationService} from '../../../service/notification/notification.service';
+import {Singer} from '../../../model/singer';
+import {SingerService} from '../../../service/singer/singer.service';
 
 @Component({
-  selector: 'app-playlist-list',
-  templateUrl: './playlist-list.component.html',
-  styleUrls: ['./playlist-list.component.css']
+  selector: 'app-singer-list',
+  templateUrl: './singer-list.component.html',
+  styleUrls: ['./singer-list.component.css']
 })
-export class PlaylistListComponent implements OnInit {
-  playlists: Playlist[] = [];
+export class SingerListComponent implements OnInit {
+  singers: Singer[] = [];
   userToken: UserToken = {};
-  constructor(private playlistService: PlaylistService,
+  constructor(private singerService: SingerService,
               private genreService: GenreService,
               private authenticationService: AuthenticationService,
               private router: Router,
@@ -29,22 +29,21 @@ export class PlaylistListComponent implements OnInit {
 
   ngOnInit() {
     this.getAllPlaylist();
+
   }
 
   private getAllPlaylist() {
-    if(this.userToken != null){
-      this.playlistService.getAllPlaylistBuyUser(this.userToken.id).subscribe(list => {
-        this.playlists = list;
-      });
-    }
+  this.singerService.getAll().subscribe(singers => {
+    this.singers= singers;
+  })
 
   }
 
   message() {
-    this.notificationService.showErrorMessage('You must be logged in to create a new playlist');
+    this.notificationService.showErrorMessage('You must be logged in to create a new singer');
   }
 
   createPage() {
-    this.router.navigateByUrl("playlist/create");
+    this.router.navigateByUrl("singer/create");
   }
 }
