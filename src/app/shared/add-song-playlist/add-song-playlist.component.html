@@ -1,0 +1,27 @@
+<div id="add-song" class="modal centered-modal" role="dialog">
+  <div class="modal-dialog login_dialog">
+    <!-- Modal content-->
+    <div class="modal-content" style="margin: auto; width: 90%">
+      <button type="button" class="close" data-dismiss="modal" (click)="close()">
+        <i class="fa_icon form_close"></i>
+      </button>
+      <form>
+        <div class="modal-body">
+          <div class="ms_register_img">
+            <img style="width: 50%; margin: auto" src="/assets/images/register_img.png" alt="" class="img-fluid"/>
+          </div>
+          <div class="ms_register_form">
+            <h2>Add This Song To Playlist</h2>
+            <div class="form-group">
+              <select id="add-song-playlist" class="form-select" aria-label="Default select example">
+                <option *ngFor="let playlist of playlists" [value]="playlist.id">{{playlist.name}}</option>
+              </select>
+            </div>
+            <a style="cursor: pointer;" class="ms_btn" (click)="addSong()">Add now</a>
+            <p>Don't Have A Playlist? <a style="cursor: pointer" (click)="close()" routerLink="/playlist/create" class="ms_modal1">create here</a></p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

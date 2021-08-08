@@ -29,7 +29,6 @@ export class PlaylistListComponent implements OnInit {
 
   ngOnInit() {
     this.getAllPlaylist();
-
   }
 
   private getAllPlaylist() {
@@ -43,5 +42,9 @@ export class PlaylistListComponent implements OnInit {
 
   message() {
     this.notificationService.showErrorMessage('You must be logged in to create a new playlist');
+  }
+
+  createPage() {
+    this.router.navigateByUrl("playlist/create");
   }
 }

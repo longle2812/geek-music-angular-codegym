@@ -12,7 +12,6 @@ const API_URL = `${environment.apiUrl}`;
   providedIn: 'root'
 })
 export class PlaylistService {
-  searchPlaylist: Playlist[] = [];
   public currentSearchPlaylistSubject: BehaviorSubject<Playlist[]>;
   public currentSearchPlaylist: Observable<Playlist[]>;
 
@@ -37,7 +36,7 @@ export class PlaylistService {
     return this.http.get<Playlist>(`${API_URL}/playlists/${id}`);
   }
   editPlaylistInfo(id: number, playlistDTO: PlaylistDTO): Observable<Playlist> {
-    return this.http.put<Playlist>(`${API_URL}/playlists/${id}`,playlistDTO);
+    return this.http.put<Playlist>(`${API_URL}/playlists/${id}`, playlistDTO);
   }
 
   searchByName(name: string): Observable<Playlist[]> {
@@ -46,5 +45,9 @@ export class PlaylistService {
 
   searchAdvanced(genre: string, playlistName: string, startDate: string, endDate: string, userId: number): Observable<Playlist[]> {
     return this.http.get<Playlist[]>(`${API_URL}/playlists/searchAdvanced/${genre}/${playlistName}/${startDate}/${endDate}/${userId}`);
+  }
+
+  getAllPlaylistByListenCount(limit: number, offset: number): Observable<Playlist[]> {
+    return this.http.get<Playlist[]>(`${API_URL}/playlists/toplisten?limit=${limit}&offset=${offset}`);
   }
 }

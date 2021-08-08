@@ -4,6 +4,7 @@ import {AuthenticationService} from '../service/authentication/authentication.se
 import {Router} from '@angular/router';
 import {NotificationService} from '../service/notification/notification.service';
 import {UserService} from '../service/user/user.service';
+import {PlaylistService} from '../service/playlist/playlist.service';
 
 declare var $: any;
 
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
   errorMsg = '';
 
   constructor(private userService: UserService, private notificationService: NotificationService,
-              private authenticationService: AuthenticationService, private router: Router) {
+              private authenticationService: AuthenticationService, private router: Router, private playlistService: PlaylistService) {
   }
 
   ngOnInit() {
@@ -37,6 +38,9 @@ export class LoginComponent implements OnInit {
           });
           this.userForm.reset();
           this.reloadCurrentRoute();
+          this.playlistService.getAllPlaylistBuyUser(userToken.id).subscribe(list => {
+            this.playlistService.currentSearchPlaylistSubject.next(list)
+          });
         },
         e => {
           this.errorMsg = 'Wrong username or password!';

@@ -1,0 +1,37 @@
+<div class="ms_fea_album_slider">
+  <div class="ms_heading">
+    <h1>Most Streamed Playlist</h1>
+    <span class="veiw_all"><a routerLink="/new-songs">view more</a></span>
+  </div>
+  <div class="ms_album_slider swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" *ngFor="let playlist of playlists">
+        <div class="ms_rcnt_box">
+          <div class="ms_rcnt_box_img">
+            <img style="width: 283px;height: 212px" src="{{playlist.imgUrl}}" alt="">
+            <div class="ms_main_overlay">
+              <div class="ms_box_overlay"></div>
+              <div class="ms_more_icon">
+                <img src="/assets/images/svg/more.svg" alt="">
+              </div>
+              <ul class="more_option">
+                <li><a href="#"><span class="opt_icon"><span class="icon icon_queue"></span></span>Add To Queue</a></li>
+                <li><a href="#"><span class="opt_icon"><span class="icon icon_share"></span></span>Share</a></li>
+              </ul>
+              <div class="ms_play_icon">
+                <img src="/assets/images/svg/play.svg" alt="">
+              </div>
+            </div>
+          </div>
+          <div class="ms_rcnt_box_text">
+            <h3><a style="cursor: pointer" routerLink="/playlist/{{playlist.id}}">{{playlist.name}}</a></h3>
+            <p>{{playlist.user.name}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Add Arrows -->
+  <div class="swiper-button-next3 slider_nav_next"></div>
+  <div class="swiper-button-prev3 slider_nav_prev"></div>
+</div>

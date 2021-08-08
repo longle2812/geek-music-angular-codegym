@@ -20,7 +20,7 @@
               <div *ngIf="userForm.get('username').touched">
                 <p class="showErrorInput" *ngIf="userForm.get('username').errors?.required">Username
                   required</p>
-                <p class="showErrorInput" *ngIf="userForm.get('username').errors?.pattern">Username can not contain space characters</p>
+                <p class="showErrorInput" *ngIf="userForm.get('username').errors?.pattern">Username can not contain space and special characters</p>
               </div>
               <p class="showErrorInput">{{dupUsername}}</p>
             </div>

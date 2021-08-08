@@ -30,9 +30,9 @@
         <li class="text-center"><a style="color: white">{{song.album}}</a></li>
         <li class="text-center ms_more_icon"><a><span class="ms_icon1 ms_active_icon"></span></a>
           <ul class="more_option">
-            <li><a style="color: black"><span class="opt_icon"><span class="icon icon_queue"></span></span>Add To Queue</a>
+            <li><a (click)="addToQueue(song)" style="color: black"><span class="opt_icon"><span class="icon icon_queue"></span></span>Add To Queue</a>
             </li>
-            <li><a style="color: black"><span class="opt_icon"><span class="icon icon_playlst"></span></span>Add To
+            <li><a #addButton class="songId" style="color: black" (click)="toogle(addButton)" [attr.data-song-id]="song.id"><span class="opt_icon"><span class="icon icon_playlst"></span></span>Add To
               Playlist</a></li>
             <li><a style="color: black"><span class="opt_icon"><span class="icon icon_share"></span></span>Share</a>
             </li>

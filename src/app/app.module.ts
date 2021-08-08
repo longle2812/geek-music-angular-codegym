@@ -1,14 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { LoaderStartComponent } from './shared/loader-start/loader-start.component';
-import { SlideMenuComponent } from './shared/slide-menu/slide-menu.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {LoaderStartComponent} from './shared/loader-start/loader-start.component';
+import {SlideMenuComponent} from './shared/slide-menu/slide-menu.component';
 import {HeaderComponent} from './shared/header/header.component';
-import { SingerCreateComponent } from './content/singer/singer-create/singer-create.component';
-import { LoginComponent } from './login/login.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
+import {SingerCreateComponent} from './content/singer/singer-create/singer-create.component';
+import {LoginComponent} from './login/login.component';
+import {SignUpComponent} from './sign-up/sign-up.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
@@ -17,8 +17,11 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ErrorInterceptor} from './helper/error-interceptor';
 import {JwtInterceptor} from './helper/jwt-interceptor';
-import { DeleteSongPopupComponent } from './shared/delete-song-popup/delete-song-popup.component';
-import { AudioPlayerComponent } from './shared/audio-player/audio-player.component';
+import {DeleteSongPopupComponent} from './shared/delete-song-popup/delete-song-popup.component';
+import {AudioPlayerComponent} from './shared/audio-player/audio-player.component';
+import {AddSongPlaylistComponent} from './shared/add-song-playlist/add-song-playlist.component';
+import {ContentModule} from './content/content.module';
+import {PopupDeletePlaylistComponent} from './content/playlist/playlist-detail/popup-delete-playlist/popup-delete-playlist.component';
 
 
 @NgModule({
@@ -27,11 +30,11 @@ import { AudioPlayerComponent } from './shared/audio-player/audio-player.compone
     LoaderStartComponent,
     SlideMenuComponent,
     HeaderComponent,
-    SingerCreateComponent,
     LoginComponent,
     SignUpComponent,
     DeleteSongPopupComponent,
     AudioPlayerComponent,
+    AddSongPlaylistComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { AudioPlayerComponent } from './shared/audio-player/audio-player.compone
     AngularFireDatabaseModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ContentModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
@@ -52,4 +56,5 @@ import { AudioPlayerComponent } from './shared/audio-player/audio-player.compone
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

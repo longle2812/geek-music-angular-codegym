@@ -4,6 +4,7 @@ import {AuthenticationService} from '../../service/authentication/authentication
 import {UserToken} from '../../model/user-token';
 import {Router} from '@angular/router';
 import {NotificationService} from '../../service/notification/notification.service';
+import {QueueService} from '../../service/queue/queue.service';
 
 declare var $: any;
 @Component({
@@ -17,7 +18,8 @@ export class DeleteSongPopupComponent implements OnInit {
   constructor(private songService: SongService,
               private authenticationService: AuthenticationService,
               private router: Router,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private queueService: QueueService) {
     this.authenticationService.currentUserSubject.subscribe(
       user => this.currentUser = user
     );
@@ -44,6 +46,13 @@ export class DeleteSongPopupComponent implements OnInit {
         this.notificationService.showSuccessMessage("Delete Successfully");
         $('#delete-confirm').modal('hide');
         this.reloadCurrentRoute();
+        $('#jquery_jplayer_1').jPlayer("clearMedia");
+        const request = {
+          title: 'delete',
+          song: undefined,
+          songId: songId
+        };
+        this.queueService.sendQueueRequest(request);
       },
       () => {this.notificationService.showErrorMessage("Something's wrong..")}
     );

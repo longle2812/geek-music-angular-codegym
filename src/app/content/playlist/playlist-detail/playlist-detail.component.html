@@ -1,3 +1,4 @@
+
 <div class="ms_album_single_wrapper ms_artist_single">
   <div class="album_single_data">
     <div class="album_single_img">
@@ -5,7 +6,9 @@
     </div>
     <div class="album_single_text">
       <h2>{{playlist.name}}</h2>
-      <span class="singer_name" *ngFor="let genre of playlist.genres">{{genre.name}} </span>
+      <div class="singer_name">
+        <span *ngFor="let genre of playlist.genres">{{genre.name}} </span>
+      </div>
       <div class="about_artist">
         {{playlist.description}}
       </div>
@@ -20,9 +23,11 @@
       <span><img src="assets/images/svg/more.svg" alt=""></span>
     </div>
     <ul class="more_option">
-      <li><a *ngIf="userToken.id == playlist.user.id" routerLink="/playlist/edit/{{playlist.id}}"><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a>
+      <li><a (click)="editPlaylist()" ><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a>
       </li>
-      <li><a *ngIf="userToken.id == playlist.user.id" (click)="delete(playlist.id)"><span class="opt_icon"><span class="icon icon_queue"></span></span>Delete</a></li>
+      <li>
+        <a  class="btn-confirm" (click)="deletePlaylist()">
+        <span class="opt_icon"><span class="icon icon_queue"></span></span>Delete</a></li>
     </ul>
   </div>
   <!----Song List---->
@@ -59,9 +64,8 @@
     </div>
   </div>
   <div class="ms_view_more padder_bottom20">
-    <a href="#" class="ms_btn">view more</a>
+    <a  class="ms_btn">view more</a>
   </div>
-<!--  <p>{{playlist.songs|json}}</p>-->
 </div>
 <div class="container bootdey body-comment">
   <div class="col-md-12 bootstrap snippets">

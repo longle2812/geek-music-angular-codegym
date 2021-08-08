@@ -18,6 +18,7 @@ export class AuthenticationService {
   public currentUserAvatarSubject: BehaviorSubject<string>;
   public currentUserAvatar: Observable<string>;
 
+
   // private userService: UserService,
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<UserToken>(JSON.parse(localStorage.getItem('user')));
