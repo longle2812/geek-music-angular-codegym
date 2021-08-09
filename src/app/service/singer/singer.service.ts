@@ -45,6 +45,6 @@ export class SingerService {
   }
 
   searchAdvanced(songName: string, userName: string, genreName: string, startDate: string, endDate: string): Observable<Playlist[]> {
-    return this.http.get<Playlist[]>(`${API_URL}/singers/findSingerFull/${songName}/${userName}/${genreName}/${startDate}/${endDate}`);
+    return this.http.get<Playlist[]>(`${API_URL}/singers/findSingerAdvanced/${songName}/${userName}/${genreName}/${startDate}/${endDate}`);
   }
 }

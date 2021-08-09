@@ -39,4 +39,19 @@ export class SongSearchComponent implements OnInit {
     };
     this.queueService.sendQueueRequest(request);
   }
+
+  addToQueue(song: any) {
+    const request = {
+      title: 'add',
+      song: song,
+      songId: song.id
+    };
+    this.queueService.sendQueueRequest(request);
+  }
+
+  toogle(element: HTMLAnchorElement) {
+    $('#add-song').show();
+    const songId = element.getAttribute('data-song-id');
+    this.songService.changeSongId(songId);
+  }
 }
