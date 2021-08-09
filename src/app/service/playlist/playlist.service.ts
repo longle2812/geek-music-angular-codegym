@@ -54,4 +54,8 @@ export class PlaylistService {
   getAllPlaylistByMostRecent(limit: number, offset: number): Observable<Playlist[]> {
     return this.http.get<Playlist[]>(`${API_URL}/playlists/most_recent?limit=${limit}&offset=${offset}`)
   }
+
+  getAllPlaylistByMostLikes(limit: number, offset: number): Observable<Playlist[]> {
+    return this.http.get<Playlist[]>(`${API_URL}/playlists/most_likes?limit=${limit}&offset=${offset}`)
+  }
 }
