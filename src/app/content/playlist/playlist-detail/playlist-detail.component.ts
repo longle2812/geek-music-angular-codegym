@@ -5,6 +5,10 @@ import {Playlist} from '../../../model/playlist';
 import {AuthenticationService} from '../../../service/authentication/authentication.service';
 import {UserToken} from '../../../model/user-token';
 import {NotificationService} from '../../../service/notification/notification.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {PlaylistInteraction} from '../../../model/playlist-interaction';
+
+declare var $: any;
 
 @Component({
   selector: 'app-playlist-detail',
@@ -13,21 +17,34 @@ import {NotificationService} from '../../../service/notification/notification.se
 })
 export class PlaylistDetailComponent implements OnInit {
   playlist: Playlist = {};
-  userToken: UserToken ={};
+  userToken: UserToken = {};
+  commentForm: FormGroup = new FormGroup({
+    comment: new FormControl('', [Validators.required])
+  });
+  comments: PlaylistInteraction[];
+
   constructor(private activatedRouter: ActivatedRoute,
               private playlistService: PlaylistService,
               private router: Router,
               private authenticationService: AuthenticationService,
               private notificationService: NotificationService
-              ) {
+  ) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       const id = paramMap.get('id');
       this.getPlaylist(Number(id));
+      this.getPlaylistComment(Number(id));
     });
-    this.authenticationService.currentUserSubject.subscribe(user =>{
+    this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
-    })
-
+    });
+    this.playlistService.currentPlaylistCommentSubject.subscribe((comments: PlaylistInteraction[]) => {
+      this.comments = comments;
+      for (const comment of comments) {
+        const a = new Date(comment.createdAt);
+        a.setMonth(a.getMonth() + 1);
+        comment.createdAt = a.getDate() + '-' + a.getMonth() + '-' + a.getFullYear();
+      }
+    });
   }
 
   ngOnInit() {
@@ -53,28 +70,53 @@ export class PlaylistDetailComponent implements OnInit {
   }
 
   deletePlaylist() {
-    if(this.userToken.id == this.playlist.user.id){
-      let isConfirm = confirm('Confirm delete playlist');
-      if(isConfirm){
-        this.playlistService.delete(this.playlist.id).subscribe(() =>{
-            this.notificationService.showSuccessMessage("Delete success");
+    if (this.userToken.id === this.playlist.user.id) {
+      const isConfirm = confirm('Confirm delete playlist');
+      if (isConfirm) {
+        this.playlistService.delete(this.playlist.id).subscribe(() => {
+            this.notificationService.showSuccessMessage('Delete success');
             this.router.navigateByUrl('/playlist/list');
           },
-          () =>{
-            this.notificationService.showErrorMessage("Delete error")
+          () => {
+            this.notificationService.showErrorMessage('Delete error');
           });
       }
-    }else {
-      this.notificationService.showErrorMessage('you have no authority for this' );
+    } else {
+      this.notificationService.showErrorMessage('you have no authority for this');
     }
   }
 
   editPlaylist() {
-    if(this.userToken.id == this.playlist.user.id){
-      this.router.navigateByUrl('/playlist/edit/'+this.playlist.id);
-    }else {
-      this.notificationService.showErrorMessage('you have no authority for this' );
+    if (this.userToken.id === this.playlist.user.id) {
+      this.router.navigateByUrl('/playlist/edit/' + this.playlist.id);
+    } else {
+      this.notificationService.showErrorMessage('you have no authority for this');
     }
   }
 
+  addComment() {
+    this.commentForm.markAllAsTouched();
+    if (this.userToken === null) {
+      this.notificationService.showErrorMessage('Need to login first before comment');
+    }
+    if (this.commentForm.valid && this.userToken !== null) {
+      this.playlistService.addPlaylistComment(this.userToken.id, this.playlist.id,
+        this.commentForm.value.comment).subscribe(playlistInteraction => {
+        this.commentForm.reset();
+        this.playlistService.getPlaylistComment(this.playlist.id).subscribe(comments => {
+          this.playlistService.currentPlaylistCommentSubject.next(comments);
+        });
+      }, e => {
+        console.log(e);
+      });
+    }
+  }
+
+  getPlaylistComment(id: number) {
+    this.playlistService.getPlaylistComment(id).subscribe((comments: PlaylistInteraction[]) => {
+      this.playlistService.currentPlaylistCommentSubject.next(comments);
+    }, e => {
+      console.log(e);
+    });
+  }
 }

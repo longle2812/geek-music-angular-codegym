@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Song} from '../../model/song';
 import {SongService} from '../../service/song/song.service';
 import {QueueService} from '../../service/queue/queue.service';
-
+declare var $: any;
 @Component({
   selector: 'app-song-search',
   templateUrl: './song-search.component.html',
