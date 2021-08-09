@@ -1,14 +1,18 @@
 import {Injectable} from '@angular/core';
+import {environment} from '../../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 declare var $: any;
 declare var toastr: any;
 
+const API_URL = `${environment.apiUrl}`;
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
 
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
   showSuccessMessage(message) {
@@ -39,5 +43,13 @@ export class NotificationService {
       toastr.options.closeEasing = 'swing';
       toastr.info(msg);
     });
+  }
+
+  getAll(): Observable<Notification[]> {
+    return this.http.get<Notification[]>(`${API_URL}/notifications`);
+  }
+
+  createNotification(notification: Notification): Observable<Notification>{
+    return this.http.post<Notification>(`${API_URL}/notifications`, notification);
   }
 }

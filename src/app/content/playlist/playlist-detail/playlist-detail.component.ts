@@ -1,25 +1,28 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PlaylistService} from '../../../service/playlist/playlist.service';
 import {Playlist} from '../../../model/playlist';
 import {AuthenticationService} from '../../../service/authentication/authentication.service';
 import {UserToken} from '../../../model/user-token';
 import {NotificationService} from '../../../service/notification/notification.service';
+import {SocketService} from '../../../service/socket/socket.service';
 
 @Component({
   selector: 'app-playlist-detail',
   templateUrl: './playlist-detail.component.html',
   styleUrls: ['./playlist-detail.component.css']
 })
-export class PlaylistDetailComponent implements OnInit {
+export class PlaylistDetailComponent implements OnInit, OnDestroy {
   playlist: Playlist = {};
   userToken: UserToken ={};
+  notifications: Notification[] = [];
   constructor(private activatedRouter: ActivatedRoute,
               private playlistService: PlaylistService,
               private router: Router,
               private authenticationService: AuthenticationService,
-              private notificationService: NotificationService
+              private notificationService: NotificationService, private socketService: SocketService
               ) {
+    socketService.connect();
     this.activatedRouter.paramMap.subscribe(paramMap => {
       const id = paramMap.get('id');
       this.getPlaylist(Number(id));
@@ -33,6 +36,9 @@ export class PlaylistDetailComponent implements OnInit {
   ngOnInit() {
     this.loadScript('/assets/js/menu-slider.js');
     this.loadScript('/assets/js/more-option.js');
+  }
+
+  ngOnDestroy() {
   }
 
   private getPlaylist(id) {
@@ -77,4 +83,12 @@ export class PlaylistDetailComponent implements OnInit {
     }
   }
 
+  createNotification() {
+    const notification = {
+      senderId: 1,
+      recieverId: 2,
+      content: "test",
+    }
+    this.socketService.createNotificationUsingSocket(notification);
+  }
 }

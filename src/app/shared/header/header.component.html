@@ -23,6 +23,7 @@
 <!--      <span data-toggle="modal" data-target="#lang_modal">languages <img src="/assets/images/svg/lang.svg"-->
 <!--                                                                         alt=""></span>-->
 <!--    </div>-->
+    <app-notification></app-notification>
     <div *ngIf="currentUser" class="ms_top_btn">
       <a routerLink="/upload" class="ms_btn">upload</a>
       <a class="ms_admin_name" style="top: -7px; color: white">Hello {{currentUser.username}}
