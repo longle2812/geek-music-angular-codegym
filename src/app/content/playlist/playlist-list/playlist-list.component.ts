@@ -17,6 +17,7 @@ import {NotificationService} from '../../../service/notification/notification.se
 export class PlaylistListComponent implements OnInit {
   playlists: Playlist[] = [];
   userToken: UserToken = {};
+
   constructor(private playlistService: PlaylistService,
               private genreService: GenreService,
               private authenticationService: AuthenticationService,
@@ -32,7 +33,7 @@ export class PlaylistListComponent implements OnInit {
   }
 
   private getAllPlaylist() {
-    if(this.userToken != null){
+    if (this.userToken != null) {
       this.playlistService.getAllPlaylistBuyUser(this.userToken.id).subscribe(list => {
         this.playlists = list;
       });
@@ -45,6 +46,6 @@ export class PlaylistListComponent implements OnInit {
   }
 
   createPage() {
-    this.router.navigateByUrl("playlist/create");
+    this.router.navigateByUrl('playlist/create');
   }
 }

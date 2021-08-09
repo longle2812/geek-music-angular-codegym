@@ -1,3 +1,5 @@
+import {User} from './user';
+
 export interface PlaylistInteraction {
   id?: number;
   senderId?: number;
@@ -8,4 +10,5 @@ export interface PlaylistInteraction {
   link?: string;
   likes?: boolean;
   isRead?: boolean;
+  sender?: User;
 }

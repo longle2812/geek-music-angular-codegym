@@ -7,6 +7,8 @@ import {UserToken} from '../../../model/user-token';
 import {NotificationService} from '../../../service/notification/notification.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {PlaylistInteraction} from '../../../model/playlist-interaction';
+import {UserService} from '../../../service/user/user.service';
+import {User} from '../../../model/user';
 
 declare var $: any;
 
@@ -27,7 +29,8 @@ export class PlaylistDetailComponent implements OnInit {
               private playlistService: PlaylistService,
               private router: Router,
               private authenticationService: AuthenticationService,
-              private notificationService: NotificationService
+              private notificationService: NotificationService,
+              private userService: UserService
   ) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       const id = paramMap.get('id');
@@ -36,14 +39,6 @@ export class PlaylistDetailComponent implements OnInit {
     });
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
-    });
-    this.playlistService.currentPlaylistCommentSubject.subscribe((comments: PlaylistInteraction[]) => {
-      this.comments = comments;
-      for (const comment of comments) {
-        const a = new Date(comment.createdAt);
-        a.setMonth(a.getMonth() + 1);
-        comment.createdAt = a.getDate() + '-' + a.getMonth() + '-' + a.getFullYear();
-      }
     });
   }
 
@@ -103,9 +98,7 @@ export class PlaylistDetailComponent implements OnInit {
       this.playlistService.addPlaylistComment(this.userToken.id, this.playlist.id,
         this.commentForm.value.comment).subscribe(playlistInteraction => {
         this.commentForm.reset();
-        this.playlistService.getPlaylistComment(this.playlist.id).subscribe(comments => {
-          this.playlistService.currentPlaylistCommentSubject.next(comments);
-        });
+        this.getPlaylistComment(this.playlist.id);
       }, e => {
         console.log(e);
       });
@@ -114,7 +107,17 @@ export class PlaylistDetailComponent implements OnInit {
 
   getPlaylistComment(id: number) {
     this.playlistService.getPlaylistComment(id).subscribe((comments: PlaylistInteraction[]) => {
-      this.playlistService.currentPlaylistCommentSubject.next(comments);
+      this.comments = comments;
+      for (let i = 0; i < this.comments.length; i++) {
+        const currentComment = this.comments[i];
+        const a = new Date(currentComment.createdAt);
+        a.setMonth(a.getMonth() + 1);
+        currentComment.createdAt = a.getDate() + '-' + a.getMonth() + '-' + a.getFullYear();
+        this.userService.findById(currentComment.senderId).subscribe((sender: User) => {
+          console.log(sender);
+          currentComment.sender = sender;
+        });
+      }
     }, e => {
       console.log(e);
     });
