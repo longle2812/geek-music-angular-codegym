@@ -76,4 +76,8 @@ export class SongService {
     return this.http.get<any>(`${API_URL}/singers/${id}/songs`);
   }
 
+  getSongByLikes(limit: number, offset: number): Observable<Song[]>{
+    return this.http.get<Song[]>(`${API_URL}/most_likes?limit=${limit}&offset=${offset}`);
+  }
+
 }
