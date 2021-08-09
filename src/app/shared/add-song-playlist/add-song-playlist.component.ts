@@ -28,7 +28,10 @@ export class AddSongPlaylistComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.authenticationService.currentUserSubject.subscribe(user => {
+      this.userToken = user;
+      this.getAllPlaylist();
+    });
   }
 
   private getAllPlaylist() {

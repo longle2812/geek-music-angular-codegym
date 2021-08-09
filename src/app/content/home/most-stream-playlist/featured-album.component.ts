@@ -20,4 +20,17 @@ export class FeaturedAlbumComponent implements OnInit {
     )
   }
 
+  changeLink(id: number) {
+    this.router.navigateByUrl(`/playlist/${id}`);
+  }
+
+  public loadScript(url: string) {
+    const body = document.body as HTMLDivElement;
+    const script = document.createElement('script');
+    script.innerHTML = '';
+    script.src = url;
+    script.async = false;
+    script.defer = true;
+    body.appendChild(script);
+  }
 }

@@ -233,7 +233,7 @@ Assigned to: Theme Forest
       var swiper = new Swiper('.ms_album_slider.swiper-container', {
         slidesPerView: 6,
         spaceBetween: 30,
-        loop: false,
+        loop: true,
         speed: 1500,
         navigation: {
           nextEl: '.swiper-button-next3',
@@ -413,15 +413,15 @@ Assigned to: Theme Forest
     });
   });
   // Preloader Js
-  jQuery(window).on('load', function() {
-    setTimeout(function() {
-      $('body').addClass('loaded');
-    }, 500);
-    // Li Lenght
-    if ($('.jp-playlist ul li').length > 3) {
-      $('.jp-playlist').addClass('find_li');
-    }
-  });
+  // jQuery(window).on('load', function() {
+  //   setTimeout(function() {
+  //     $('body').addClass('loaded');
+  //   }, 500);
+  //   // Li Lenght
+  //   if ($('.jp-playlist ul li').length > 3) {
+  //     $('.jp-playlist').addClass('find_li');
+  //   }
+  // });
   // Window Scroll
   $(window).scroll(function() {
     var wh = window.innerWidth;
