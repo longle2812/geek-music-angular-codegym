@@ -30,6 +30,7 @@ import { MostRecentPlaylistComponent } from './home/most-recent-playlist/most-re
 import { MostLikePlaylistComponent } from './home/most-like-playlist/most-like-playlist.component';
 import { MostLikeSongComponent } from './home/most-like-song/most-like-song.component';
 import { SingerSearchComponent } from './singer/singer-search/singer-search.component';
+import { DetailSongComponent } from './song/detail-song/detail-song.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { SingerSearchComponent } from './singer/singer-search/singer-search.comp
     MostRecentPlaylistComponent,
     MostLikePlaylistComponent,
     MostLikeSongComponent,
-    SingerSearchComponent
+    SingerSearchComponent,
+    DetailSongComponent
   ],
   exports: [
   ],

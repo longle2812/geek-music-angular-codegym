@@ -40,7 +40,7 @@ export class SingerDetailComponent implements OnInit {
     this.singerService.getById(id).subscribe(singer => {
       this.singer = singer;
       const date: Date = new Date(singer.dateOfBirth);
-      singer.dateOfBirth = `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`;
+      singer.dateOfBirth = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
       console.log(this.singer.id, this.singer.name, this.singer.dateOfBirth, this.singer.band, this.singer.additionalInfo);
     });
   }
