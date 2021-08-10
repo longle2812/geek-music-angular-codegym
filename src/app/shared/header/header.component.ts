@@ -13,6 +13,8 @@ import {Song} from '../../model/song';
 import {QueueService} from '../../service/queue/queue.service';
 import {NotificationService} from '../../service/notification/notification.service';
 import {SocketService} from '../../service/socket/socket.service';
+import {SingerService} from '../../service/singer/singer.service';
+import {Singer} from '../../model/singer';
 
 declare var $: any;
 
@@ -30,7 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService, private authenticationService: AuthenticationService,
               private router: Router, private playlistService: PlaylistService, private genreService: GenreService,
               private songService: SongService, private queueService: QueueService,private notificationService: NotificationService,
-              private socketService: SocketService) {
+              private socketService: SocketService,private singerService: SingerService) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.currentUser = user;
       this.loadScript('/assets/js/profile-on-click.js');
@@ -74,7 +76,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.queueService.resetQueue();
     this.playlistService.currentSearchPlaylistSubject.next(null);
     $('#jp_playing_artist').text('');
-    $('#jp_playing_img').attr('src','assets/images/album/album.jpg');
+    $('#jp_playing_img').attr('src', 'assets/images/album/album.jpg');
     $('#jp_playing_title').text('');
   }
 
@@ -137,6 +139,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (searchOption === 'Song') {
       this.searchSong(genreName, keyWord, startDate, endDate, userName, advancedSearch);
     }
+    if (searchOption === 'Singer') {
+      this.searchSinger(keyWord, userName, genreName, startDate, endDate, advancedSearch);
+    }
   }
 
   searchPlayList(genreName, keyWord, startDate, endDate, userName, advancedSearch) {
@@ -163,6 +168,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
     }
     this.router.navigateByUrl('/songs/search');
+  }
+
+  private searchSinger(keyWord, userName, genreName, startDate, endDate, advancedSearch) {
+    if (advancedSearch.style.display === 'block') {
+      this.singerService.searchAdvanced(keyWord, userName, genreName, startDate, endDate).subscribe((singers: Singer[]) => {
+        this.singerService.currentSearchSingerSubject.next(singers);
+      });
+    } else {
+      this.singerService.searchByName(keyWord).subscribe((singers: Singer[]) => {
+        this.singerService.currentSearchSingerSubject.next(singers);
+      });
+    }
+    this.router.navigateByUrl('/singers/search');
   }
 
   hideDropDown() {

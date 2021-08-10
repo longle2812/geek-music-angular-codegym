@@ -1,11 +1,14 @@
+import {User} from './user';
+
 export interface PlaylistInteraction {
   id?: number;
   senderId?: number;
-  recieverId?: number;
+  receiverId?: number;
   playlistId?: number;
-  comment?:string;
-  createdAt?:any;
-  link?:string;
-  likes?: boolean ;
-  isRead?: boolean ;
+  comment?: string;
+  createdAt?: string;
+  link?: string;
+  likes?: boolean;
+  isRead?: boolean;
+  sender?: User;
 }

@@ -42,7 +42,7 @@ export class SongDetailComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private genresService: GenreService,
               private singerService: SingerService,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,) {
     this.activatedRoute.paramMap.subscribe(paramMap => {
         const id = paramMap.get('id');
         this.songService.getSongById(Number(id)).subscribe(songDto => {

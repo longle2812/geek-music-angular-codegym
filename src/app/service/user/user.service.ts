@@ -25,11 +25,7 @@ export class UserService {
   }
 
   findById(id: number): Observable<User> {
-    if (this.currentUser.id === id) {
-      return this.http.get<User>(`${API_URL}/users/${id}`);
-    }
-    this.notificationService.showErrorMessage('You don\'t have permission to do this');
-    this.router.navigateByUrl('/album');
+    return this.http.get<User>(`${API_URL}/users/${id}`);
   }
 
   saveUser(id: number, user: User): Observable<User> {
@@ -42,7 +38,7 @@ export class UserService {
 
 
   findAll(): Observable<User[]> {
-      return this.http.get<User[]>(`${API_URL}/users/list`);
+    return this.http.get<User[]>(`${API_URL}/users/list`);
   }
 
 }

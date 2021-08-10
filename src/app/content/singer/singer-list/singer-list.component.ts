@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Playlist} from '../../../model/playlist';
 import {UserToken} from '../../../model/user-token';
 import {PlaylistService} from '../../../service/playlist/playlist.service';
@@ -17,6 +17,7 @@ import {SingerService} from '../../../service/singer/singer.service';
 export class SingerListComponent implements OnInit {
   singers: Singer[] = [];
   userToken: UserToken = {};
+
   constructor(private singerService: SingerService,
               private genreService: GenreService,
               private authenticationService: AuthenticationService,
@@ -33,9 +34,9 @@ export class SingerListComponent implements OnInit {
   }
 
   private getAllPlaylist() {
-  this.singerService.getAll().subscribe(singers => {
-    this.singers= singers;
-  })
+    this.singerService.getAll().subscribe(singers => {
+      this.singers = singers;
+    });
 
   }
 
@@ -44,6 +45,6 @@ export class SingerListComponent implements OnInit {
   }
 
   createPage() {
-    this.router.navigateByUrl("singer/create");
+    this.router.navigateByUrl('singer/create');
   }
 }

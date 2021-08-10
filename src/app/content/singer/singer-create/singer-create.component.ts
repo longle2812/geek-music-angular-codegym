@@ -24,14 +24,14 @@ export class SingerCreateComponent implements OnInit {
   initGenre = 1;
   user: UserToken = {};
   singerDTO: Singerdto = {
-    name:'',
-    band:'',
-    dateOfBirth:'',
-    biography:'',
-    imageUrl:'',
-    additionalInfo:'',
-    genres:'',
-    gender:'',
+    name: '',
+    band: '',
+    dateOfBirth: '',
+    biography: '',
+    imageUrl: '',
+    additionalInfo: '',
+    genres: '',
+    gender: '',
   };
   isSubmitted = false;
 
@@ -65,7 +65,7 @@ export class SingerCreateComponent implements OnInit {
       this.storage.upload(filePath, this.selectedSinger).snapshotChanges().pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe(url => {
-            console.log('img url  ',url);
+            console.log('img url  ', url);
             this.singerDTO.imageUrl = url;
           });
         })).subscribe();
@@ -91,12 +91,12 @@ export class SingerCreateComponent implements OnInit {
       // this.singerDTO.name = singerForm.value.name;
      this.singerDTO.genres = singerForm.value.genres;
       // this.singerDTO.gender = singerForm.value.gender;
-      this.singerDTO.dateOfBirth = singerForm.value.dateOfBirth;
+     this.singerDTO.dateOfBirth = singerForm.value.dateOfBirth;
       // this.singerDTO.biography= singerForm.value.biography;
       // this.singerDTO.band= singerForm.value.band;
       // this.singerDTO.additionalInfo= singerForm.value.additionalInfo;
-      this.singerDTO.user = this.user.id;
-      if (this.singerDTO.imageUrl == '') {
+     this.singerDTO.user = this.user.id;
+     if (this.singerDTO.imageUrl === '') {
         this.singerDTO.imageUrl = 'assets/images/album/album.jpg';
       }
       this.singerService.findSingerByName(this.singerDTO.name).subscribe(singer => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Playlist} from '../../../model/playlist';
 import {UserToken} from '../../../model/user-token';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -16,8 +16,9 @@ import {SongService} from '../../../service/song/song.service';
 })
 export class SingerDetailComponent implements OnInit {
   singer: Singer = {};
-  userToken: UserToken ={};
-  songs: Song[] = []
+  userToken: UserToken = {};
+  songs: Song[] = [];
+
   constructor(private activatedRouter: ActivatedRoute,
               private singerService: SingerService,
               private router: Router,
@@ -29,23 +30,26 @@ export class SingerDetailComponent implements OnInit {
       this.getSinger(id);
       this.getSongs(id);
     });
-    this.authenticationService.currentUserSubject.subscribe(user =>{
+    this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
-    })
+    });
 
   }
 
   private getSinger(id) {
     this.singerService.getById(id).subscribe(singer => {
       this.singer = singer;
-      console.log(this.singer.id,this.singer.name,this.singer.dateOfBirth,this.singer.band,this.singer.additionalInfo)
+      const date: Date = new Date(singer.dateOfBirth);
+      singer.dateOfBirth = `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`;
+      console.log(this.singer.id, this.singer.name, this.singer.dateOfBirth, this.singer.band, this.singer.additionalInfo);
     });
   }
-  private getSongs(id ) {
-    this.songService.getSongBySingerId(id).subscribe(songs =>{
+
+  private getSongs(id) {
+    this.songService.getSongBySingerId(id).subscribe(songs => {
       this.songs = songs;
-      console.log('songs ',songs.length)
-    })
+      console.log('songs ', songs.length);
+    });
   }
 
   ngOnInit() {
@@ -61,7 +65,6 @@ export class SingerDetailComponent implements OnInit {
     script.defer = true;
     body.appendChild(script);
   }
-
 
 
 }

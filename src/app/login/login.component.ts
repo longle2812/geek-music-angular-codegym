@@ -37,9 +37,10 @@ export class LoginComponent implements OnInit {
             this.authenticationService.currentUserAvatarSubject.next(user.avatarUrl);
           });
           this.userForm.reset();
+          this.errorMsg = '';
           this.reloadCurrentRoute();
           this.playlistService.getAllPlaylistBuyUser(userToken.id).subscribe(list => {
-            this.playlistService.currentSearchPlaylistSubject.next(list)
+            this.playlistService.currentSearchPlaylistSubject.next(list);
           });
         },
         e => {

@@ -10,6 +10,11 @@ import {PlaylistInteraction} from '../../../model/playlist-interaction';
 import {PlaylistInteractionService} from '../../../service/playlistInteration/playlist-interaction.service';
 import {PlaylistInteractionDTO} from '../../../model/playlist-interaction-dto';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UserService} from '../../../service/user/user.service';
+import {User} from '../../../model/user';
+
+declare var $: any;
 
 @Component({
   selector: 'app-playlist-detail',
@@ -25,16 +30,25 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   interactionDTO: PlaylistInteractionDTO = {};
   public playlistInteractionsSubject:  BehaviorSubject<PlaylistInteraction[]>;
   public currentPlaylistInteraction: Observable<PlaylistInteraction[]>;
+  commentForm: FormGroup = new FormGroup({
+    comment: new FormControl('', [Validators.required])
+  });
+  comments: PlaylistInteraction[];
+  page = 0;
+  size = 5;
 
   constructor(private activatedRouter: ActivatedRoute,
               private playlistService: PlaylistService,
               private router: Router,
               private authenticationService: AuthenticationService,
               private notificationService: NotificationService, private socketService: SocketService,
-              private playlistInteractionService: PlaylistInteractionService) {
+              private playlistInteractionService: PlaylistInteractionService, private userService: UserService) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       this.playlistId = Number(paramMap.get('id'));
       this.getPlaylist(this.playlistId);
+      const id = paramMap.get('id');
+      this.getPlaylist(Number(id));
+      this.getPlaylistComment(Number(id));
     });
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
@@ -67,6 +81,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadScript('/assets/js/menu-slider.js');
     this.loadScript('/assets/js/more-option.js');
+    this.checkScrollDownBottom();
   }
 
   ngOnDestroy() {
@@ -108,7 +123,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   }
 
   editPlaylist() {
-    if (this.userToken.id == this.playlist.user.id) {
+    if (this.userToken.id === this.playlist.user.id) {
       this.router.navigateByUrl('/playlist/edit/' + this.playlist.id);
     } else {
       this.notificationService.showErrorMessage('you have no authority for this');
@@ -153,5 +168,50 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
       }
     }
 
+  }
+  addComment() {
+    this.commentForm.markAllAsTouched();
+    if (this.userToken === null) {
+      this.notificationService.showErrorMessage('Need to login first before comment');
+    }
+    if (this.commentForm.valid && this.userToken !== null) {
+      this.playlistService.addPlaylistComment(this.userToken.id, this.playlist.id,
+        this.commentForm.value.comment).subscribe(playlistInteraction => {
+        this.commentForm.reset();
+        this.getPlaylistComment(this.playlist.id);
+      }, e => {
+        console.log(e);
+      });
+    }
+  }
+
+  getPlaylistComment(id: number) {
+    this.playlistService.getPlaylistComment(id, this.page, this.size).subscribe((comments: PlaylistInteraction[]) => {
+      this.comments = comments;
+      // tslint:disable-next-line:prefer-for-of
+      for (let i = 0; i < this.comments.length; i++) {
+        const currentComment = this.comments[i];
+        const a = new Date(currentComment.createdAt);
+        a.setMonth(a.getMonth() + 1);
+        currentComment.createdAt = a.getDate() + '/' + a.getMonth() + '/' + a.getFullYear() + ' ' + a.getHours() + ':' + a.getMinutes();
+        this.userService.findById(currentComment.senderId).subscribe((sender: User) => {
+          currentComment.sender = sender;
+        });
+      }
+    }, e => {
+      console.log(e);
+    });
+  }
+
+  checkScrollDownBottom() {
+    $(window).scroll(() => {
+      console.log($(window).scrollTop());
+      console.log($(window).height());
+      console.log($(document).height());
+      if ($(window).scrollTop() + $(window).height() >= $(document).height() * 4 / 5) {
+        this.size += 5;
+        this.getPlaylistComment(this.playlist.id);
+      }
+    });
   }
 }
