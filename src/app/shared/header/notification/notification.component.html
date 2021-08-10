@@ -16,7 +16,7 @@
             <img src="{{notification.sender.avatarUrl}}" alt="user">
           </div>
           <div class="notification-list_detail">
-            <p><b>{{notification.sender.username}}</b> <br><span class="text-muted">react to your content</span></p>
+            <p><b>{{notification.sender.username}}</b> <br><span class="text-muted">{{notification.action}}</span></p>
             <p class="nt-link text-truncate">{{notification.content}}</p>
           </div>
           <p><small>{{notification.createDate.getDate()}}/{{notification.createDate.getMonth()}}/{{notification.createDate.getFullYear()}}</small></p>

@@ -6,4 +6,5 @@ export interface Notification {
   link?: string;
   status?: boolean;
   createDate?: any;
+  action?: string;
 }

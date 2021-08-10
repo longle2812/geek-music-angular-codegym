@@ -82,11 +82,15 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  createNotification() {
+  createNotification(playlist: Playlist) {
+
     const notification = {
-      senderId: 1,
-      recieverId: 2,
+      sender: {
+        id: this.userToken.id
+      },
+      recieverId: playlist.user.id,
       content: "test",
+      action: "comment to your playlist: " + playlist.name
     }
     this.socketService.createNotificationUsingSocket(notification);
   }
