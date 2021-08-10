@@ -1,5 +1,5 @@
 <div style="margin-right: 15px" class="nav-item dropdown notification-ui show">
-  <a (click)="isShow = !isShow" class="nav-link dropdown-toggle notification-ui_icon" href="#" id="navbarDropdown"
+  <a (click)="isShow = !isShow" class="nav-link dropdown-toggle notification-ui_icon" id="navbarDropdown"
      role="button" aria-haspopup="true" aria-expanded="false">
     <span style="color: #3bc8e7; size: 2em"><i class="fa fa-lg fa-bell"></i></span>
     <span *ngIf="socketService.listNotificationUnRead.length>0" class="unread-notification"></span>
