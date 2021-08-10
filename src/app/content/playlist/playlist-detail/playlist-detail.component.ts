@@ -67,9 +67,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
           this.interactionDTO.likes = false;
           this.interactionDTO.isRead = false;
         }
-
       }
-
     });
 
     this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
@@ -85,7 +83,6 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.socketService.disconnect();
   }
 
   private getPlaylist(id) {
