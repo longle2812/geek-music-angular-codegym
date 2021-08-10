@@ -1,15 +1,24 @@
 <div class="ms_album_single_wrapper ms_artist_single">
   <div class="album_single_data">
     <div class="album_single_img">
-      <img src="{{song.imgUrl}}" alt="" class="img-fluid">
+      <img src="{{song.imgUrl}}" alt="" class="img-fluid" style="width: 240px;height: 240px;">
     </div>
-    <div class="album_single_text">
+    <div class="album_single_text" style="color:white">
       <h2>{{song.name}}</h2>
-      <div class="singer_name">
-        <span *ngFor="let genre of song.genres">{{genre.name}} </span>
-      </div>
+      <p class="singer_name">
+        Genres: <span *ngFor="let genre of song.genres">{{genre.name}} </span>
+      </p>
+      <p class="singer_name">
+        Author: <span>{{song.author}}</span>
+      </p>
+      <p class="singer_name">
+        Album: <span>{{song.album}} </span>
+      </p>
+      <p class="singer_name">
+        Singers: <span *ngFor="let singer of song.singers">{{singer.name}} </span>
+      </p>
       <div class="about_artist">
-        {{song.description}}
+        Description: {{song.description}}
       </div>
       <div class="album_btn">
         <a  class="ms_btn play_btn"><span class="play_all"><img src="assets/images/svg/play_all.svg"
