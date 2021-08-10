@@ -5,6 +5,7 @@ import {Playlist} from '../../model/playlist';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {PlaylistDTO} from '../../model/playlist-dto';
 import {UserToken} from '../../model/user-token';
+import {PlaylistInteraction} from '../../model/playlist-interaction';
 
 const API_URL = `${environment.apiUrl}`;
 
@@ -14,10 +15,14 @@ const API_URL = `${environment.apiUrl}`;
 export class PlaylistService {
   public currentSearchPlaylistSubject: BehaviorSubject<Playlist[]>;
   public currentSearchPlaylist: Observable<Playlist[]>;
+  public currentPlaylistCommentSubject: BehaviorSubject<PlaylistInteraction[]>;
+  public currentPlaylistComment: Observable<PlaylistInteraction[]>;
 
   constructor(private http: HttpClient) {
     this.currentSearchPlaylistSubject = new BehaviorSubject<Playlist[]>([]);
     this.currentSearchPlaylist = this.currentSearchPlaylistSubject.asObservable();
+    this.currentPlaylistCommentSubject = new BehaviorSubject<PlaylistInteraction[]>([]);
+    this.currentPlaylistComment = this.currentPlaylistCommentSubject.asObservable();
   }
 
   createPlayList(playlistDTO: PlaylistDTO): Observable<Playlist> {
@@ -35,8 +40,9 @@ export class PlaylistService {
   getPlaylist(id: number): Observable<Playlist> {
     return this.http.get<Playlist>(`${API_URL}/playlists/${id}`);
   }
+
   editPlaylistInfo(id: number, playlistDTO: PlaylistDTO): Observable<Playlist> {
-    return this.http.put<Playlist>(`${API_URL}/playlists/${id}`,playlistDTO);
+    return this.http.put<Playlist>(`${API_URL}/playlists/${id}`, playlistDTO);
   }
 
   searchByName(name: string): Observable<Playlist[]> {
@@ -49,5 +55,22 @@ export class PlaylistService {
 
   getAllPlaylistByListenCount(limit: number, offset: number): Observable<Playlist[]> {
     return this.http.get<Playlist[]>(`${API_URL}/playlists/toplisten?limit=${limit}&offset=${offset}`);
+  }
+
+  getAllPlaylistByMostRecent(limit: number, offset: number): Observable<Playlist[]> {
+    return this.http.get<Playlist[]>(`${API_URL}/playlists/most_recent?limit=${limit}&offset=${offset}`)
+  }
+
+  getAllPlaylistByMostLikes(limit: number, offset: number): Observable<Playlist[]> {
+    return this.http.get<Playlist[]>(`${API_URL}/playlists/most_likes?limit=${limit}&offset=${offset}`)
+  }
+
+  addPlaylistComment(senderId: number, playlistId: number, comment: string): Observable<PlaylistInteraction> {
+    // @ts-ignore
+    return this.http.post<PlaylistInteraction>(`${API_URL}/playlists/addComment/${senderId}/${playlistId}/${comment}`);
+  }
+
+  getPlaylistComment(playlistId: number, page: number, size: number): Observable<PlaylistInteraction[]> {
+    return this.http.get<PlaylistInteraction[]>(`${API_URL}/playlists/findCommentById/${playlistId}?page=${page}&size=${size}`);
   }
 }

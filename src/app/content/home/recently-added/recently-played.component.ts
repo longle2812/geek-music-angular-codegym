@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SongService} from '../../../service/song/song.service';
 import {Song} from '../../../model/song';
 import {QueueService} from '../../../service/queue/queue.service';
@@ -12,11 +12,12 @@ declare var $: any;
 })
 export class RecentlyPlayedComponent implements OnInit {
   songs: Song[] = [];
+
   constructor(private songService: SongService,
               private queueService: QueueService) {
-    this.songService.getSongsSortByCreateTime(0,6).subscribe(
+    this.songService.getSongsSortByCreateTime(0, 6).subscribe(
       songs => this.songs = songs
-    )
+    );
   }
 
   ngOnInit() {
@@ -27,7 +28,7 @@ export class RecentlyPlayedComponent implements OnInit {
       title: 'play',
       song: song,
       songId: song.id
-    }
+    };
     this.queueService.sendQueueRequest(request);
   }
 

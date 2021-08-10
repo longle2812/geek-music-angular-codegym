@@ -66,7 +66,7 @@ export class SongService {
   }
 
   addSongToPlayList(songId: number, playlistId: number): Observable<any> {
-    return this.http.get<any>(`${API_URL}/playlists/${songId}/${playlistId}`)
+    return this.http.get<any>(`${API_URL}/playlists/${songId}/${playlistId}`);
   }
 
   changeSongId(songID: any) {
@@ -74,6 +74,10 @@ export class SongService {
   }
   getSongBySingerId(id: number): Observable<any> {
     return this.http.get<any>(`${API_URL}/singers/${id}/songs`);
+  }
+
+  getSongByLikes(limit: number, offset: number): Observable<Song[]>{
+    return this.http.get<Song[]>(`${API_URL}/most_likes?limit=${limit}&offset=${offset}`);
   }
 
 }

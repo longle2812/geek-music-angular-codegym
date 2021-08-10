@@ -28,16 +28,17 @@ export class PlaylistCreateComponent implements OnInit {
   playlistDTO: PlaylistDTO = {
     name: '',
     description: '',
-    genres:  [],
+    genres: [],
     imgUrl: ''
   };
   isSubmitted = false;
+
   constructor(private playlistService: PlaylistService,
               private genreService: GenreService,
               private storage: AngularFireStorage,
               private authenticationService: AuthenticationService,
               private notificationService: NotificationService
-              ) {
+  ) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.user = user;
     });
@@ -48,7 +49,7 @@ export class PlaylistCreateComponent implements OnInit {
     this.genreService.getAll().subscribe(
       genresList => {
         this.genreList = genresList;
-        if(genresList.length>0){
+        if (genresList.length > 0) {
           this.initGenre = genresList[0].id;
         }
       }
@@ -83,29 +84,29 @@ export class PlaylistCreateComponent implements OnInit {
 
   create(playlistForm: NgForm) {
     this.isSubmitted = true;
-    if(playlistForm.valid ){
+    if (playlistForm.valid) {
       this.playlistDTO.name = playlistForm.value.name;
       this.playlistDTO.description = playlistForm.value.description;
-      this.playlistDTO.genres =  {id: playlistForm.value.genres};
+      this.playlistDTO.genres = {id: playlistForm.value.genres};
       this.playlistDTO.user = {id: this.user.id};
-      if(this.playlistDTO.imgUrl == ''){
+      if (this.playlistDTO.imgUrl == '') {
         this.playlistDTO.imgUrl = 'assets/images/album/album.jpg';
       }
       this.playlistService.createPlayList(this.playlistDTO).subscribe(() => {
-        this.notificationService.showSuccessMessage('Create success');
-        playlistForm.resetForm();
-        // this.playlistDTO.name = '';
-        // this.playlistDTO.description = '';
-        // this.playlistDTO.genres = [];
-        // this.playlistDTO.imgUrl = '';
-        this.isSubmitted = false;
-      },
-      () => {
-        this.notificationService.showErrorMessage("Create error")
-      }
+          this.notificationService.showSuccessMessage('Create success');
+          playlistForm.resetForm();
+          // this.playlistDTO.name = '';
+          // this.playlistDTO.description = '';
+          // this.playlistDTO.genres = [];
+          // this.playlistDTO.imgUrl = '';
+          this.isSubmitted = false;
+        },
+        () => {
+          this.notificationService.showErrorMessage('Create error');
+        }
       );
-    }else {
-      this.notificationService.showErrorMessage("Data invalid")
+    } else {
+      this.notificationService.showErrorMessage('Data invalid');
 
     }
 

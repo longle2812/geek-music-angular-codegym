@@ -3,6 +3,7 @@
     <select data-trigger="" name="choices-single-default" id="selectBtn">
       <option placeholder="" class="selectChild" selected="selected">Song</option>
       <option class="selectChild">Playlist</option>
+      <option class="selectChild">Singer</option>
     </select>
     <div class="ms_top_search" id="searchBar">
       <input type="text" class="form-control" placeholder="Search Here.." id="searchPlaylistInput" autocomplete="off">
@@ -13,9 +14,6 @@
         <img class="searchIcon" src="/assets/images/svg/search.svg" alt="">
       </span>
     </div>
-    <div class="ms_top_trend">
-      <span><a href="#" class="ms_color">Trending Songs :</a></span> <span class="top_marquee"><a href="#">Dream your moments, Until I Met You, Gimme Some Courage, Dark Alley (+8 More)</a></span>
-    </div>
   </div>
 
   <div class="ms_top_right">
@@ -23,6 +21,7 @@
 <!--      <span data-toggle="modal" data-target="#lang_modal">languages <img src="/assets/images/svg/lang.svg"-->
 <!--                                                                         alt=""></span>-->
 <!--    </div>-->
+    <app-notification *ngIf="currentUser"></app-notification>
     <div *ngIf="currentUser" class="ms_top_btn">
       <a routerLink="/upload" class="ms_btn">upload</a>
       <a class="ms_admin_name" style="top: -7px; color: white">Hello {{currentUser.username}}

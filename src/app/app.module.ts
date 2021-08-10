@@ -22,6 +22,7 @@ import {AudioPlayerComponent} from './shared/audio-player/audio-player.component
 import {AddSongPlaylistComponent} from './shared/add-song-playlist/add-song-playlist.component';
 import {ContentModule} from './content/content.module';
 import {PopupDeletePlaylistComponent} from './content/playlist/playlist-detail/popup-delete-playlist/popup-delete-playlist.component';
+import { NotificationComponent } from './shared/header/notification/notification.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import {PopupDeletePlaylistComponent} from './content/playlist/playlist-detail/p
     DeleteSongPopupComponent,
     AudioPlayerComponent,
     AddSongPlaylistComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,

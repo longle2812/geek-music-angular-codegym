@@ -18,6 +18,7 @@ import {SongSearchComponent} from './song-search/song-search.component';
 import {SingerCreateComponent} from './singer/singer-create/singer-create.component';
 import {SingerListComponent} from './singer/singer-list/singer-list.component';
 import {SingerDetailComponent} from './singer/singer-detail/singer-detail.component';
+import {SingerSearchComponent} from './singer/singer-search/singer-search.component';
 
 
 const routes: Routes = [
@@ -97,6 +98,9 @@ const routes: Routes = [
   {
     path: 'singer/:id',
     component: SingerDetailComponent
+  }, {
+    path: 'singers/search',
+    component: SingerSearchComponent
   }
 ];
 

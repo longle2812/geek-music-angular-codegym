@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../service/user/user.service';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, ParamMap} from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {User} from '../../model/user';
 import {NotificationService} from '../../service/notification/notification.service';
 declare var $: any;
@@ -18,7 +18,7 @@ export class ChangePasswordComponent implements OnInit {
   }, this.comparePassword);
 
   constructor(private notificationService: NotificationService, private userService: UserService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute, private router: Router) {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       this.id = +paramMap.get('id');
       this.checkPermission();
@@ -29,7 +29,10 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   checkPermission() {
-    this.userService.findById(this.id).subscribe();
+    if (this.userService.currentUser.id !== this.id) {
+      this.notificationService.showErrorMessage('You don\'t have permission to do this');
+      this.router.navigateByUrl('');
+    }
   }
 
   changePass() {

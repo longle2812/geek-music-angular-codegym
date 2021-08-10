@@ -18,6 +18,11 @@
     "lib": [
       "es2018",
       "dom"
+    ],
+    "target": "ES6",
+    "lib": [
+      "es6",
+      "dom"
     ]
   },
   "angularCompilerOptions": {

@@ -26,6 +26,10 @@ import {PopupDeletePlaylistComponent} from './playlist/playlist-detail/popup-del
 import {SingerCreateComponent} from './singer/singer-create/singer-create.component';
 import { SingerListComponent } from './singer/singer-list/singer-list.component';
 import { SingerDetailComponent } from './singer/singer-detail/singer-detail.component';
+import { MostRecentPlaylistComponent } from './home/most-recent-playlist/most-recent-playlist.component';
+import { MostLikePlaylistComponent } from './home/most-like-playlist/most-like-playlist.component';
+import { MostLikeSongComponent } from './home/most-like-song/most-like-song.component';
+import { SingerSearchComponent } from './singer/singer-search/singer-search.component';
 
 
 @NgModule({
@@ -51,7 +55,11 @@ import { SingerDetailComponent } from './singer/singer-detail/singer-detail.comp
     PopupDeletePlaylistComponent,
     SingerCreateComponent,
     SingerListComponent,
-    SingerDetailComponent
+    SingerDetailComponent,
+    MostRecentPlaylistComponent,
+    MostLikePlaylistComponent,
+    MostLikeSongComponent,
+    SingerSearchComponent
   ],
   exports: [
   ],

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SongService} from '../../service/song/song.service';
 import {Song} from '../../model/song';
 import {QueueService} from '../../service/queue/queue.service';
@@ -15,7 +15,7 @@ export class TopSongComponent implements OnInit {
               private queueService: QueueService) {
     this.songService.getTopListenSong().subscribe(
       songs => this.songs = songs
-    )
+    );
   }
 
   ngOnInit() {
@@ -34,10 +34,10 @@ export class TopSongComponent implements OnInit {
   }
 
   playSong(song: Song) {
-      const request = {
-        title: 'play',
-        song: song
-      }
-     this.queueService.sendQueueRequest(request);
+    const request = {
+      title: 'play',
+      song: song
+    };
+    this.queueService.sendQueueRequest(request);
   }
 }

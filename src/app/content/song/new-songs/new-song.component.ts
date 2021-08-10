@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Song} from '../../../model/song';
 import {SongService} from '../../../service/song/song.service';
 
@@ -10,14 +10,17 @@ import {SongService} from '../../../service/song/song.service';
 export class NewSongComponent implements OnInit {
   songs: Song[] = [];
   offset: number = 0;
-  limit:number = 10;
-  constructor(private songService: SongService) { }
+  limit: number = 10;
+
+  constructor(private songService: SongService) {
+  }
 
   ngOnInit() {
     this.getSongsSortByCreateTime();
     this.loadScript('/assets/js/menu-slider.js');
 
   }
+
   public loadScript(url: string) {
     const body = document.body as HTMLDivElement;
     const script = document.createElement('script');
@@ -27,14 +30,15 @@ export class NewSongComponent implements OnInit {
     script.defer = true;
     body.appendChild(script);
   }
+
   private getSongsSortByCreateTime() {
-    this.songService.getSongsSortByCreateTime(this.offset, this.limit).subscribe(songs =>{
-      this.songs=songs;
-    })
+    this.songService.getSongsSortByCreateTime(this.offset, this.limit).subscribe(songs => {
+      this.songs = songs;
+    });
   }
 
   viewMore() {
-    this.limit+=10;
+    this.limit += 10;
     this.getSongsSortByCreateTime();
   }
 }
