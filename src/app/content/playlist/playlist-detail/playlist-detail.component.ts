@@ -6,6 +6,10 @@ import {AuthenticationService} from '../../../service/authentication/authenticat
 import {UserToken} from '../../../model/user-token';
 import {NotificationService} from '../../../service/notification/notification.service';
 import {SocketService} from '../../../service/socket/socket.service';
+import {PlaylistInteraction} from '../../../model/playlist-interaction';
+import {PlaylistInteractionService} from '../../../service/playlistInteration/playlist-interaction.service';
+import {PlaylistInteractionDTO} from '../../../model/playlist-interaction-dto';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-playlist-detail',
@@ -16,20 +20,48 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   playlist: Playlist = {};
   userToken: UserToken ={};
   notifications: Notification[] = [];
+  interactionId: number = -1;
+  playlistId: number =-1;
+  interactionDTO: PlaylistInteractionDTO = {};
+  public playlistInteractionsSubject:  BehaviorSubject<PlaylistInteraction[]>;
+  public currentPlaylistInteraction: Observable<PlaylistInteraction[]>;
+
   constructor(private activatedRouter: ActivatedRoute,
               private playlistService: PlaylistService,
               private router: Router,
               private authenticationService: AuthenticationService,
-              private notificationService: NotificationService, private socketService: SocketService
-              ) {
+              private notificationService: NotificationService, private socketService: SocketService,
+              private playlistInteractionService: PlaylistInteractionService) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
-      const id = paramMap.get('id');
-      this.getPlaylist(Number(id));
+      this.playlistId = Number(paramMap.get('id'));
+      this.getPlaylist(this.playlistId);
     });
-    this.authenticationService.currentUserSubject.subscribe(user =>{
+    this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
-    })
+    });
+    this.playlistInteractionService.getFavouriteByUserAndPlaylistId(this.userToken.id, this.playlistId).subscribe(interaction =>{
+      if(interaction != null){
+        this.interactionId = interaction.id
+        this.interactionDTO = interaction;
+      }else {
+        if(this.userToken != null && this.playlist != null){
+          this.interactionDTO.senderId = this.userToken.id;
+          this.interactionDTO.playlistId = this.playlistId;
+          this.interactionDTO.recieverId =  this.playlist.user.id;
+          this.interactionDTO.comment = null;
+          this.interactionDTO.link = null;
+          this.interactionDTO.likes = false;
+          this.interactionDTO.isRead = false;
+        }
 
+      }
+
+    });
+
+    this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
+      this.playlistInteractionsSubject = new BehaviorSubject<PlaylistInteraction[]>(interactions);
+      this.currentPlaylistInteraction = this.playlistInteractionsSubject.asObservable();
+    })
   }
 
   ngOnInit() {
@@ -38,6 +70,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.socketService.disconnect();
   }
 
   private getPlaylist(id) {
@@ -58,27 +91,27 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   }
 
   deletePlaylist() {
-    if(this.userToken.id == this.playlist.user.id){
+    if (this.userToken.id == this.playlist.user.id) {
       let isConfirm = confirm('Confirm delete playlist');
-      if(isConfirm){
-        this.playlistService.delete(this.playlist.id).subscribe(() =>{
-            this.notificationService.showSuccessMessage("Delete success");
+      if (isConfirm) {
+        this.playlistService.delete(this.playlist.id).subscribe(() => {
+            this.notificationService.showSuccessMessage('Delete success');
             this.router.navigateByUrl('/playlist/list');
           },
-          () =>{
-            this.notificationService.showErrorMessage("Delete error")
+          () => {
+            this.notificationService.showErrorMessage('Delete error');
           });
       }
-    }else {
-      this.notificationService.showErrorMessage('you have no authority for this' );
+    } else {
+      this.notificationService.showErrorMessage('you have no authority for this');
     }
   }
 
   editPlaylist() {
-    if(this.userToken.id == this.playlist.user.id){
-      this.router.navigateByUrl('/playlist/edit/'+this.playlist.id);
-    }else {
-      this.notificationService.showErrorMessage('you have no authority for this' );
+    if (this.userToken.id == this.playlist.user.id) {
+      this.router.navigateByUrl('/playlist/edit/' + this.playlist.id);
+    } else {
+      this.notificationService.showErrorMessage('you have no authority for this');
     }
   }
 
@@ -94,5 +127,31 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
       }
       this.socketService.createNotificationUsingSocket(notification);
     }
+  }
+  addFavourite() {
+    if(this.userToken != null){
+      if (this.interactionId == -1) {
+        this.interactionDTO.likes = true;
+        this.playlistInteractionService.create(this.interactionDTO).subscribe(interaction => {
+          this.interactionDTO = interaction;
+          this.interactionId = interaction.id;
+          this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
+            this.playlistInteractionsSubject.next(interactions)
+          })
+        }, () => {
+          alert(' like  error');
+        });
+      } else {
+        this.interactionDTO.likes = !this.interactionDTO.likes;
+        this.playlistInteractionService.update(this.interactionId, this.interactionDTO).subscribe(() => {
+          this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
+            this.playlistInteractionsSubject.next(interactions)
+          })
+        }, () => {
+          alert(' unlike  error');
+        });
+      }
+    }
+
   }
 }

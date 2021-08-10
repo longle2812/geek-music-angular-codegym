@@ -85,6 +85,7 @@ export class SingerCreateComponent implements OnInit {
   }
 
   create(singerForm: NgForm) {
+
     this.isSubmitted = true;
     if (singerForm.valid) {
       // this.singerDTO.name = singerForm.value.name;
@@ -98,15 +99,21 @@ export class SingerCreateComponent implements OnInit {
       if (this.singerDTO.imageUrl == '') {
         this.singerDTO.imageUrl = 'assets/images/album/album.jpg';
       }
-      this.singerService.create(this.singerDTO).subscribe(() => {
-          this.notificationService.showSuccessMessage('Create success');
-          singerForm.resetForm();
-          this.isSubmitted = false;
-        },
-        () => {
-          this.notificationService.showErrorMessage('Create error');
-        }
-      );
+      this.singerService.findSingerByName(this.singerDTO.name).subscribe(singer => {
+        if(singer == null){
+          this.singerService.create(this.singerDTO).subscribe(() => {
+              this.notificationService.showSuccessMessage('Create success');
+              singerForm.resetForm();
+              this.isSubmitted = false;
+            },
+            () => {
+              this.notificationService.showErrorMessage('Create error');
+            }
+          );
+        }else this.notificationService.showErrorMessage('Single already exists')
+      },() => {
+        this.notificationService.showErrorMessage('Search singer name error');
+      })
     } else {
       this.notificationService.showErrorMessage('Data invalid');
 
