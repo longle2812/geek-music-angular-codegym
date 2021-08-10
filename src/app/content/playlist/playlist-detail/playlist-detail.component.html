@@ -10,7 +10,7 @@
         <span *ngFor="let genre of playlist.genres">{{genre.name}} </span>
       </div>
       <div class="about_artist">
-        {{playlist.description}}
+        <span> {{playlist.description}} </span>
       </div>
       <div class="album_btn">
         <a href="#" class="ms_btn play_btn"><span class="play_all"><img src="assets/images/svg/play_all.svg"
@@ -22,11 +22,11 @@
       <br>
       <div class="album_btn">
         <a *ngIf="interactionDTO.likes" (click)="addFavourite()" >
-          <i class="fas fa-heart fa-2x" style="color: red;"></i>
+          <i class="fas fa-heart fa-lg" style="color: red;"></i>
         </a>
         <a *ngIf="!interactionDTO.likes" (click)="addFavourite()" >
-          <i class="far fa-heart fa-2x" style="color: #40E0D0;"></i></a>
-        <span>{{playlistInteractionsSubject.value.length}} likes</span>
+          <i class="far fa-heart fa-lg" style="color: #40E0D0;"></i></a>
+        <span>   {{playlistInteractionsSubject.value.length}} likes</span>
       </div>
     </div>
 

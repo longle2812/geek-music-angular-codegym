@@ -38,24 +38,27 @@ export class PlaylistDetailComponent implements OnInit {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
     });
-    this.playlistInteractionService.getFavouriteByUserAndPlaylistId(this.userToken.id, this.playlistId).subscribe(interaction =>{
-      if(interaction != null){
-        this.interactionId = interaction.id
-        this.interactionDTO = interaction;
-      }else {
-        if(this.userToken != null && this.playlist != null){
-          this.interactionDTO.senderId = this.userToken.id;
-          this.interactionDTO.playlistId = this.playlistId;
-          this.interactionDTO.recieverId =  this.playlist.user.id;
-          this.interactionDTO.comment = null;
-          this.interactionDTO.link = null;
-          this.interactionDTO.likes = false;
-          this.interactionDTO.isRead = false;
+    if(this.userToken != null && this.playlist != null){
+      this.playlistInteractionService.getFavouriteByUserAndPlaylistId(this.userToken.id, this.playlistId).subscribe(interaction =>{
+        if(interaction != null){
+          this.interactionId = interaction.id
+          this.interactionDTO = interaction;
+        }else {
+          if(this.userToken != null && this.playlist != null){
+            this.interactionDTO.senderId = this.userToken.id;
+            this.interactionDTO.playlistId = this.playlistId;
+            this.interactionDTO.recieverId =  this.playlist.user.id;
+            this.interactionDTO.comment = null;
+            this.interactionDTO.link = null;
+            this.interactionDTO.likes = false;
+            this.interactionDTO.isRead = false;
+          }
+
         }
 
-      }
+      });
 
-    });
+    }
 
     this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
       this.playlistInteractionsSubject = new BehaviorSubject<PlaylistInteraction[]>(interactions);
@@ -134,6 +137,8 @@ export class PlaylistDetailComponent implements OnInit {
           alert(' unlike  error');
         });
       }
+    }else {
+      this.notificationService.showErrorMessage('You must login first')
     }
 
   }
