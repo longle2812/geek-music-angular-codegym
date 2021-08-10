@@ -13,6 +13,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../service/user/user.service';
 import {User} from '../../../model/user';
+import {environment} from '../../../../environments/environment';
 
 declare var $: any;
 
@@ -22,6 +23,7 @@ declare var $: any;
   styleUrls: ['./playlist-detail.component.css']
 })
 export class PlaylistDetailComponent implements OnInit, OnDestroy {
+  URL = `http://localhost:4200/`;
   playlist: Playlist = {};
   userToken: UserToken ={};
   notifications: Notification[] = [];
@@ -148,7 +150,18 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
           this.interactionDTO = interaction;
           this.interactionId = interaction.id;
           this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
-            this.playlistInteractionsSubject.next(interactions)
+            this.playlistInteractionsSubject.next(interactions);
+            if (this.userToken.id != this.playlist.id){
+              const notification = {
+                sender: {
+                  id: this.userToken.id
+                },
+                recieverId: this.playlist.user.id,
+                content: "test",
+                action: "liked your playlist: " + this.playlist.name
+              }
+              this.socketService.createNotificationUsingSocket(notification);
+            }
           })
         }, () => {
           alert(' like  error');
@@ -157,7 +170,21 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
         this.interactionDTO.likes = !this.interactionDTO.likes;
         this.playlistInteractionService.update(this.interactionId, this.interactionDTO).subscribe(() => {
           this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
-            this.playlistInteractionsSubject.next(interactions)
+            this.playlistInteractionsSubject.next(interactions);
+            if (this.interactionDTO.likes){
+              if (this.userToken.id != this.playlist.id){
+                const notification = {
+                  sender: {
+                    id: this.userToken.id
+                  },
+                  recieverId: this.playlist.user.id,
+                  content: "",
+                  link: this.URL+this.playlist.id,
+                  action: "liked your playlist: " + this.playlist.name
+                }
+                this.socketService.createNotificationUsingSocket(notification);
+              }
+            }
           })
         }, () => {
           alert(' unlike  error');
@@ -174,7 +201,20 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
     if (this.commentForm.valid && this.userToken !== null) {
       this.playlistService.addPlaylistComment(this.userToken.id, this.playlist.id,
         this.commentForm.value.comment).subscribe(playlistInteraction => {
+        if (this.userToken.id != this.playlist.id){
+          const notification = {
+            sender: {
+              id: this.userToken.id
+            },
+            recieverId: this.playlist.user.id,
+            content: this.commentForm.value.comment,
+            action: "commented on your playlist: " + this.playlist.name
+          }
+          this.socketService.createNotificationUsingSocket(notification);
+        }
+
         this.commentForm.reset();
+
         this.getPlaylistComment(this.playlist.id);
       }, e => {
         console.log(e);
