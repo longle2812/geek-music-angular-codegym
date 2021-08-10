@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {NotificationService} from '../../../service/notification/notification.service';
 import {SocketService} from '../../../service/socket/socket.service';
+import {UserToken} from '../../../model/user-token';
+import {AuthenticationService} from '../../../service/authentication/authentication.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-notification',
@@ -10,9 +13,16 @@ import {SocketService} from '../../../service/socket/socket.service';
 export class NotificationComponent implements OnInit {
   isShow: boolean;
   hasNotification: boolean;
-  constructor(private notificationService: NotificationService, private socketService: SocketService) {
+  currentUser: UserToken = {};
+  constructor(private notificationService: NotificationService,
+              private socketService: SocketService,
+              private authenticationService: AuthenticationService,
+              private router: Router) {
     this.isShow = false;
     this.hasNotification = false;
+    this.authenticationService.currentUserSubject.subscribe(user => {
+      this.currentUser = user;
+    });
   }
 
   ngOnInit() {
@@ -27,8 +37,11 @@ export class NotificationComponent implements OnInit {
     let notification = await this.getNotification(notificationId);
     notification.status = true;
     this.notificationService.updateNotification(notificationId, notification).subscribe(() => {
+      this.isShow = false;
+      this.router.navigateByUrl(notification.link);
       this.socketService.getAllNotificationUnRead(userId);
       this.socketService.getAllNotification(userId);
+
     });
   }
 
