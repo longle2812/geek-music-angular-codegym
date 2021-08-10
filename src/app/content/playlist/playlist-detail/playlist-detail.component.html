@@ -22,11 +22,11 @@
       <br>
       <div class="album_btn">
         <a *ngIf="interactionDTO.likes" (click)="addFavourite()" >
-          <i class="fas fa-heart fa-lg" style="color: red;"></i>
+          <i class="fas fa-heart fa-lg" style="color: #F5B7B1;"></i>
         </a>
         <a *ngIf="!interactionDTO.likes" (click)="addFavourite()" >
-          <i class="far fa-heart fa-lg" style="color: #40E0D0;"></i></a>
-        <span>   {{playlistInteractionsSubject.value.length}} likes</span>
+          <i class="far fa-heart fa-lg" style="color: #3bc8e7;"></i></a>
+        <span style="padding-left: 15px">{{playlistInteractionsSubject.value.length}} likes</span>
       </div>
     </div>
 

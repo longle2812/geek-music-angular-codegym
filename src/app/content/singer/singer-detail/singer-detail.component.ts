@@ -8,6 +8,10 @@ import {Singer} from '../../../model/singer';
 import {SingerService} from '../../../service/singer/singer.service';
 import {Song} from '../../../model/song';
 import {SongService} from '../../../service/song/song.service';
+import {PlaylistInteractionDTO} from '../../../model/playlist-interaction-dto';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {PlaylistInteraction} from '../../../model/playlist-interaction';
+import {SingerInteraction} from '../../../model/singer-interaction';
 
 @Component({
   selector: 'app-singer-detail',
@@ -18,6 +22,12 @@ export class SingerDetailComponent implements OnInit {
   singer: Singer = {};
   userToken: UserToken = {};
   songs: Song[] = [];
+  interactionId: number = -1;
+  singerId: number =-1;
+  interactionDTO: PlaylistInteractionDTO = {};
+
+  public singerInteractionsSubject:  BehaviorSubject<SingerInteraction[]>;
+  public currentSingerInteraction: Observable<SingerInteraction[]>;
 
   constructor(private activatedRouter: ActivatedRoute,
               private singerService: SingerService,
