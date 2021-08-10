@@ -22,7 +22,6 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
               private authenticationService: AuthenticationService,
               private notificationService: NotificationService, private socketService: SocketService
               ) {
-    socketService.connect();
     this.activatedRouter.paramMap.subscribe(paramMap => {
       const id = paramMap.get('id');
       this.getPlaylist(Number(id));

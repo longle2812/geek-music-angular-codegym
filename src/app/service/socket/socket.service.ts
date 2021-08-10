@@ -4,6 +4,10 @@ import {NotificationService} from '../notification/notification.service';
 import * as Stomp from 'stompjs'
 import * as SockJS from 'sockjs-client';
 import { stringify } from 'querystring';
+import {UserToken} from '../../model/user-token';
+import {UserService} from '../user/user.service';
+import {AuthenticationService} from '../authentication/authentication.service';
+import {Notification} from '../../model/notification';
 const API_URL=`${environment.apiUrl}`
 
 @Injectable({
@@ -11,11 +15,17 @@ const API_URL=`${environment.apiUrl}`
 })
 export class SocketService {
   stompClient: any;
+  currentUser: UserToken = {};
+  listNotification: Notification[] = [];
+  listNotificationUnRead: Notification[] = [];
   notifications: Notification[] = [];
-  constructor(private notificationService: NotificationService) {
-      this.notificationService.getAll().subscribe(
-        notifications => this.notifications = notifications
-      )
+  constructor(private notificationService: NotificationService,
+              private userService: UserService, private authenticationService: AuthenticationService) {
+  this.authenticationService.currentUserSubject.subscribe(user => {
+    this.currentUser = user;
+    this.getAllNotification(this.currentUser.id);
+    this.getAllNotificationUnRead(this.currentUser.id);
+  })
   }
 
   connect(){
@@ -23,9 +33,16 @@ export class SocketService {
     this.stompClient = Stomp.over(ws);
     this.stompClient.connect({}, frame =>{
       this.stompClient.subscribe('/topic/notifications', data => {
-        const jsonData = JSON.parse(data.body);
-        this.notifications.push(jsonData);
-        console.log(this.notifications);
+        const notification = JSON.parse(data.body);
+        this.authenticationService.currentUserSubject.subscribe(value => {
+          this.currentUser = value;
+          if (this.currentUser.id == notification.recieverId){
+            notification.createDate = new Date(notification.createDate);
+            this.listNotificationUnRead.unshift(notification);
+            this.listNotification.unshift(notification);
+            console.log(this.listNotificationUnRead);
+          }
+        })
       })
     })
   }
@@ -38,5 +55,23 @@ export class SocketService {
 
   createNotificationUsingSocket(notification){
     this.stompClient.send("/app/notifications", {}, JSON.stringify(notification));
+  }
+
+  private getAllNotification(id: number) {
+    this.notificationService.findAllNotificationDateDesc(id).subscribe( listNotification => {
+        this.listNotification = listNotification;
+        this.listNotification.map(notification => {
+          notification.createDate = new Date(notification.createDate);
+        })
+      console.log(this.listNotification);
+      }
+    )
+  }
+
+  private getAllNotificationUnRead(id: number) {
+    this.notificationService.findAllNotification(id).subscribe(listNotificationUnread => {
+      this.listNotificationUnRead = listNotificationUnread;
+      console.log(this.listNotificationUnRead);
+    })
   }
 }

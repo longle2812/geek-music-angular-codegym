@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {Notification} from '../../model/notification';
 
 declare var $: any;
 declare var toastr: any;
@@ -51,5 +52,14 @@ export class NotificationService {
 
   createNotification(notification: Notification): Observable<Notification>{
     return this.http.post<Notification>(`${API_URL}/notifications`, notification);
+  }
+
+    findAllNotificationDateDesc(id: number) {
+        return this.http.get<Notification[]>(`${API_URL}/users/${id}/notifications-desc`);
+    }
+
+  findAllNotification(id: number) {
+    return this.http.get<Notification[]>(`${API_URL}/users/${id}/notifications`);
+
   }
 }

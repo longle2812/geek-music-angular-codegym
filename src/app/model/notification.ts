@@ -5,4 +5,5 @@ export interface Notification {
   content?: string;
   link?: string;
   isRead?: boolean;
+  createDate?: any;
 }
