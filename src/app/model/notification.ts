@@ -4,6 +4,6 @@ export interface Notification {
   recieverId?: number;
   content?: string;
   link?: string;
-  isRead?: boolean;
+  status?: boolean;
   createDate?: any;
 }

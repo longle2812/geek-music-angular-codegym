@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserToken} from '../../model/user-token';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
 import {Router} from '@angular/router';
@@ -21,7 +21,7 @@ declare var $: any;
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   currentUser: UserToken = {};
   avatarUrl = '';
   users: User[];
@@ -45,6 +45,10 @@ export class HeaderComponent implements OnInit {
     this.getAvatarUrl();
     this.getAllUsers();
     this.getAllGenres();
+  }
+
+  ngOnDestroy() {
+    this.socketService.disconnect();
   }
 
   getAllUsers() {

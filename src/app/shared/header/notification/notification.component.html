@@ -1,43 +1,27 @@
 <div style="margin-right: 15px" class="nav-item dropdown notification-ui show">
-  <a (click)="isShow = !isShow" class="nav-link dropdown-toggle notification-ui_icon" href="#" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+  <a (click)="isShow = !isShow" class="nav-link dropdown-toggle notification-ui_icon" href="#" id="navbarDropdown"
+     role="button" aria-haspopup="true" aria-expanded="false">
     <span style="color: #3bc8e7; size: 2em"><i class="fa fa-lg fa-bell"></i></span>
-    <span *ngIf="hasNotification" class="unread-notification"></span>
+    <span *ngIf="socketService.listNotificationUnRead.length>0" class="unread-notification"></span>
   </a>
-  <div *ngIf="isShow" class="dropdown-menu notification-ui_dd show" aria-labelledby="navbarDropdown" style="font-size: small">
+  <div *ngIf="isShow" class="dropdown-menu notification-ui_dd show" aria-labelledby="navbarDropdown"
+       style="font-size: small">
     <div class="notification-ui_dd-header">
       <h3 style="font-size: small" class="text-center">Notification</h3>
     </div>
-    <div class="notification-ui_dd-content" style="overflow-y: auto; max-height: 400px">
-      <a href="#!" class="notification-list notification-list--unread text-dark">
-        <div class="notification-list_img">
-          <img src="/assets/images/users/user1.jpg" alt="user">
-        </div>
-        <div class="notification-list_detail">
-          <p><b>John Doe</b> <br><span class="text-muted">reacted to your post</span></p>
-          <p class="nt-link text-truncate">How to travel long way home from here.</p>
-        </div>
-        <p><small>10 mins ago</small></p>
-      </a>
-      <a href="#!" class="notification-list notification-list--unread text-dark">
-        <div class="notification-list_img">
-          <img src="/assets/images/users/user2.jpg" alt="user">
-        </div>
-        <div class="notification-list_detail">
-          <p><b>Richard Miles</b> <br><span class="text-muted">reacted to your post</span></p>
-          <p class="nt-link text-truncate">How to travel long way home from here.</p>
-        </div>
-        <p><small>1 day ago</small></p>
-      </a>
-      <a href="#!" class="notification-list text-dark">
-        <div class="notification-list_img">
-          <img src="/assets/images/users/user3.jpg" alt="user">
-        </div>
-        <div class="notification-list_detail">
-          <p><b>Brian Cumin</b> <br><span class="text-muted">reacted to your post</span></p>
-          <p class="nt-link text-truncate">How to travel long way home from here.</p>
-        </div>
-        <p><small>1 day ago</small></p>
-      </a>
+    <div class="notification-ui_dd-content" style="overflow-y: auto; max-height: 400px" >
+      <ng-container *ngFor="let notification of socketService.listNotification">
+        <a href="#!" [ngClass]="{'notification-list--unread': !notification.status}" class="notification-list text-dark" >
+          <div class="notification-list_img">
+            <img src="/assets/images/users/user1.jpg" alt="user">
+          </div>
+          <div class="notification-list_detail">
+            <p><b>{{notification.senderId}}</b> <br><span class="text-muted">react to your content</span></p>
+            <p class="nt-link text-truncate">{{notification.content}}</p>
+          </div>
+          <p><small>{{notification.createDate.getDate()}}/{{notification.createDate.getMonth()}}/{{notification.createDate.getFullYear()}}</small></p>
+        </a>
+      </ng-container>
     </div>
     <div class="notification-ui_dd-footer">
       <a href="#!" class="btn btn-success btn-block" style="font-size: small">View All</a>

@@ -40,7 +40,7 @@ export class SocketService {
             notification.createDate = new Date(notification.createDate);
             this.listNotificationUnRead.unshift(notification);
             this.listNotification.unshift(notification);
-            console.log(this.listNotificationUnRead);
+            console.log(this.listNotification);
           }
         })
       })
@@ -57,7 +57,7 @@ export class SocketService {
     this.stompClient.send("/app/notifications", {}, JSON.stringify(notification));
   }
 
-  private getAllNotification(id: number) {
+  getAllNotification(id: number) {
     this.notificationService.findAllNotificationDateDesc(id).subscribe( listNotification => {
         this.listNotification = listNotification;
         this.listNotification.map(notification => {
@@ -68,7 +68,7 @@ export class SocketService {
     )
   }
 
-  private getAllNotificationUnRead(id: number) {
+  getAllNotificationUnRead(id: number) {
     this.notificationService.findAllNotification(id).subscribe(listNotificationUnread => {
       this.listNotificationUnRead = listNotificationUnread;
       console.log(this.listNotificationUnRead);

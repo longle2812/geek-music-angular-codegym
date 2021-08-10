@@ -8,6 +8,7 @@ declare var $: any;
 declare var toastr: any;
 
 const API_URL = `${environment.apiUrl}`;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -50,16 +51,24 @@ export class NotificationService {
     return this.http.get<Notification[]>(`${API_URL}/notifications`);
   }
 
-  createNotification(notification: Notification): Observable<Notification>{
+  createNotification(notification: Notification): Observable<Notification> {
     return this.http.post<Notification>(`${API_URL}/notifications`, notification);
   }
 
-    findAllNotificationDateDesc(id: number) {
-        return this.http.get<Notification[]>(`${API_URL}/users/${id}/notifications-desc`);
-    }
+  findAllNotificationDateDesc(id: number): Observable<Notification[]> {
+    return this.http.get<Notification[]>(`${API_URL}/users/${id}/notifications-desc`);
+  }
 
-  findAllNotification(id: number) {
+  findAllNotification(id: number): Observable<Notification[]> {
     return this.http.get<Notification[]>(`${API_URL}/users/${id}/notifications`);
 
+  }
+
+  getNotification(id: number): Observable<Notification> {
+    return this.http.get<Notification>(API_URL + `/notifications/${id}`)
+  }
+
+  updateNotification(id: number, notification: Notification): Observable<Notification> {
+    return this.http.put<Notification>(API_URL + `/notifications/${id}`, notification)
   }
 }
