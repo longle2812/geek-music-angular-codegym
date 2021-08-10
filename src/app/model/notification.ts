@@ -1,6 +1,6 @@
 export interface Notification {
   id?: number;
-  senderId?: number;
+  sender?: number;
   recieverId?: number;
   content?: string;
   link?: string;

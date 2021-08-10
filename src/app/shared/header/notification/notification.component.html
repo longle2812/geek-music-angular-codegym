@@ -9,22 +9,35 @@
     <div class="notification-ui_dd-header">
       <h3 style="font-size: small" class="text-center">Notification</h3>
     </div>
-    <div class="notification-ui_dd-content" style="overflow-y: auto; max-height: 400px" >
+    <div *ngIf="socketService.listNotificationUnRead.length>0" class="notification-ui_dd-content" style="overflow-y: auto; max-height: 400px" >
       <ng-container *ngFor="let notification of socketService.listNotification">
         <a href="#!" [ngClass]="{'notification-list--unread': !notification.status}" class="notification-list text-dark" >
           <div class="notification-list_img">
-            <img src="/assets/images/users/user1.jpg" alt="user">
+            <img src="{{notification.sender.avatarUrl}}" alt="user">
           </div>
           <div class="notification-list_detail">
-            <p><b>{{notification.senderId}}</b> <br><span class="text-muted">react to your content</span></p>
+            <p><b>{{notification.sender.username}}</b> <br><span class="text-muted">react to your content</span></p>
             <p class="nt-link text-truncate">{{notification.content}}</p>
           </div>
           <p><small>{{notification.createDate.getDate()}}/{{notification.createDate.getMonth()}}/{{notification.createDate.getFullYear()}}</small></p>
         </a>
       </ng-container>
     </div>
+<!--    <div *ngIf="socketService.listNotificationUnRead.length==0" class="notification-ui_dd-content">-->
+<!--      <a href="#!" class="notification-list text-dark" >-->
+<!--        <div class="notification-list_img">-->
+<!--          <img src="/assets/images/users/user1.jpg" alt="user">-->
+<!--        </div>-->
+<!--        <div class="notification-list_detail">-->
+<!--          <p><b>No Notification</b> <br><span class="text-muted">in your area</span></p>-->
+<!--&lt;!&ndash;          <p class="nt-link text-truncate">{{notification.content}}</p>&ndash;&gt;-->
+<!--        </div>-->
+<!--&lt;!&ndash;        <p><small>{{notification.createDate.getDate()}}/{{notification.createDate.getMonth()}}/{{notification.createDate.getFullYear()}}</small></p>&ndash;&gt;-->
+<!--      </a>-->
+<!--    </div>-->
     <div class="notification-ui_dd-footer">
       <a href="#!" class="btn btn-success btn-block" style="font-size: small">View All</a>
     </div>
   </div>
 </div>
+
