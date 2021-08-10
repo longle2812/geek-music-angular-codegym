@@ -24,6 +24,8 @@ export class PlaylistDetailComponent implements OnInit {
     comment: new FormControl('', [Validators.required])
   });
   comments: PlaylistInteraction[];
+  page = 0;
+  size = 5;
 
   constructor(private activatedRouter: ActivatedRoute,
               private playlistService: PlaylistService,
@@ -45,6 +47,7 @@ export class PlaylistDetailComponent implements OnInit {
   ngOnInit() {
     this.loadScript('/assets/js/menu-slider.js');
     this.loadScript('/assets/js/more-option.js');
+    this.checkScrollDownBottom();
   }
 
   private getPlaylist(id) {
@@ -106,20 +109,32 @@ export class PlaylistDetailComponent implements OnInit {
   }
 
   getPlaylistComment(id: number) {
-    this.playlistService.getPlaylistComment(id).subscribe((comments: PlaylistInteraction[]) => {
+    this.playlistService.getPlaylistComment(id, this.page, this.size).subscribe((comments: PlaylistInteraction[]) => {
       this.comments = comments;
+      // tslint:disable-next-line:prefer-for-of
       for (let i = 0; i < this.comments.length; i++) {
         const currentComment = this.comments[i];
         const a = new Date(currentComment.createdAt);
         a.setMonth(a.getMonth() + 1);
-        currentComment.createdAt = a.getDate() + '-' + a.getMonth() + '-' + a.getFullYear();
+        currentComment.createdAt = a.getDate() + '/' + a.getMonth() + '/' + a.getFullYear() + ' ' + a.getHours() + ':' + a.getMinutes();
         this.userService.findById(currentComment.senderId).subscribe((sender: User) => {
-          console.log(sender);
           currentComment.sender = sender;
         });
       }
     }, e => {
       console.log(e);
+    });
+  }
+
+  checkScrollDownBottom() {
+    $(window).scroll(() => {
+      console.log($(window).scrollTop());
+      console.log($(window).height());
+      console.log($(document).height());
+      if ($(window).scrollTop() + $(window).height() >= $(document).height() * 4 / 5) {
+        this.size += 5;
+        this.getPlaylistComment(this.playlist.id);
+      }
     });
   }
 }

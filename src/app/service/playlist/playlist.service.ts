@@ -62,7 +62,7 @@ export class PlaylistService {
     return this.http.post<PlaylistInteraction>(`${API_URL}/playlists/addComment/${senderId}/${playlistId}/${comment}`);
   }
 
-  getPlaylistComment(playlistId: number): Observable<PlaylistInteraction[]> {
-    return this.http.get<PlaylistInteraction[]>(`${API_URL}/playlists/findCommentById/${playlistId}`);
+  getPlaylistComment(playlistId: number, page: number, size: number): Observable<PlaylistInteraction[]> {
+    return this.http.get<PlaylistInteraction[]>(`${API_URL}/playlists/findCommentById/${playlistId}?page=${page}&size=${size}`);
   }
 }
