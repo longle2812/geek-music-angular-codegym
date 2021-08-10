@@ -16,18 +16,28 @@
         <a href="#" class="ms_btn play_btn"><span class="play_all"><img src="assets/images/svg/play_all.svg"
                                                                         alt="">Play All</span><span
           class="pause_all"><img src="assets/images/svg/pause_all.svg" alt="">Pause</span></a>
-        <a href="#" class="ms_btn"><span class="play_all"><img src="assets/images/svg/add_q.svg" alt="">Add To Queue</span></a>
+        <a href="#" class="ms_btn"><span class="play_all">
+          <img src="assets/images/svg/add_q.svg" alt="">Add To Queue</span></a>
+      </div>
+      <br>
+      <div class="album_btn">
+        <a *ngIf="interactionDTO.likes" (click)="addFavourite()" >
+          <i class="fas fa-heart fa-2x" style="color: red;"></i>
+        </a>
+        <a *ngIf="!interactionDTO.likes" (click)="addFavourite()" >
+          <i class="far fa-heart fa-2x" style="color: #40E0D0;"></i></a>
+        <span>{{playlistInteractionsSubject.value.length}} likes</span>
       </div>
     </div>
+
     <div class="album_more_optn ms_more_icon">
       <span><img src="assets/images/svg/more.svg" alt=""></span>
     </div>
     <ul class="more_option">
-      <li><a (click)="editPlaylist()" ><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a>
-      </li>
-      <li>
-        <a  class="btn-confirm" (click)="deletePlaylist()">
-        <span class="opt_icon"><span class="icon icon_queue"></span></span>Delete</a></li>
+      <li><a (click)="addFavourite()" ><span class="opt_icon"><span class="icon icon_fav"></span></span>Add To Favourites</a></li>
+      <li><a (click)="editPlaylist()" ><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a></li>
+      <li><a  class="btn-confirm" (click)="deletePlaylist()">
+        <span class="opt_icon"><span class="icon icon_dwn"></span></span>Delete</a></li>
     </ul>
   </div>
   <!----Song List---->

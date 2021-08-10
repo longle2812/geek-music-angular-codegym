@@ -28,10 +28,13 @@ export class SingerService {
   }
 
   update(id: number,singerDTO: Singerdto): Observable<Singer> {
-    return this.http.put<Singer>(`${API_URL}/${{id}}`, singerDTO);
+    return this.http.put<Singer>(`${API_URL}//singers/${{id}}`, singerDTO);
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete(`${API_URL}/${id}`);
+    return this.http.delete(`${API_URL}/singers/${id}`);
+  }
+  findSingerByName(name: string): Observable<Singer>{
+    return this.http.get<Singer>(`${API_URL}/singers/search/${name}`)
   }
 }
