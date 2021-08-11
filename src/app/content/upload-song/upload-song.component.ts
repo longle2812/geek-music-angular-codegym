@@ -63,6 +63,9 @@ export class UploadSongComponent implements OnInit {
     this.singerService.getAll().subscribe(
       singerList => this.singerList = singerList
     );
+    $(document).ready(() => {
+      $('#labelSongCreate').select2();
+    });
   }
 
 
@@ -71,22 +74,23 @@ export class UploadSongComponent implements OnInit {
       this.songDto.name = uploadSongForm.value.name;
       this.songDto.author = uploadSongForm.value.author;
       this.songDto.genres = uploadSongForm.value.genres;
-      this.songDto.singers = uploadSongForm.value.singers;
+      this.songDto.singers = $('#labelSongCreate').select2().val();
       this.songDto.description = uploadSongForm.value.description;
       this.songDto.album = uploadSongForm.value.album;
       this.songDto.mp3Url = this.songUrl;
       this.songDto.imgUrl = this.imgUrl;
       this.songDto.userId = this.currentUser.id;
+      console.log(this.songDto);
       if (this.songUrl === '' || this.imgUrl === '') {
-        alert('error');
+        this.notificationService.showErrorMessage('Song url and img url can not be empty!');
       } else {
         this.songService.createNewSong(this.songDto).subscribe(
           song => {
-            this.notificationService.showSuccessMessage("Upload Song Completed");
+            this.notificationService.showSuccessMessage('Upload Song Completed');
             uploadSongForm.resetForm();
             this.uploadMessage = false;
             this.imgUrl = '';
-            this.songUrl ='';
+            this.songUrl = '';
           }
         );
       }

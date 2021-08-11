@@ -10,6 +10,8 @@ import {Singer} from '../../model/singer';
 import {finalize} from 'rxjs/operators';
 import {NotificationService} from '../../service/notification/notification.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-song-detail',
   templateUrl: './song-detail.component.html',
@@ -62,6 +64,9 @@ export class SongDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    $(document).ready(() => {
+      $('#labelSongEdit').select2();
+    });
   }
 
   uploadSongUrl() {
@@ -128,9 +133,12 @@ export class SongDetailComponent implements OnInit {
           imgUrl: this.imgUrl
         });
       }
-      this.songService.updateSong(this.songDetailForm.value).subscribe(song =>
+      let songDTO = this.songDetailForm.value;
+      songDTO.singers = $('#labelSongEdit').val();
+      this.songService.updateSong(songDTO).subscribe(song =>
         this.notificationService.showSuccessMessage('Update completed')
-      )} else {
+      );
+    } else {
       this.notificationService.showErrorMessage('Something\'s wrong');
     }
   }
