@@ -40,6 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authenticationService.currentUserAvatarSubject.subscribe(avatarUrl => {
       this.avatarUrl = avatarUrl;
     });
+    this.socketService.connect();
   }
 
   ngOnInit() {
