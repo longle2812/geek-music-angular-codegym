@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Label} from '../../model/label';
 import {environment} from '../../../environments/environment';
+import {Song} from '../../model/song';
 
 const API_URL = `${environment.apiUrl}`;
 
@@ -24,5 +25,9 @@ export class LabelService {
 
   getSongTags(songId: number): Observable<string[]> {
     return this.http.get<string[]>(`${API_URL}/labels/getSongTag/${songId}`);
+  }
+
+  findSongByTagName(tagName: string): Observable<Song[]> {
+    return this.http.get<Song[]>(`${API_URL}/labels/findSongsByTagName/${tagName}`);
   }
 }

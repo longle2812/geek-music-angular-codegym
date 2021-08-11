@@ -89,18 +89,18 @@ export class SingerCreateComponent implements OnInit {
     this.isSubmitted = true;
     if (singerForm.valid) {
       // this.singerDTO.name = singerForm.value.name;
-     this.singerDTO.genres = singerForm.value.genres;
+      this.singerDTO.genres = singerForm.value.genres;
       // this.singerDTO.gender = singerForm.value.gender;
-     this.singerDTO.dateOfBirth = singerForm.value.dateOfBirth;
+      this.singerDTO.dateOfBirth = singerForm.value.dateOfBirth;
       // this.singerDTO.biography= singerForm.value.biography;
       // this.singerDTO.band= singerForm.value.band;
       // this.singerDTO.additionalInfo= singerForm.value.additionalInfo;
-     this.singerDTO.user = this.user.id;
-     if (this.singerDTO.imageUrl === '') {
+      this.singerDTO.user = this.user.id;
+      if (this.singerDTO.imageUrl === '') {
         this.singerDTO.imageUrl = 'assets/images/album/album.jpg';
       }
       this.singerService.findSingerByName(this.singerDTO.name).subscribe(singer => {
-        if(singer == null){
+        if (singer == null) {
           this.singerService.create(this.singerDTO).subscribe(() => {
               this.notificationService.showSuccessMessage('Create success');
               singerForm.resetForm();
@@ -110,10 +110,12 @@ export class SingerCreateComponent implements OnInit {
               this.notificationService.showErrorMessage('Create error');
             }
           );
-        }else this.notificationService.showErrorMessage('Single already exists')
-      },() => {
+        } else {
+          this.notificationService.showErrorMessage('Single already exists');
+        }
+      }, () => {
         this.notificationService.showErrorMessage('Search singer name error');
-      })
+      });
     } else {
       this.notificationService.showErrorMessage('Data invalid');
 

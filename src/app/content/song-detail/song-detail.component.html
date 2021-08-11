@@ -63,11 +63,12 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Select Singer</label>
-            <select class="form-control" formControlName="singers">
+            <label style="display:block">Select Singer</label>
+            </div>
+            <select id="labelSongEdit" class="js-example-basic-multiple form-control" name="states[]" multiple="multiple" style="width: 80%" >
               <option *ngFor="let singer of singerList" [value]="singer.id">{{singer.name}}</option>
             </select>
-          </div>
+<!--          </div>-->
           <div style="width: 85%; margin-left: 50px;">
             <label style="color: #3bc8e7; text-align: center">Description</label>
             <textarea style="height: 100px" formControlName="description"

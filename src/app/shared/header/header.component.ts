@@ -15,6 +15,8 @@ import {NotificationService} from '../../service/notification/notification.servi
 import {SocketService} from '../../service/socket/socket.service';
 import {SingerService} from '../../service/singer/singer.service';
 import {Singer} from '../../model/singer';
+import {LabelService} from '../../service/label/label.service';
+import {Label} from '../../model/label';
 
 declare var $: any;
 
@@ -28,14 +30,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   avatarUrl = '';
   users: User[];
   genres: Genre[];
+  labels: Label[] = [];
 
   constructor(private userService: UserService, private authenticationService: AuthenticationService,
               private router: Router, private playlistService: PlaylistService, private genreService: GenreService,
-              private songService: SongService, private queueService: QueueService,private notificationService: NotificationService,
-              private socketService: SocketService, private singerService: SingerService) {
+              private songService: SongService, private queueService: QueueService, private notificationService: NotificationService,
+              private socketService: SocketService, private singerService: SingerService,
+              private labelService: LabelService) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.currentUser = user;
       this.loadScript('/assets/js/profile-on-click.js');
+      this.getLabels();
     });
     this.authenticationService.currentUserAvatarSubject.subscribe(avatarUrl => {
       this.avatarUrl = avatarUrl;
@@ -47,6 +52,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.getAvatarUrl();
     this.getAllUsers();
     this.getAllGenres();
+    $(document).ready(() => {
+      $('#labelSearch').select2();
+    });
   }
 
   ngOnDestroy() {
@@ -143,6 +151,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (searchOption === 'Singer') {
       this.searchSinger(keyWord, userName, genreName, startDate, endDate, advancedSearch);
     }
+    if (searchOption === 'Song\'s label') {
+      this.searchLabel(keyWord);
+    }
   }
 
   searchPlayList(genreName, keyWord, startDate, endDate, userName, advancedSearch) {
@@ -186,5 +197,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   hideDropDown() {
     $('.pro_dropdown_menu').toggleClass('open_dropdown');
+  }
+
+  private searchLabel(keyWord) {
+    this.labelService.findSongByTagName(keyWord).subscribe((songs: Song[]) => {
+      this.songService.currentSearchSongSubject.next(songs);
+      this.router.navigateByUrl('/songs/search');
+    });
+  }
+  getLabels() {
+    this.labelService.getAllLabel().subscribe(labels => {
+      this.labels = labels;
+    });
   }
 }

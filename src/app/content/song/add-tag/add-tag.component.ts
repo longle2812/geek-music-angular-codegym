@@ -56,9 +56,9 @@ export class AddTagComponent implements OnInit {
           }
         }
         this.labelService.addTagsToSong(labelList, this.song.id).subscribe(() => {
-          alert('Success');
+          this.notificationService.showSuccessMessage('Add tags success!');
         }, e => {
-          alert('Error');
+          this.notificationService.showErrorMessage('Can not add tags');
         });
       }
 
