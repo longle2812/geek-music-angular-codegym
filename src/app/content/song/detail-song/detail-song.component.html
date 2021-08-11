@@ -6,7 +6,7 @@
     <div class="album_single_text" style="color:white;">
       <h2>{{song.name}}</h2>
       <p class="singer_name">
-        Genres: <span *ngFor="let genre of song.genres">{{genre.name}} </span>
+        Genres: <span *ngFor="let genre of song.genres, let isLast=last">{{genre.name}}{{isLast ? '' : ', '}}</span>
       </p>
       <p class="singer_name">
         Author: <span>{{song.author}}</span>
@@ -15,7 +15,7 @@
         Album: <span>{{song.album}} </span>
       </p>
       <p class="singer_name">
-        Singers: <span *ngFor="let singer of song.singers">{{singer.name}} </span>
+        Singers: <span *ngFor="let singer of song.singers, let isLast=last">{{singer.name}}{{isLast ? '' : ', '}}</span>
       </p>
       <div class="about_artist">
         Description: {{song.description}}
