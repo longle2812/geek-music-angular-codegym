@@ -3,6 +3,7 @@ import {Playlist} from '../../../model/playlist';
 import {PlaylistService} from '../../../service/playlist/playlist.service';
 import {Router} from '@angular/router';
 import {QueueService} from '../../../service/queue/queue.service';
+declare var $:any;
 
 @Component({
   selector: 'app-featured-album',
@@ -43,5 +44,12 @@ export class FeaturedAlbumComponent implements OnInit {
       songs: undefined
     };
     this.queueService.sendQueueRequest(request);
+  }
+
+  share(element: HTMLAnchorElement) {
+    $('#share-playlist').show();
+    const id = element.getAttribute('data-song-id');
+    console.log(id);
+    this.playlistService.changePlaylistId(id);
   }
 }

@@ -13,6 +13,8 @@ const API_URL = `${environment.apiUrl}`;
   providedIn: 'root'
 })
 export class PlaylistService {
+  public currentPlaylistSubject: BehaviorSubject<number>;
+  public currentPlaylistId: Observable<number>;
   public currentSearchPlaylistSubject: BehaviorSubject<Playlist[]>;
   public currentSearchPlaylist: Observable<Playlist[]>;
   public currentPlaylistCommentSubject: BehaviorSubject<PlaylistInteraction[]>;
@@ -23,6 +25,8 @@ export class PlaylistService {
     this.currentSearchPlaylist = this.currentSearchPlaylistSubject.asObservable();
     this.currentPlaylistCommentSubject = new BehaviorSubject<PlaylistInteraction[]>([]);
     this.currentPlaylistComment = this.currentPlaylistCommentSubject.asObservable();
+    this.currentPlaylistSubject = new BehaviorSubject<number>(-1);
+    this.currentPlaylistId = this.currentPlaylistSubject.asObservable();
   }
 
   createPlayList(playlistDTO: PlaylistDTO): Observable<Playlist> {
@@ -76,5 +80,9 @@ export class PlaylistService {
 
   setPlaylistLike(playlistId: number, like: number): Observable<any> {
     return this.http.get<any>(`${API_URL}/playlists/${playlistId}/like/${like}`);
+  }
+
+  changePlaylistId(id: any) {
+    this.currentPlaylistSubject.next(id);
   }
 }

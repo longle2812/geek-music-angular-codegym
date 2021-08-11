@@ -36,8 +36,8 @@
 									</span>
             </div>
             <ul class="more_option">
-<!--              <li><a (click)="addToQueue(playlist)" href="#"><span class="opt_icon"><span class="icon icon_queue"></span></span>Add To Queue</a></li>-->
-              <li><a ><span class="opt_icon"><span class="icon icon_share"></span></span>Share</a></li>
+              <li hidden><a #addButton class="songId" (click)="addToQueue(playlist)" [attr.data-song-id]="playlist.id" ><span class="opt_icon"><span class="icon icon_queue"></span></span>Add To Queue</a></li>
+              <li><a (click)="share(addButton)"><span class="opt_icon"><span class="icon icon_share"></span></span>Share</a></li>
             </ul>
           </div>
           <div class="ms_divider"></div>

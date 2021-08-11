@@ -13,7 +13,8 @@ declare var $: any;
 export class MostLikePlaylistComponent implements OnInit {
   playlists : Playlist[] = [];
 
-  constructor(private playlistService: PlaylistService, private queueService: QueueService, private songService: SongService) {
+  constructor(private playlistService: PlaylistService, private queueService: QueueService,
+              private songService: SongService) {
     this.playlistService.getAllPlaylistByMostLikes(5, 0).subscribe(
       playlists => this.playlists = playlists
     )
@@ -58,5 +59,12 @@ export class MostLikePlaylistComponent implements OnInit {
     $('#add-song').show();
     const songId = element.getAttribute('data-song-id');
     this.songService.changeSongId(songId);
+  }
+
+  share(element: HTMLAnchorElement) {
+    $('#share-playlist').show();
+    const id = element.getAttribute('data-song-id');
+    console.log(id);
+    this.playlistService.changePlaylistId(id);
   }
 }

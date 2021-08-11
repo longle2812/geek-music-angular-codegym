@@ -15,8 +15,8 @@
                 <img src="/assets/images/svg/more.svg" alt="">
               </div>
               <ul class="more_option">
-                <li><a ><span class="opt_icon"><span class="icon icon_queue"></span></span>Add To Queue</a></li>
-                <li><a ><span class="opt_icon"><span class="icon icon_share"></span></span>Share</a></li>
+                <li><a #addButton class="songId" [attr.data-song-id]="playlist.id" hidden><span class="opt_icon"><span class="icon icon_queue"></span></span>Add To Queue</a></li>
+                <li><a (click)="share(addButton)" ><span class="opt_icon"><span class="icon icon_share"></span></span>Share</a></li>
               </ul>
               <div class="ms_play_icon">
                 <img (click)="playPlaylist(playlist)" src="/assets/images/svg/play.svg" alt="">
