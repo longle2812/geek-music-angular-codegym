@@ -13,7 +13,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../service/user/user.service';
 import {User} from '../../../model/user';
-import {environment} from '../../../../environments/environment';
+
 
 declare var $: any;
 

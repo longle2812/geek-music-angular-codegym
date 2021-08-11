@@ -5,6 +5,8 @@ import {Song} from '../../model/song';
 import {environment} from '../../../environments/environment';
 import {Songdto} from '../../model/songdto';
 import {Playlist} from '../../model/playlist';
+import {PlaylistInteraction} from '../../model/playlist-interaction';
+import {SongInteraction} from '../../model/song-interaction';
 
 const API_URL = `${environment.apiUrl}`;
 
@@ -83,5 +85,14 @@ export class SongService {
 
   findSongById(id: number): Observable<Song> {
     return this.http.get<Song>(`${API_URL}/songs/${id}`);
+  }
+
+  addSongComment(senderId: number, songId: number, comment: string): Observable<SongInteraction> {
+    // @ts-ignore
+    return this.http.post<SongInteraction>(`${API_URL}/songs/addComment/${senderId}/${songId}/${comment}`);
+  }
+
+  getSongComment(songId: number, page: number, size: number): Observable<SongInteraction[]> {
+    return this.http.get<SongInteraction[]>(`${API_URL}/songs/findCommentById/${songId}?page=${page}&size=${size}`);
   }
 }

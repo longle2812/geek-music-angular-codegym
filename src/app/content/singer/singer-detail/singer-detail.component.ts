@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Playlist} from '../../../model/playlist';
 import {UserToken} from '../../../model/user-token';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PlaylistService} from '../../../service/playlist/playlist.service';
 import {AuthenticationService} from '../../../service/authentication/authentication.service';
 import {Singer} from '../../../model/singer';
 import {SingerService} from '../../../service/singer/singer.service';
@@ -15,6 +13,13 @@ import {SingerInteraction} from '../../../model/singer-interaction';
 import {SingerInteractionService} from '../../../service/singer-interaction/singer-interaction.service';
 import {SingerInteractionDTO} from '../../../model/singer-interaction-dto';
 import {NotificationService} from '../../../service/notification/notification.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {SongInteraction} from '../../../model/song-interaction';
+import {SocketService} from '../../../service/socket/socket.service';
+import {UserService} from '../../../service/user/user.service';
+import {User} from '../../../model/user';
+
+declare var $: any;
 
 @Component({
   selector: 'app-singer-detail',
@@ -22,6 +27,7 @@ import {NotificationService} from '../../../service/notification/notification.se
   styleUrls: ['./singer-detail.component.css']
 })
 export class SingerDetailComponent implements OnInit {
+  URL = '/songs/detail/';
   singer: Singer = {};
   userToken: UserToken = {};
   songs: Song[] = [];
@@ -31,6 +37,13 @@ export class SingerDetailComponent implements OnInit {
 
   public singerInteractionsSubject: BehaviorSubject<SingerInteraction[]>;
   public currentSingerInteraction: Observable<SingerInteraction[]>;
+  commentForm: FormGroup = new FormGroup({
+    comment: new FormControl('', [Validators.required])
+  });
+  comments: SongInteraction[];
+  page = 0;
+  size = 5;
+  scrollPercent = 0.796;
 
   constructor(private activatedRouter: ActivatedRoute,
               private singerService: SingerService,
@@ -38,12 +51,16 @@ export class SingerDetailComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private songService: SongService,
               private singerInteractionService: SingerInteractionService,
-              private notificationService: NotificationService
+              private notificationService: NotificationService,
+              private socketService: SocketService,
+              private userService: UserService
   ) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       this.singerId = Number(paramMap.get('id'));
       this.getSinger(this.singerId);
       this.getSongs(this.singerId);
+      const id = +paramMap.get('id');
+      this.getSingerComment(id);
     });
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
@@ -89,12 +106,16 @@ export class SingerDetailComponent implements OnInit {
   private getSongs(id) {
     this.songService.getSongBySingerId(id).subscribe(songs => {
       this.songs = songs;
-      console.log('songs ', songs.length);
+      // console.log('songs ', songs.length);
     });
   }
 
   ngOnInit() {
+    this.loadScript('/assets/js/menu-slider.js');
     this.loadScript('/assets/js/more-option.js');
+    this.size = 5;
+    this.checkScrollDownBottom();
+    this.scrollPercent = 0.796;
   }
   public loadScript(url: string) {
     const body = document.body as HTMLDivElement;
@@ -106,7 +127,33 @@ export class SingerDetailComponent implements OnInit {
     body.appendChild(script);
   }
 
-
+  addComment() {
+    this.commentForm.markAllAsTouched();
+    if (this.userToken === null) {
+      this.notificationService.showErrorMessage('Need to login first before comment');
+    }
+    if (this.commentForm.valid && this.userToken !== null) {
+      this.singerService.addSingerComment(this.userToken.id, this.singer.id,
+        this.commentForm.value.comment).subscribe(songInteraction => {
+        if (this.userToken.id !== this.singer.user.id) {
+          const notification = {
+            sender: {
+              id: this.userToken.id
+            },
+            recieverId: this.singer.user.id,
+            link: this.URL + this.singer.id,
+            content: this.commentForm.value.comment,
+            action: 'commented on your song: ' + this.singer.name
+          };
+          this.socketService.createNotificationUsingSocket(notification);
+        }
+        this.commentForm.reset();
+        this.getSingerComment(this.singer.id);
+      }, e => {
+        console.log(e);
+      });
+    }
+  }
   addFavourite() {
     if(this.userToken != null){
       if (this.interactionId == -1) {
@@ -133,5 +180,33 @@ export class SingerDetailComponent implements OnInit {
     }else {
       this.notificationService.showErrorMessage('You must login first')
     }
+  }
+  getSingerComment(id: number) {
+    this.singerService.getSingerComment(id, this.page, this.size).subscribe((comments: SingerInteraction[]) => {
+      this.comments = comments;
+      // tslint:disable-next-line:prefer-for-of
+      for (let i = 0; i < this.comments.length; i++) {
+        const currentComment = this.comments[i];
+        const a = new Date(currentComment.createdAt);
+        a.setMonth(a.getMonth() + 1);
+        currentComment.createdAt = a.getDate() + '/' + a.getMonth() + '/' + a.getFullYear() + ' ' + a.getHours() + ':' + a.getMinutes();
+        this.userService.findById(currentComment.senderId).subscribe((sender: User) => {
+          currentComment.sender = sender;
+        });
+      }
+    }, e => {
+      console.log(e);
+    });
+  }
+
+  checkScrollDownBottom() {
+    $(window).scroll(() => {
+      if ($(window).scrollTop() + $(window).height() >= ($(document).height() * this.scrollPercent)) {
+        $(window).scrollTop($(window).scrollTop() - 20);
+        this.size += 5;
+        this.getSingerComment(this.singer.id);
+        this.scrollPercent += 0.017;
+      }
+    });
   }
 }
