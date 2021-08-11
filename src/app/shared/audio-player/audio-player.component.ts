@@ -145,6 +145,14 @@ export class AudioPlayerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.queueService.currentQueueSubject.subscribe(() => {
+      this.myPlaylist.remove();
+      this.queue = [];
+      $('#jp_playing_artist').text('');
+      $('#jp_playing_img').attr('src', 'assets/images/album/album.jpg');
+      $('#jp_playing_title').text('');
+    })
+
     this.queueService.currentQueueRequest.subscribe(
       async (queue) => {
         if (queue.title === 'play playlist') {

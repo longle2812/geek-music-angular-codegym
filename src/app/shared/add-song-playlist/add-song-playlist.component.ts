@@ -32,6 +32,10 @@ export class AddSongPlaylistComponent implements OnInit {
       this.userToken = user;
       this.getAllPlaylist();
     });
+
+    this.songService.currentSongSubject.subscribe(() => {
+      this.getAllPlaylist();
+    })
   }
 
   private getAllPlaylist() {

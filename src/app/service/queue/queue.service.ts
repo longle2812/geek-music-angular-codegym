@@ -78,4 +78,8 @@ export class QueueService {
     };
     this.currentQueueRequest.next(request);
   }
+
+  clearQueue() {
+    this.currentQueueSubject.next({});
+  }
 }

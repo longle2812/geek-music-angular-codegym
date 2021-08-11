@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, NgForm} from '@angular/forms';
 import {AuthenticationService} from './service/authentication/authentication.service';
+import {QueueService} from './service/queue/queue.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import {AuthenticationService} from './service/authentication/authentication.ser
 export class AppComponent implements OnInit {
   title = 'geek-music';
 
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(private authenticationService: AuthenticationService, private queueService: QueueService) {
   }
 
   ngOnInit() {
@@ -37,5 +38,9 @@ export class AppComponent implements OnInit {
     this.authenticationService.login(loginForm.value.username, loginForm.value.password).subscribe(
       () => console.log('success')
     );
+  }
+
+  clearQueue() {
+    this.queueService.clearQueue();
   }
 }

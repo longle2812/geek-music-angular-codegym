@@ -34,7 +34,6 @@ export class ShareSongComponent implements OnInit {
       this.userToken = user;
       this.getAllUser();
     });
-    console.log("test");
   }
 
   close() {
