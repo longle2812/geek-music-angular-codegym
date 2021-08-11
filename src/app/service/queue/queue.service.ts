@@ -46,8 +46,8 @@ export class QueueService {
             songId: playlist.songs[i].id
           };
           request.songs.push(song);
-          this.currentQueueRequest.next(request);
         }
+        this.currentQueueRequest.next(request);
       })
     }
   }

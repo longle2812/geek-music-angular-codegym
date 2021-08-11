@@ -151,6 +151,11 @@ export class AudioPlayerComponent implements OnInit {
           if (queue.songs != []){
             this.myPlaylist.setPlaylist(queue.songs);
             this.queue = [];
+            for (let i =0; i < queue.songs.length; i++){
+              this.songService.getSongById(queue.songs[i].songId).subscribe(song => {
+                this.queue.push(song);
+              })
+            }
             setTimeout(() => this.myPlaylist.play(0), 1000);
           }
         }
@@ -195,6 +200,7 @@ export class AudioPlayerComponent implements OnInit {
                 if (this.queue[i].id == queue.songId) {
                   isExist = true;
                   index = i;
+                  break;
                 }
               }
               if (!isExist) {
