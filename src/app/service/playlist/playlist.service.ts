@@ -73,4 +73,8 @@ export class PlaylistService {
   getPlaylistComment(playlistId: number, page: number, size: number): Observable<PlaylistInteraction[]> {
     return this.http.get<PlaylistInteraction[]>(`${API_URL}/playlists/findCommentById/${playlistId}?page=${page}&size=${size}`);
   }
+
+  setPlaylistLike(playlistId: number, like: number): Observable<any> {
+    return this.http.get<any>(`${API_URL}/playlists/${playlistId}/like/${like}`);
+  }
 }

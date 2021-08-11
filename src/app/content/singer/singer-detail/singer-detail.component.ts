@@ -1,21 +1,28 @@
 import {Component, OnInit} from '@angular/core';
+import {Playlist} from '../../../model/playlist';
 import {UserToken} from '../../../model/user-token';
 import {ActivatedRoute, Router} from '@angular/router';
+import {PlaylistService} from '../../../service/playlist/playlist.service';
 import {AuthenticationService} from '../../../service/authentication/authentication.service';
 import {Singer} from '../../../model/singer';
 import {SingerService} from '../../../service/singer/singer.service';
 import {Song} from '../../../model/song';
 import {SongService} from '../../../service/song/song.service';
+import {PlaylistInteractionDTO} from '../../../model/playlist-interaction-dto';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {PlaylistInteraction} from '../../../model/playlist-interaction';
 import {SingerInteraction} from '../../../model/singer-interaction';
+import {SingerInteractionService} from '../../../service/singer-interaction/singer-interaction.service';
+import {SingerInteractionDTO} from '../../../model/singer-interaction-dto';
+import {NotificationService} from '../../../service/notification/notification.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {SongInteraction} from '../../../model/song-interaction';
-import {NotificationService} from '../../../service/notification/notification.service';
 import {SocketService} from '../../../service/socket/socket.service';
 import {UserService} from '../../../service/user/user.service';
 import {User} from '../../../model/user';
+import {QueueService} from '../../../service/queue/queue.service';
 
 declare var $: any;
-
 @Component({
   selector: 'app-singer-detail',
   templateUrl: './singer-detail.component.html',
@@ -33,6 +40,12 @@ export class SingerDetailComponent implements OnInit {
   page = 0;
   size = 5;
   scrollPercent = 0.796;
+  interactionId: number = -1;
+  singerId: number = -1;
+  interactionDTO: SingerInteractionDTO = {};
+
+  public singerInteractionsSubject: BehaviorSubject<SingerInteraction[]>;
+  public currentSingerInteraction: Observable<SingerInteraction[]>;
 
   constructor(private activatedRouter: ActivatedRoute,
               private singerService: SingerService,
@@ -41,15 +54,42 @@ export class SingerDetailComponent implements OnInit {
               private songService: SongService,
               private notificationService: NotificationService,
               private socketService: SocketService,
-              private userService: UserService) {
+              private userService: UserService,private singerInteractionService: SingerInteractionService,
+              private queueService: QueueService) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
-      const id = +paramMap.get('id');
-      this.getSinger(id);
-      this.getSongs(id);
-      this.getSingerComment(id);
+      this.singerId = Number(paramMap.get('id'));
+      this.getSinger(this.singerId);
+      this.getSongs(this.singerId);
+      this.getSingerComment(this.singerId);
     });
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
+    });
+    if (this.userToken != null && this.singer != null) {
+      this.singerInteractionService.getFavouriteByUserAndSingerId(this.userToken.id, this.singerId).subscribe(interaction => {
+        console.log('get uer an singer')
+        if (interaction != null) {
+          this.interactionId = interaction.id;
+          this.interactionDTO = interaction;
+          console.log('>>>>> 1'+this.interactionDTO.recieverId +'   '+ this.interactionDTO.singerId +'   '+ this.interactionDTO.singerId)
+        } else {
+          if (this.userToken != null) {
+            this.interactionDTO.senderId = this.userToken.id;
+            this.interactionDTO.singerId = this.singer.id;
+            this.interactionDTO.recieverId = this.singer.user.id;
+            this.interactionDTO.comment = null;
+            this.interactionDTO.link = null;
+            this.interactionDTO.likes = false;
+            this.interactionDTO.isRead = false;
+            console.log('>>>>> 2'+this.interactionDTO.recieverId +'   '+ this.interactionDTO.singerId +'   '+ this.interactionDTO.singerId)
+          }
+        }
+      });
+    }
+
+    this.singerInteractionService.getFavouritesBySingerId(this.singerId).subscribe(interactions => {
+      this.singerInteractionsSubject = new BehaviorSubject<PlaylistInteraction[]>(interactions);
+      this.currentSingerInteraction = this.singerInteractionsSubject.asObservable();
     });
 
   }
@@ -145,5 +185,43 @@ export class SingerDetailComponent implements OnInit {
         this.scrollPercent += 0.017;
       }
     });
+  }
+
+  addFavourite() {
+    if(this.userToken != null){
+      if (this.interactionId == -1) {
+        this.interactionDTO.likes = true;
+        this.singerInteractionService.create(this.interactionDTO).subscribe(interaction => {
+          this.interactionDTO = interaction;
+          this.interactionId = interaction.id;
+          this.singerInteractionService.getFavouritesBySingerId(this.singerId).subscribe(interactions => {
+            this.singerInteractionsSubject.next(interactions);
+          })
+        }, () => {
+          alert(' like  error');
+        });
+      } else {
+        this.interactionDTO.likes = !this.interactionDTO.likes;
+        this.singerInteractionService.update(this.interactionId, this.interactionDTO).subscribe(() => {
+          this.singerInteractionService.getFavouritesBySingerId(this.singerId).subscribe(interactions => {
+            this.singerInteractionsSubject.next(interactions);
+          })
+        }, () => {
+          alert(' unlike  error');
+        });
+      }
+    }else {
+      this.notificationService.showErrorMessage('You must login first')
+    }
+  }
+
+  playSingers(singer: any) {
+    const request = {
+      title: 'play playlist',
+      singer: singer,
+      singerId: singer.id,
+      songs: undefined
+    };
+    this.queueService.sendQueueRequest(request);
   }
 }

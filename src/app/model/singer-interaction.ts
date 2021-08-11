@@ -5,6 +5,7 @@ export interface SingerInteraction {
   senderId?: number;
   receiverId?: number;
   playlistId?: number;
+  singerId?: number;
   comment?: string;
   createdAt?: string;
   link?: string;

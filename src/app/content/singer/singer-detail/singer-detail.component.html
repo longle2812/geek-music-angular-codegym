@@ -29,10 +29,19 @@
       </div>
 
       <div class="album_btn">
-        <a href="#" class="ms_btn play_btn"><span class="play_all"><img src="assets/images/svg/play_all.svg"
+        <a (click)="playSingers(singer)" class="ms_btn"><span class="play_all"><img src="assets/images/svg/play_all.svg"
                                                                         alt="">Play All</span><span
           class="pause_all"><img src="assets/images/svg/pause_all.svg" alt="">Pause</span></a>
-        <a href="#" class="ms_btn"><span class="play_all"><img src="assets/images/svg/add_q.svg" alt="">Add To Queue</span></a>
+        <a  class="ms_btn"><span class="play_all"><img src="assets/images/svg/add_q.svg" alt="">Add To Queue</span></a>
+      </div>
+      <br>
+      <div class="album_btn">
+        <a *ngIf="interactionDTO.likes" (click)="addFavourite()" >
+          <i class="fas fa-heart fa-lg" style="color: #F5B7B1;"></i>
+        </a>
+        <a *ngIf="!interactionDTO.likes" (click)="addFavourite()" >
+          <i class="far fa-heart fa-lg" style="color: #3bc8e7;"></i></a>
+        <span style="padding-left: 15px">{{singerInteractionsSubject.value.length}} likes</span>
       </div>
     </div>
     <div class="album_more_optn ms_more_icon">
@@ -57,22 +66,22 @@
         <li class="text-center">More</li>
       </ul>
       <ul *ngFor="let song of songs; index as i">
-        <li><a href="#"><span class="play_no">{{i+1}}</span><span class="play_hover"></span></a></li>
-        <li><a href="#">{{song.name}}</a></li>
+        <li><a ><span class="play_no">{{i+1}}</span><span class="play_hover"></span></a></li>
+        <li><a >{{song.name}}</a></li>
         <li><span *ngFor="let genre of song.genres"> {{genre.name}} </span></li>
-        <li class="text-center"><a href="#"><span class="ms_icon1 ms_fav_icon"></span></a></li>
+        <li class="text-center"><a ><span class="ms_icon1 ms_fav_icon"></span></a></li>
         <li class="text-center ms_more_icon"><a><span
           class="ms_icon1 ms_active_icon"></span></a>
           <ul class="more_option">
-            <li><a href="#"><span class="opt_icon"><span class="icon icon_fav"></span></span>Add To
+            <li><a ><span class="opt_icon"><span class="icon icon_fav"></span></span>Add To
               Favourites</a></li>
-            <li><a href="#"><span class="opt_icon"><span class="icon icon_queue"></span></span>Add To
+            <li><a ><span class="opt_icon"><span class="icon icon_queue"></span></span>Add To
               Queue</a></li>
-            <li><a href="#"><span class="opt_icon"><span class="icon icon_dwn"></span></span>Download
+            <li><a ><span class="opt_icon"><span class="icon icon_dwn"></span></span>Download
               Now</a></li>
-            <li><a href="#"><span class="opt_icon"><span class="icon icon_playlst"></span></span>Add To
+            <li><a ><span class="opt_icon"><span class="icon icon_playlst"></span></span>Add To
               Playlist</a></li>
-            <li><a href="#"><span class="opt_icon"><span class="icon icon_share"></span></span>Share</a>
+            <li><a ><span class="opt_icon"><span class="icon icon_share"></span></span>Share</a>
             </li>
           </ul>
         </li>

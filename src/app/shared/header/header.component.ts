@@ -86,6 +86,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     $('#jp_playing_artist').text('');
     $('#jp_playing_img').attr('src', 'assets/images/album/album.jpg');
     $('#jp_playing_title').text('');
+    this.socketService.disconnect();
   }
 
   getAvatarUrl() {

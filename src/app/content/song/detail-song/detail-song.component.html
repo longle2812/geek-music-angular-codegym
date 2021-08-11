@@ -24,15 +24,20 @@
         Tags: <span style="margin-right:10px;" *ngFor="let label of songLabels">#{{label }}</span>
       </div>
       <div class="album_btn">
-        <a class="ms_btn play_btn"><span class="play_all"><img src="assets/images/svg/play_all.svg"
-                                                               alt="">Play</span><span
+        <a style="cursor: pointer" (click)="playSong(song)" class="ms_btn"><span class="play_all"><img src="assets/images/svg/play_all.svg"
+                                                                        alt="">Play</span><span
           class="pause_all"><img src="assets/images/svg/pause_all.svg" alt="">Pause</span></a>
-        <a class="ms_btn"><span class="play_all">
-          <img src="assets/images/svg/add_q.svg" alt="">Add To Queue</span></a>
+        <a style="cursor: pointer" (click)="addToQueue(song)" class="ms_btn"><span class="play_all">
+          <img  src="assets/images/svg/add_q.svg" alt="">Add To Queue</span></a>
       </div>
       <br>
       <div class="album_btn">
-        <span> likes</span>
+        <a *ngIf="interactionDTO.likes" (click)="addFavourite()" >
+          <i class="fas fa-heart fa-lg" style="color: #F5B7B1;"></i>
+        </a>
+        <a *ngIf="!interactionDTO.likes" (click)="addFavourite()" >
+          <i class="far fa-heart fa-lg" style="color: #3bc8e7;"></i></a>
+        <span style="padding-left: 15px">{{songInteractionsSubject.value.length}} likes</span>
       </div>
     </div>
 
@@ -40,14 +45,12 @@
       <span><img src="assets/images/svg/more.svg" alt=""></span>
     </div>
     <ul class="more_option">
-      <li><a (click)="addFavourite()"><span class="opt_icon"><span class="icon icon_fav"></span></span>Add To Favourites</a>
-      </li>
-      <li><a (click)="editSong()"><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a></li>
+      <li><a (click)="addFavourite()" ><span class="opt_icon"><span class="icon icon_fav"></span></span>Add To Favourites</a></li>
+      <li><a (click)="editSong()" ><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a></li>
       <li><a (click)="showAddTagForm()"><span class="opt_icon"><span class="icon icon_queue"></span></span>Add tags</a>
       </li>
-      <li><a class="btn-confirm" (click)="deleteSong()">
+      <li><a  class="btn-confirm" (click)="deleteSong()">
         <span class="opt_icon"><span class="icon icon_dwn"></span></span>Delete</a></li>
-
     </ul>
   </div>
 

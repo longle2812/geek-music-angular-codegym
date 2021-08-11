@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Playlist} from '../../../model/playlist';
 import {PlaylistService} from '../../../service/playlist/playlist.service';
 import {Router} from '@angular/router';
+import {QueueService} from '../../../service/queue/queue.service';
 
 @Component({
   selector: 'app-featured-album',
@@ -11,7 +12,7 @@ import {Router} from '@angular/router';
 export class FeaturedAlbumComponent implements OnInit {
   playlists: Playlist[] = [];
 
-  constructor(private playlistService: PlaylistService, private router: Router) {
+  constructor(private playlistService: PlaylistService, private router: Router, private queueService: QueueService) {
   }
 
   ngOnInit() {
@@ -32,5 +33,15 @@ export class FeaturedAlbumComponent implements OnInit {
     script.async = false;
     script.defer = true;
     body.appendChild(script);
+  }
+
+  playPlaylist(playlist: any) {
+    const request = {
+      title: 'play playlist',
+      playlist: playlist,
+      playlistId: playlist.id,
+      songs: undefined
+    };
+    this.queueService.sendQueueRequest(request);
   }
 }

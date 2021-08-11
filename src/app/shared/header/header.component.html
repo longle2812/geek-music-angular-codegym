@@ -46,11 +46,11 @@
     </div>
   </div>
 </div>
-  <div id="advance-search" style="border: 1px solid black" style="border: 1px solid black;margin-top: -18px;">
+  <div id="advance-search" style="border: 1px solid black;margin-top: -18px; border-radius: 10px">
     <div style="padding: 8px 16px 21px 16px">
         <table style="width:100%">
           <tr>
-            <td><label class="selectChild bold-word label-drop-down">User</label></td>
+            <td><label class="selectChild bold-word label-drop-down" style="color: #777">User</label></td>
             <td>
               <input list="usernameSelected" id="userSelected" class="input-box" autocomplete="off">
               <datalist class="selectChild" id="usernameSelected">
@@ -58,20 +58,20 @@
               </datalist>
           </tr>
           <tr>
-            <td><label class="selectChild bold-word label-drop-down">Genre</label></td>
+            <td><label class="selectChild bold-word label-drop-down" style="color: #777">Genre</label></td>
             <td><input list="genreSelected" id="genreName" class="input-box" autocomplete="off">
               <datalist class="selectChild" id="genreSelected" >
                 <option class="selectChild" *ngFor="let genre of genres" [value]="genre.name"></option>
               </datalist></td>
           </tr>
           <tr>
-            <td><label class="selectChild bold-word label-drop-down">From</label></td>
+            <td><label class="selectChild bold-word label-drop-down" style="color: #777">From</label></td>
             <td><div style="margin-top: 10px">
-              <input class="selectChild input-date-box" type="date" id="startDate" name="trip-start"
+              <input style="color: #777" class="selectChild input-date-box" type="date" id="startDate" name="trip-start"
                      value="2021-08-01"
                      min="2021-01-01" max="2021-12-31">
-              <span style="margin-left: 5%;margin-right: 4%;font-size:15px"> to: </span>
-              <input class="selectChild input-date-box" type="date" id="endDate" name="trip-start"
+              <span style="margin-left: 5%;margin-right: 4%;font-size:15px" style="color: #777"> to: </span>
+              <input style="color: #777" class="selectChild input-date-box" type="date" id="endDate" name="trip-start"
                      value="2021-08-09"
                      min="2021-01-01" max="2021-12-31">
             </div>

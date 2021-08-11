@@ -1,7 +1,7 @@
 <div class="ms_featured_slider">
   <div class="ms_heading">
     <h1>Most like songs</h1>
-    <span class="veiw_all"><a href="#">view more</a></span>
+    <span class="veiw_all"><a >view more</a></span>
   </div>
   <div class="ms_feature_slider swiper-container">
     <div class="swiper-wrapper">
@@ -15,18 +15,18 @@
                 <img src="/assets/images/svg/more.svg" alt="">
               </div>
               <ul class="more_option">
-                <li><a href="#"><span class="opt_icon"><span class="icon icon_queue"></span></span>Add To Queue</a></li>
-                <li><a href="#"><span class="opt_icon"><span class="icon icon_playlst"></span></span>Add To Playlist</a>
+                <li><a (click)="addToQueue(song)"><span class="opt_icon"><span class="icon icon_queue"></span></span>Add To Queue</a></li>
+                <li><a #addButton class="songId" (click)="toogle(addButton)" [attr.data-song-id]="song.id"><span class="opt_icon"><span class="icon icon_playlst"></span></span>Add To Playlist</a>
                 </li>
-                <li><a href="#"><span class="opt_icon"><span class="icon icon_share"></span></span>Share</a></li>
+                <li><a (click)="share(addButton)"><span class="opt_icon"><span class="icon icon_share"></span></span>Share</a></li>
               </ul>
               <div class="ms_play_icon">
-                <img src="/assets/images/svg/play.svg" alt="">
+                <img (click)="playSong(song)" src="/assets/images/svg/play.svg" alt="">
               </div>
             </div>
           </div>
           <div class="ms_rcnt_box_text">
-            <h3><a href="#">{{song.name}}</a></h3>
+            <h3><a routerLink="/songs/detail/{{song.id}}">{{song.name}}</a></h3>
             <p>{{song.likes}} likes</p>
           </div>
         </div>

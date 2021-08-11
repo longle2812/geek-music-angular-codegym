@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SongService} from '../../../service/song/song.service';
 import {Song} from '../../../model/song';
 import {QueueService} from '../../../service/queue/queue.service';
+import {element} from 'protractor';
 
 declare var $: any;
 
@@ -43,6 +44,12 @@ export class RecentlyPlayedComponent implements OnInit {
 
   toogle(element: HTMLAnchorElement) {
     $('#add-song').show();
+    const songId = element.getAttribute('data-song-id');
+    this.songService.changeSongId(songId);
+  }
+
+  share(element: HTMLAnchorElement) {
+    $('#share-song').show();
     const songId = element.getAttribute('data-song-id');
     this.songService.changeSongId(songId);
   }

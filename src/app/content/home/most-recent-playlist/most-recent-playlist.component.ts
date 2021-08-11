@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PlaylistService} from '../../../service/playlist/playlist.service';
 import {Playlist} from '../../../model/playlist';
+import {QueueService} from '../../../service/queue/queue.service';
 
 @Component({
   selector: 'app-most-recent-playlist',
@@ -10,7 +11,7 @@ import {Playlist} from '../../../model/playlist';
 export class MostRecentPlaylistComponent implements OnInit {
   playlists: Playlist[] = [];
 
-  constructor(private playlistService: PlaylistService) {
+  constructor(private playlistService: PlaylistService, private queueService: QueueService) {
     this.playlistService.getAllPlaylistByMostRecent(5, 0).subscribe(
       playlists => {
         this.playlists = playlists;
@@ -21,4 +22,13 @@ export class MostRecentPlaylistComponent implements OnInit {
   ngOnInit() {
   }
 
+  playPlaylist(playlist: any) {
+    const request = {
+      title: 'play playlist',
+      playlist: playlist,
+      playlistId: playlist.id,
+      songs: undefined
+    };
+    this.queueService.sendQueueRequest(request);
+  }
 }

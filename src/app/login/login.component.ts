@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {NotificationService} from '../service/notification/notification.service';
 import {UserService} from '../service/user/user.service';
 import {PlaylistService} from '../service/playlist/playlist.service';
+import {SocketService} from '../service/socket/socket.service';
 
 declare var $: any;
 
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
   errorMsg = '';
 
   constructor(private userService: UserService, private notificationService: NotificationService,
-              private authenticationService: AuthenticationService, private router: Router, private playlistService: PlaylistService) {
+              private authenticationService: AuthenticationService, private router: Router, private playlistService: PlaylistService,
+              private socketService: SocketService) {
   }
 
   ngOnInit() {
@@ -41,6 +43,7 @@ export class LoginComponent implements OnInit {
           this.reloadCurrentRoute();
           this.playlistService.getAllPlaylistBuyUser(userToken.id).subscribe(list => {
             this.playlistService.currentSearchPlaylistSubject.next(list);
+            this.socketService.connect();
           });
         },
         e => {
