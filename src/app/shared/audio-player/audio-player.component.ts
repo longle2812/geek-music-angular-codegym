@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {QueueService} from '../../service/queue/queue.service';
 import {SongService} from '../../service/song/song.service';
+
 const {jPlayerPlaylist} = require('../../../assets/js/plugins/player/jplayer.playlist.min');
 
 declare var $: any;
@@ -145,16 +146,30 @@ export class AudioPlayerComponent implements OnInit {
 
   ngOnInit() {
     this.queueService.currentQueueRequest.subscribe(
-      (queue) => {
-        if (queue.title === 'reset'){
+      async (queue) => {
+        if (queue.title === 'play playlist') {
+          if (queue.songs != []) {
+            this.myPlaylist.setPlaylist(queue.songs);
+            this.queue = [];
+            for (let i = 0; i < queue.songs.length; i++) {
+              // this.songService.getSongById(queue.songs[i].songId).subscribe(song => {
+              //   this.queue.push(song);
+              //   this.myPlaylist.add(queue.songs[i]);
+              // });
+              let song = await this.getSongById(queue.songs[i].songId)
+              this.queue.push(song);
+            }
+          }
+          setTimeout(() => this.myPlaylist.play(0), 1000);
+        }
+        if (queue.title === 'reset') {
           this.myPlaylist.remove();
           this.queue = [];
-        }
-        else if (queue.title === 'delete'){
+        } else if (queue.title === 'delete') {
           let i = 0;
           let index = -1;
-          while ( i < this.queue.length){
-            if (this.queue[i].id == queue.songId){
+          while (i < this.queue.length) {
+            if (this.queue[i].id == queue.songId) {
               this.queue.splice(i, 1);
               index = i;
               break;
@@ -162,7 +177,7 @@ export class AudioPlayerComponent implements OnInit {
             i++;
           }
           let tempQueue = [];
-          for (let i = 0; i < this.queue.length; i++){
+          for (let i = 0; i < this.queue.length; i++) {
             const myPlayListOtion = '<ul class="more_option"><li><a href="#"><span class="opt_icon" title="Add To Favourites"><span class="icon icon_fav"></span></span></a></li><li><a href="#"><span class="opt_icon" title="Add To Queue"><span class="icon icon_queue"></span></span></a></li><li><a href="#"><span class="opt_icon" title="Download Now"><span class="icon icon_dwn"></span></span></a></li><li><a href="#"><span class="opt_icon" title="Add To Playlist"><span class="icon icon_playlst"></span></span></a></li><li><a href="#"><span class="opt_icon" title="Share"><span class="icon icon_share"></span></span></a></li></ul>';
             const songUpdate = {
               image: this.queue[i].imgUrl,
@@ -175,38 +190,38 @@ export class AudioPlayerComponent implements OnInit {
           }
           this.myPlaylist.setPlaylist(tempQueue);
           $('#jp_playing_artist').text('');
-          $('#jp_playing_img').attr('src','assets/images/album/album.jpg');
+          $('#jp_playing_img').attr('src', 'assets/images/album/album.jpg');
           $('#jp_playing_title').text('');
           this.myPlaylist.play(0);
-           setTimeout( () => this.myPlaylist.play(0),1000)
-        }
-        else if (queue.song !== undefined) {
+          setTimeout(() => this.myPlaylist.play(0), 1000);
+        } else if (queue.song !== undefined) {
           this.songService.getSongById(queue.songId).subscribe(
             song => {
               let isExist = false;
               let index = -1;
-              for (let i = 0; i < this.queue.length; i++){
+              for (let i = 0; i < this.queue.length; i++) {
                 if (this.queue[i].id == queue.songId) {
                   isExist = true;
                   index = i;
+                  break;
                 }
               }
-              if (!isExist){
-                if (queue.title === 'add' && queue.songId !== -1){
+              if (!isExist) {
+                if (queue.title === 'add' && queue.songId !== -1) {
                   this.queue.push(song);
                   this.myPlaylist.add(queue.song);
-                  console.log(this.myPlaylist.current);
                 }
-                if (queue.title === 'play' && queue.songId !== -1){
-                  this.myPlaylist.add(queue.song,[true]);
+                if (queue.title === 'play' && queue.songId !== -1) {
+                  this.myPlaylist.add(queue.song, [true]);
                   this.queue.push(song);
+                  this.songService.increaseSongListenCount(queue.songId).subscribe();
                 }
-              }
-              else if(queue.title === 'play') {
-                  this.myPlaylist.play(index);
+              } else if (queue.title === 'play') {
+                this.myPlaylist.play(index);
+                this.songService.increaseSongListenCount(queue.songId).subscribe();
               }
             }
-          )
+          );
         }
 
       }
@@ -223,4 +238,7 @@ export class AudioPlayerComponent implements OnInit {
     body.appendChild(script);
   }
 
+  getSongById(id: number){
+    return this.songService.getSongById(id).toPromise();
+  }
 }

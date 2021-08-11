@@ -31,6 +31,11 @@ export class SocketService {
   connect(){
     const ws = new SockJS(`${API_URL}/ws`);
     this.stompClient = Stomp.over(ws);
+    this.authenticationService.currentUserSubject.subscribe(user => {
+      this.currentUser = user;
+      this.getAllNotification(this.currentUser.id);
+      this.getAllNotificationUnRead(this.currentUser.id);
+    })
     this.stompClient.connect({}, frame =>{
       this.stompClient.subscribe('/topic/notifications', data => {
         const notification = JSON.parse(data.body);

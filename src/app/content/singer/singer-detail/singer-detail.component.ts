@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserToken} from '../../../model/user-token';
 import {ActivatedRoute, Router} from '@angular/router';
+import {PlaylistService} from '../../../service/playlist/playlist.service';
 import {AuthenticationService} from '../../../service/authentication/authentication.service';
 import {Singer} from '../../../model/singer';
 import {SingerService} from '../../../service/singer/singer.service';
@@ -12,12 +13,13 @@ import {PlaylistInteraction} from '../../../model/playlist-interaction';
 import {SingerInteraction} from '../../../model/singer-interaction';
 import {SingerInteractionService} from '../../../service/singer-interaction/singer-interaction.service';
 import {SingerInteractionDTO} from '../../../model/singer-interaction-dto';
-import {NotificationService} from '../../../service/notification/notification.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {SongInteraction} from '../../../model/song-interaction';
 import {SocketService} from '../../../service/socket/socket.service';
 import {UserService} from '../../../service/user/user.service';
 import {User} from '../../../model/user';
+import {QueueService} from '../../../service/queue/queue.service';
+import {NotificationService} from '../../../service/notification/notification.service';
 
 declare var $: any;
 
@@ -53,7 +55,8 @@ export class SingerDetailComponent implements OnInit {
               private singerInteractionService: SingerInteractionService,
               private notificationService: NotificationService,
               private socketService: SocketService,
-              private userService: UserService
+              private userService: UserService,
+              private queueService: QueueService
   ) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       this.singerId = Number(paramMap.get('id'));
@@ -61,6 +64,7 @@ export class SingerDetailComponent implements OnInit {
       this.getSongs(this.singerId);
       const id = +paramMap.get('id');
       this.getSingerComment(id);
+      this.getSingerComment(this.singerId);
     });
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
@@ -208,5 +212,17 @@ export class SingerDetailComponent implements OnInit {
         this.scrollPercent += 0.017;
       }
     });
+  }
+
+
+
+  playSingers(singer: any) {
+    const request = {
+      title: 'play playlist',
+      singer: singer,
+      singerId: singer.id,
+      songs: undefined
+    };
+    this.queueService.sendQueueRequest(request);
   }
 }
