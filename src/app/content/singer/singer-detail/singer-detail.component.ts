@@ -20,6 +20,7 @@ import {SongInteraction} from '../../../model/song-interaction';
 import {SocketService} from '../../../service/socket/socket.service';
 import {UserService} from '../../../service/user/user.service';
 import {User} from '../../../model/user';
+import {QueueService} from '../../../service/queue/queue.service';
 
 declare var $: any;
 @Component({
@@ -53,7 +54,8 @@ export class SingerDetailComponent implements OnInit {
               private songService: SongService,
               private notificationService: NotificationService,
               private socketService: SocketService,
-              private userService: UserService,private singerInteractionService: SingerInteractionService) {
+              private userService: UserService,private singerInteractionService: SingerInteractionService,
+              private queueService: QueueService) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       this.singerId = Number(paramMap.get('id'));
       this.getSinger(this.singerId);
@@ -211,5 +213,15 @@ export class SingerDetailComponent implements OnInit {
     }else {
       this.notificationService.showErrorMessage('You must login first')
     }
+  }
+
+  playSingers(singer: any) {
+    const request = {
+      title: 'play playlist',
+      singer: singer,
+      singerId: singer.id,
+      songs: undefined
+    };
+    this.queueService.sendQueueRequest(request);
   }
 }

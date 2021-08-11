@@ -146,18 +146,21 @@ export class AudioPlayerComponent implements OnInit {
 
   ngOnInit() {
     this.queueService.currentQueueRequest.subscribe(
-      (queue) => {
-        if (queue.title === 'play playlist'){
-          if (queue.songs != []){
+      async (queue) => {
+        if (queue.title === 'play playlist') {
+          if (queue.songs != []) {
             this.myPlaylist.setPlaylist(queue.songs);
             this.queue = [];
-            for (let i =0; i < queue.songs.length; i++){
-              this.songService.getSongById(queue.songs[i].songId).subscribe(song => {
-                this.queue.push(song);
-              })
+            for (let i = 0; i < queue.songs.length; i++) {
+              // this.songService.getSongById(queue.songs[i].songId).subscribe(song => {
+              //   this.queue.push(song);
+              //   this.myPlaylist.add(queue.songs[i]);
+              // });
+              let song = await this.getSongById(queue.songs[i].songId)
+              this.queue.push(song);
             }
-            setTimeout(() => this.myPlaylist.play(0), 1000);
           }
+          setTimeout(() => this.myPlaylist.play(0), 1000);
         }
         if (queue.title === 'reset') {
           this.myPlaylist.remove();
@@ -235,4 +238,7 @@ export class AudioPlayerComponent implements OnInit {
     body.appendChild(script);
   }
 
+  getSongById(id: number){
+    return this.songService.getSongById(id).toPromise();
+  }
 }
