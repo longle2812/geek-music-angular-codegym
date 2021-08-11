@@ -10,6 +10,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {SongService} from '../../../service/song/song.service';
 import {User} from '../../../model/user';
 import {SongInteraction} from '../../../model/song-interaction';
+import {LabelService} from '../../../service/label/label.service';
 
 declare var $: any;
 
@@ -29,17 +30,20 @@ export class DetailSongComponent implements OnInit {
   page = 0;
   size = 5;
   scrollPercent = 0.796;
+  songLabels: string[] = [];
 
   constructor(private activatedRouter: ActivatedRoute,
               private songService: SongService,
               private router: Router,
               private authenticationService: AuthenticationService,
               private notificationService: NotificationService, private socketService: SocketService,
-              private userService: UserService) {
+              private userService: UserService,
+              private labelService: LabelService) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       const id = +paramMap.get('id');
       this.getSongDetail(id);
       this.getSongComment(id);
+      this.getSongTags(id);
     });
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
@@ -155,5 +159,11 @@ export class DetailSongComponent implements OnInit {
     } else {
       this.notificationService.showErrorMessage('Only the owner is allowed to do this');
     }
+  }
+
+  getSongTags(id: number) {
+    this.labelService.getSongTags(id).subscribe(labels => {
+      this.songLabels = labels;
+    });
   }
 }

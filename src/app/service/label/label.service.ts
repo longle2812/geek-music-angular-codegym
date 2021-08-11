@@ -21,4 +21,8 @@ export class LabelService {
   addTagsToSong(labelList: Label[], songId: number): Observable<any> {
     return this.http.post<any>(`${API_URL}/labels/addTags/${songId}`, labelList);
   }
+
+  getSongTags(songId: number): Observable<string[]> {
+    return this.http.get<string[]>(`${API_URL}/labels/getSongTag/${songId}`);
+  }
 }
