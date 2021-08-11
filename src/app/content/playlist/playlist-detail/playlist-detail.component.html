@@ -10,7 +10,7 @@
         <span *ngFor="let genre of playlist.genres">{{genre.name}} </span>
       </div>
       <div class="about_artist">
-        {{playlist.description}}
+        <span> {{playlist.description}} </span>
       </div>
       <div class="album_btn">
         <a (click)="playPlaylist(playlist)" class="ms_btn"><span style="color: white; cursor: pointer" class="play_all"><img src="assets/images/svg/play_all.svg"
@@ -21,11 +21,11 @@
       <br>
       <div class="album_btn">
         <a *ngIf="interactionDTO.likes" (click)="addFavourite()" >
-          <i class="fas fa-heart fa-2x" style="color: red;"></i>
+          <i class="fas fa-heart fa-lg" style="color: #F5B7B1;"></i>
         </a>
         <a *ngIf="!interactionDTO.likes" (click)="addFavourite()" >
-          <i class="far fa-heart fa-2x" style="color: #40E0D0;"></i></a>
-        <span *ngIf="playlistInteractionsSubject">{{playlistInteractionsSubject.value.length}} likes</span>
+          <i class="far fa-heart fa-lg" style="color: #3bc8e7;"></i></a>
+        <span style="padding-left: 15px">{{playlistInteractionsSubject.value.length}} likes</span>
       </div>
     </div>
 
@@ -70,6 +70,7 @@
 <!--    <a  class="ms_btn" style="color: white">view more</a>-->
 <!--  </div>-->
 
+
   <div class="blog_comments_forms">
     <h1>Leave A Comment</h1>
     <form [formGroup]="commentForm" >
@@ -95,18 +96,16 @@
     <ol>
       <li>
         <div class="ms_comment_section" *ngFor="let comment of comments" style="margin-top: 3px">
-          <div *ngIf="comment.sender">
-            <div class="comment_img" *ngIf="comment.sender">
-              <img [src]="comment.sender.avatarUrl" alt="" style="width: 80px;height: 80px;">
+          <div class="comment_img">
+            <img [src]="comment.sender.avatarUrl" alt="" style="width: 80px;height: 80px;">
+          </div>
+          <div class="comment_info">
+            <div class="comment_head">
+              <h3>{{comment.sender.username}}</h3>
+              <p>{{comment.createdAt}}</p>
             </div>
-            <div class="comment_info" *ngIf="comment.sender">
-              <div class="comment_head">
-                <h3>{{comment.sender.username}}</h3>
-                <p>{{comment.createdAt}}</p>
-              </div>
-              <p>{{comment.comment}}</p>
-              <a  class="comment_reply">reply</a>
-            </div>
+            <p>{{comment.comment}}</p>
+            <a  class="comment_reply">reply</a>
           </div>
         </div>
       </li>

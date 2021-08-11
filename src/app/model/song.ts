@@ -1,3 +1,5 @@
+import {User} from './user';
+
 export interface Song {
   id?: number;
   name?: string;
@@ -8,7 +10,7 @@ export interface Song {
   listenCount?: number;
   likes?: number;
   album?: string;
-  user?: any;
+  user?: User;
   genres?: any;
   singers?: any;
   commentList?: any;

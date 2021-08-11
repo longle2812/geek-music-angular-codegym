@@ -34,6 +34,15 @@
           class="pause_all"><img src="assets/images/svg/pause_all.svg" alt="">Pause</span></a>
         <a href="#" class="ms_btn"><span class="play_all"><img src="assets/images/svg/add_q.svg" alt="">Add To Queue</span></a>
       </div>
+      <br>
+      <div class="album_btn">
+        <a *ngIf="interactionDTO.likes" (click)="addFavourite()" >
+          <i class="fas fa-heart fa-lg" style="color: #F5B7B1;"></i>
+        </a>
+        <a *ngIf="!interactionDTO.likes" (click)="addFavourite()" >
+          <i class="far fa-heart fa-lg" style="color: #3bc8e7;"></i></a>
+        <span style="padding-left: 15px">{{singerInteractionsSubject.value.length}} likes</span>
+      </div>
     </div>
     <div class="album_more_optn ms_more_icon">
       <span><img src="assets/images/svg/more.svg" alt=""></span>

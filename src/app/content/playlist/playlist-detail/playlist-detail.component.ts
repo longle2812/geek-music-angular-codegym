@@ -45,9 +45,10 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
               private playlistService: PlaylistService,
               private router: Router,
               private authenticationService: AuthenticationService,
-              private notificationService: NotificationService, private socketService: SocketService,
-              private playlistInteractionService: PlaylistInteractionService, private userService: UserService,
-              private queueService: QueueService) {
+              private notificationService: NotificationService,
+              private socketService: SocketService,
+              private playlistInteractionService: PlaylistInteractionService,
+              private userService: UserService, private queueService: QueueService) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       this.playlistId = Number(paramMap.get('id'));
       this.getPlaylist(this.playlistId);
@@ -58,27 +59,32 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
     });
-    this.playlistInteractionService.getFavouriteByUserAndPlaylistId(this.userToken.id, this.playlistId).subscribe(interaction => {
-      if (interaction != null) {
-        this.interactionId = interaction.id;
-        this.interactionDTO = interaction;
-      } else {
-        if (this.userToken != null && this.playlist != null) {
-          this.interactionDTO.senderId = this.userToken.id;
-          this.interactionDTO.playlistId = this.playlistId;
-          this.interactionDTO.recieverId = this.playlist.user.id;
-          this.interactionDTO.comment = null;
-          this.interactionDTO.link = null;
-          this.interactionDTO.likes = false;
-          this.interactionDTO.isRead = false;
+    if(this.userToken != null && this.playlist != null){
+      this.playlistInteractionService.getFavouriteByUserAndPlaylistId(this.userToken.id, this.playlistId).subscribe(interaction =>{
+        if(interaction != null){
+          this.interactionId = interaction.id
+          this.interactionDTO = interaction;
+        }else {
+          if(this.userToken != null && this.playlist != null){
+            this.interactionDTO.senderId = this.userToken.id;
+            this.interactionDTO.playlistId = this.playlistId;
+            this.interactionDTO.recieverId =  this.playlist.user.id;
+            this.interactionDTO.comment = null;
+            this.interactionDTO.link = null;
+            this.interactionDTO.likes = false;
+            this.interactionDTO.isRead = false;
+          }
+
         }
-      }
-    });
+
+      });
+
+    }
 
     this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
       this.playlistInteractionsSubject = new BehaviorSubject<PlaylistInteraction[]>(interactions);
       this.currentPlaylistInteraction = this.playlistInteractionsSubject.asObservable();
-    });
+    })
   }
 
   ngOnInit() {
@@ -110,8 +116,8 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   }
 
   deletePlaylist() {
-    if (this.userToken.id === this.playlist.user.id) {
-      const isConfirm = confirm('Confirm delete playlist');
+    if (this.userToken.id == this.playlist.user.id) {
+      let isConfirm = confirm('Confirm delete playlist');
       if (isConfirm) {
         this.playlistService.delete(this.playlist.id).subscribe(() => {
             this.notificationService.showSuccessMessage('Delete success');
@@ -135,8 +141,8 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   }
 
   addFavourite() {
-    if (this.userToken != null) {
-      if (this.interactionId === -1) {
+    if(this.userToken != null){
+      if (this.interactionId == -1) {
         this.interactionDTO.likes = true;
         this.playlistInteractionService.create(this.interactionDTO).subscribe(interaction => {
           this.interactionDTO = interaction;
@@ -185,6 +191,8 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
           alert(' unlike  error');
         });
       }
+    }else {
+      this.notificationService.showErrorMessage('You must login first')
     }
 
   }

@@ -29,7 +29,7 @@ export class QueueService {
         title: request.song.name,
         artist: request.song.author,
         mp3: request.song.fileMp3,
-        option: myPlayListOtion
+        option: myPlayListOtion,
       };
       this.currentQueueRequest.next(request);
     }
@@ -42,7 +42,8 @@ export class QueueService {
             title: playlist.songs[i].name,
             artist: playlist.songs[i].author,
             mp3: playlist.songs[i].fileMp3,
-            option: myPlayListOtion
+            option: myPlayListOtion,
+            songId: playlist.songs[i].id
           };
           request.songs.push(song);
           this.currentQueueRequest.next(request);

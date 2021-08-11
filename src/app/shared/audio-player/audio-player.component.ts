@@ -150,6 +150,7 @@ export class AudioPlayerComponent implements OnInit {
         if (queue.title === 'play playlist'){
           if (queue.songs != []){
             this.myPlaylist.setPlaylist(queue.songs);
+            this.queue = [];
             setTimeout(() => this.myPlaylist.play(0), 1000);
           }
         }
