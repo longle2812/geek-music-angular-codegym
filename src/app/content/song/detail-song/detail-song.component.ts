@@ -20,8 +20,9 @@ import {SongInteractionService} from '../../../service/song-interaction/song-int
 import {User} from '../../../model/user';
 import {QueueService} from '../../../service/queue/queue.service';
 import {SongInteraction} from '../../../model/song-interaction';
-declare var $: any;
+import {LabelService} from '../../../service/label/label.service';
 
+declare var $: any;
 
 @Component({
   selector: 'app-detail-song',
@@ -39,6 +40,7 @@ export class DetailSongComponent implements OnInit {
   page = 0;
   size = 5;
   scrollPercent = 0.796;
+  songLabels: string[] = [];
 
   interactionId: number = -1;
   songId: number = -1;
@@ -54,12 +56,14 @@ export class DetailSongComponent implements OnInit {
               private notificationService: NotificationService,
               private socketService: SocketService,
               private songInteractionService: SongInteractionService,
-              private userService: UserService, private queueService: QueueService) {
+              private userService: UserService, private queueService: QueueService,
+              private labelService: LabelService) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       const id = Number(paramMap.get('id'));
       this.songId = id;
       this.getSongDetail(id);
       this.getSongComment(id);
+      this.getSongTags(id);
     });
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
@@ -180,7 +184,7 @@ export class DetailSongComponent implements OnInit {
   getSongDetail(id: number) {
     this.songService.findSongById(id).subscribe(song => {
       this.song = song;
-    })
+    });
   }
 
   addComment() {
@@ -258,5 +262,21 @@ export class DetailSongComponent implements OnInit {
       songId: song.id
     };
     this.queueService.sendQueueRequest(request);
+  }
+
+  showAddTagForm() {
+    console.log(this.song.user);
+    console.log(this.userToken.id);
+    if (this.song.user.id === this.userToken.id) {
+      this.router.navigate(['/songs/addTag', this.song.id]);
+    } else {
+      this.notificationService.showErrorMessage('Only the owner is allowed to do this');
+    }
+  }
+
+  getSongTags(id: number) {
+    this.labelService.getSongTags(id).subscribe(labels => {
+      this.songLabels = labels;
+    });
   }
 }

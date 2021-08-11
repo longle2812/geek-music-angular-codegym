@@ -20,6 +20,9 @@
       <div class="about_artist">
         Description: {{song.description}}
       </div>
+      <div class="about_artist">
+        Tags: <span style="margin-right:10px;" *ngFor="let label of songLabels">#{{label }}</span>
+      </div>
       <div class="album_btn">
         <a style="cursor: pointer" (click)="playSong(song)" class="ms_btn"><span class="play_all"><img src="assets/images/svg/play_all.svg"
                                                                         alt="">Play</span><span
@@ -44,6 +47,8 @@
     <ul class="more_option">
       <li><a (click)="addFavourite()" ><span class="opt_icon"><span class="icon icon_fav"></span></span>Add To Favourites</a></li>
       <li><a (click)="editSong()" ><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a></li>
+      <li><a (click)="showAddTagForm()"><span class="opt_icon"><span class="icon icon_queue"></span></span>Add tags</a>
+      </li>
       <li><a  class="btn-confirm" (click)="deleteSong()">
         <span class="opt_icon"><span class="icon icon_dwn"></span></span>Delete</a></li>
     </ul>
@@ -51,19 +56,22 @@
 
   <div class="blog_comments_forms">
     <h1>Leave A Comment</h1>
-    <form [formGroup]="commentForm" >
+    <form [formGroup]="commentForm">
       <div class="row">
         <div class="col-lg-12 col-md-12">
           <div class="comment_input_wrapper">
-            <textarea id="comment" name="comment" class="cmnt_field" placeholder="Your Comments" formControlName="comment"></textarea>
+            <textarea id="comment" name="comment" class="cmnt_field" placeholder="Your Comments"
+                      formControlName="comment"></textarea>
             <div *ngIf="commentForm.get('comment').touched">
-              <p class="show-error-input" *ngIf="commentForm.get('comment').errors?.required">Comment can not be empty</p>
+              <p class="show-error-input" *ngIf="commentForm.get('comment').errors?.required">Comment can not be
+                empty</p>
             </div>
           </div>
         </div>
         <div class="col-lg-12 col-md-12">
           <div class="comment-form-submit">
-            <input name="submit" type="submit" id="comment-submit" class="submit ms_btn" value="Post Comment" (click)="addComment()">
+            <input name="submit" type="submit" id="comment-submit" class="submit ms_btn" value="Post Comment"
+                   (click)="addComment()">
           </div>
         </div>
       </div>
@@ -83,7 +91,7 @@
               <p>{{comment.createdAt}}</p>
             </div>
             <p>{{comment.comment}}</p>
-            <a  class="comment_reply">reply</a>
+            <a class="comment_reply">reply</a>
           </div>
         </div>
       </li>

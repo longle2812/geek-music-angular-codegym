@@ -19,14 +19,13 @@
               <div class="w_tp_song_img">
                 <img [src]="song.imgUrl" alt="">
                 <div class="ms_song_overlay">
-
                 </div>
                 <div class="ms_play_icon">
                   <img (click)="playSong(song)" src="/assets/images/svg/play.svg" alt="">
                 </div>
               </div>
               <div class="w_tp_song_name">
-                <h3><a [routerLink]="['/song',song.id]">{{song.name}}</a></h3>
+                <h3><a [routerLink]="['/songs/detail',song.id]">{{song.name}}</a></h3>
                 <p>{{song.singers[0].name}}</p>
               </div>
             </div>
