@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService, private authenticationService: AuthenticationService,
               private router: Router, private playlistService: PlaylistService, private genreService: GenreService,
               private songService: SongService, private queueService: QueueService,private notificationService: NotificationService,
-              private socketService: SocketService,private singerService: SingerService) {
+              private socketService: SocketService, private singerService: SingerService) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.currentUser = user;
       this.loadScript('/assets/js/profile-on-click.js');

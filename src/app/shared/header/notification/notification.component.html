@@ -11,7 +11,7 @@
     </div>
     <div *ngIf="socketService.listNotificationUnRead.length>0" class="notification-ui_dd-content" style="overflow-y: auto; max-height: 400px" >
       <ng-container *ngFor="let notification of socketService.listNotification">
-        <a href="#!" [ngClass]="{'notification-list--unread': !notification.status}" class="notification-list text-dark" >
+        <a (click)="updateStatus(notification.id,currentUser.id)" [ngClass]="{'notification-list--unread': !notification.status}" class="notification-list text-dark" >
           <div class="notification-list_img">
             <img src="{{notification.sender.avatarUrl}}" alt="user">
           </div>

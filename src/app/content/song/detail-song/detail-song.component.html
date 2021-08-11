@@ -3,7 +3,7 @@
     <div class="album_single_img">
       <img src="{{song.imgUrl}}" alt="" class="img-fluid" style="width: 240px;height: 240px;">
     </div>
-    <div class="album_single_text" style="color:white">
+    <div class="album_single_text" style="color:white; padding-top: 0px;">
       <h2>{{song.name}}</h2>
       <p class="singer_name">
         Genres: <span *ngFor="let genre of song.genres">{{genre.name}} </span>

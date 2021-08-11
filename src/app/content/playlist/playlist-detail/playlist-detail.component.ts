@@ -13,6 +13,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../service/user/user.service';
 import {User} from '../../../model/user';
+import {environment} from '../../../../environments/environment';
 
 declare var $: any;
 
@@ -22,6 +23,7 @@ declare var $: any;
   styleUrls: ['./playlist-detail.component.css']
 })
 export class PlaylistDetailComponent implements OnInit, OnDestroy {
+  URL = '/playlist/';
   playlist: Playlist = {};
   userToken: UserToken = {};
   notifications: Notification[] = [];
@@ -33,7 +35,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   commentForm: FormGroup = new FormGroup({
     comment: new FormControl('', [Validators.required])
   });
-  comments: PlaylistInteraction[] = [{}];
+  comments: PlaylistInteraction[];
   page = 0;
   size = 5;
   scrollPercent = 0.796;
@@ -68,9 +70,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
           this.interactionDTO.likes = false;
           this.interactionDTO.isRead = false;
         }
-
       }
-
     });
 
     this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
@@ -88,7 +88,6 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.socketService.disconnect();
   }
 
   private getPlaylist(id) {
@@ -110,7 +109,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
 
   deletePlaylist() {
     if (this.userToken.id === this.playlist.user.id) {
-      let isConfirm = confirm('Confirm delete playlist');
+      const isConfirm = confirm('Confirm delete playlist');
       if (isConfirm) {
         this.playlistService.delete(this.playlist.id).subscribe(() => {
             this.notificationService.showSuccessMessage('Delete success');
@@ -133,20 +132,6 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  createNotification(playlist: Playlist) {
-    if (this.userToken.id !== playlist.user.id) {
-      const notification = {
-        sender: {
-          id: this.userToken.id
-        },
-        recieverId: playlist.user.id,
-        content: 'test',
-        action: 'comment to your playlist: ' + playlist.name
-      };
-      this.socketService.createNotificationUsingSocket(notification);
-    }
-  }
-
   addFavourite() {
     if (this.userToken != null) {
       if (this.interactionId === -1) {
@@ -156,6 +141,18 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
           this.interactionId = interaction.id;
           this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
             this.playlistInteractionsSubject.next(interactions);
+            if (this.userToken.id !== this.playlist.user.id) {
+              const notification = {
+                sender: {
+                  id: this.userToken.id
+                },
+                recieverId: this.playlist.user.id,
+                content: 'test',
+                link: this.URL + this.playlist.id,
+                action: 'liked your playlist: ' + this.playlist.name
+              };
+              this.socketService.createNotificationUsingSocket(notification);
+            }
           });
         }, () => {
           alert(' like  error');
@@ -165,6 +162,20 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
         this.playlistInteractionService.update(this.interactionId, this.interactionDTO).subscribe(() => {
           this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
             this.playlistInteractionsSubject.next(interactions);
+            if (this.interactionDTO.likes) {
+              if (this.userToken.id !== this.playlist.user.id) {
+                const notification = {
+                  sender: {
+                    id: this.userToken.id
+                  },
+                  recieverId: this.playlist.user.id,
+                  content: '',
+                  link: this.URL + this.playlist.id,
+                  action: 'liked your playlist: ' + this.playlist.name
+                };
+                this.socketService.createNotificationUsingSocket(notification);
+              }
+            }
           });
         }, () => {
           alert(' unlike  error');
@@ -182,7 +193,21 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
     if (this.commentForm.valid && this.userToken !== null) {
       this.playlistService.addPlaylistComment(this.userToken.id, this.playlist.id,
         this.commentForm.value.comment).subscribe(playlistInteraction => {
+        if (this.userToken.id !== this.playlist.user.id) {
+          const notification = {
+            sender: {
+              id: this.userToken.id
+            },
+            recieverId: this.playlist.user.id,
+            link: this.URL + this.playlist.id,
+            content: this.commentForm.value.comment,
+            action: 'commented on your playlist: ' + this.playlist.name
+          };
+          this.socketService.createNotificationUsingSocket(notification);
+        }
+
         this.commentForm.reset();
+
         this.getPlaylistComment(this.playlist.id);
       }, e => {
         console.log(e);
@@ -210,9 +235,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
 
   checkScrollDownBottom() {
     $(window).scroll(() => {
-      console.log(($(window).scrollTop() + $(window).height()) / $(document).height());
       if ($(window).scrollTop() + $(window).height() >= ($(document).height() * this.scrollPercent)) {
-        // console.log(this.scrollPercent);
         $(window).scrollTop($(window).scrollTop() - 20);
         this.size += 5;
         this.getPlaylistComment(this.playlist.id);
