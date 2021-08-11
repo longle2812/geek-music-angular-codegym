@@ -35,8 +35,8 @@
 <!--&lt;!&ndash;        <p><small>{{notification.createDate.getDate()}}/{{notification.createDate.getMonth()}}/{{notification.createDate.getFullYear()}}</small></p>&ndash;&gt;-->
 <!--      </a>-->
 <!--    </div>-->
-    <div class="notification-ui_dd-footer">
-      <a class="btn btn-success btn-block" style="font-size: small; color: #3bc8e7;">View All</a>
+    <div class="notification-ui_dd-footer" >
+      <a (click)="changeAllStatus()" class="btn btn-block" style="font-size: small; background-color: #3bc8e7; color: white">Mark All As Read</a>
     </div>
   </div>
 </div>

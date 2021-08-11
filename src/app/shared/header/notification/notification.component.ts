@@ -45,4 +45,10 @@ export class NotificationComponent implements OnInit {
     });
   }
 
+  changeAllStatus() {
+      this.notificationService.changeAllStatus(this.currentUser.id).subscribe(()=>{
+        this.socketService.getAllNotificationUnRead(this.currentUser.id);
+        this.socketService.getAllNotification(this.currentUser.id);
+      })
+  }
 }

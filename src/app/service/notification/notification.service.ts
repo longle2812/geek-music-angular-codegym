@@ -71,4 +71,8 @@ export class NotificationService {
   updateNotification(id: number, notification: Notification): Observable<Notification> {
     return this.http.put<Notification>(API_URL + `/notifications/${id}`, notification)
   }
+
+  changeAllStatus(id: number): Observable<any> {
+    return this.http.get<any>(`${API_URL}/notifications/changeAll/${id}`);
+  }
 }
