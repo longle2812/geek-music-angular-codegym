@@ -14,6 +14,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../service/user/user.service';
 import {User} from '../../../model/user';
 import {environment} from '../../../../environments/environment';
+import {QueueService} from '../../../service/queue/queue.service';
 
 declare var $: any;
 
@@ -44,7 +45,8 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
               private router: Router,
               private authenticationService: AuthenticationService,
               private notificationService: NotificationService, private socketService: SocketService,
-              private playlistInteractionService: PlaylistInteractionService, private userService: UserService) {
+              private playlistInteractionService: PlaylistInteractionService, private userService: UserService,
+              private queueService: QueueService) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       this.playlistId = Number(paramMap.get('id'));
       this.getPlaylist(this.playlistId);
@@ -138,6 +140,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
           this.interactionId = interaction.id;
           this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
             this.playlistInteractionsSubject.next(interactions);
+            this.playlistService.setPlaylistLike(this.playlistId, interactions.length).subscribe();
             if (this.userToken.id != this.playlist.user.id){
               const notification = {
                 sender: {
@@ -158,6 +161,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
         this.interactionDTO.likes = !this.interactionDTO.likes;
         this.playlistInteractionService.update(this.interactionId, this.interactionDTO).subscribe(() => {
           this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
+            this.playlistService.setPlaylistLike(this.playlistId, interactions.length).subscribe();
             this.playlistInteractionsSubject.next(interactions);
             if (this.interactionDTO.likes){
               if (this.userToken.id != this.playlist.user.id){
@@ -239,5 +243,15 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
         this.getPlaylistComment(this.playlist.id);
       }
     });
+  }
+
+  playPlaylist(playlist: any) {
+    const request = {
+      title: 'play playlist',
+      playlist: playlist,
+      playlistId: playlist.id,
+      songs: undefined
+    };
+    this.queueService.sendQueueRequest(request);
   }
 }

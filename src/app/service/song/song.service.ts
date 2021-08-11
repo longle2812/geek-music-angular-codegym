@@ -80,4 +80,8 @@ export class SongService {
     return this.http.get<Song[]>(`${API_URL}/most_likes?limit=${limit}&offset=${offset}`);
   }
 
+  increaseSongListenCount(id: number): Observable<any>{
+    return this.http.get<any>(`${API_URL}/increase-listen-count/${id}`);
+  }
+
 }
