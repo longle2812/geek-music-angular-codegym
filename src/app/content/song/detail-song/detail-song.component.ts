@@ -125,6 +125,18 @@ export class DetailSongComponent implements OnInit {
           this.interactionId = interaction.id;
           this.songInteractionService.getFavouritesBySong(this.songId).subscribe(interactions => {
             this.songInteractionsSubject.next(interactions);
+            if (this.userToken.id !== this.song.user.id) {
+              const notification = {
+                sender: {
+                  id: this.userToken.id
+                },
+                recieverId: this.song.user.id,
+                content: '',
+                link: this.URL + this.song.id,
+                action: 'liked your song: ' + this.song.name
+              };
+              this.socketService.createNotificationUsingSocket(notification);
+            }
           })
         }, () => {
           alert(' like  error');
@@ -134,6 +146,18 @@ export class DetailSongComponent implements OnInit {
         this.songInteractionService.update(this.interactionId, this.interactionDTO).subscribe(() => {
           this.songInteractionService.getFavouritesBySong(this.songId).subscribe(interactions => {
             this.songInteractionsSubject.next(interactions);
+            if (this.userToken.id !== this.song.user.id) {
+              const notification = {
+                sender: {
+                  id: this.userToken.id
+                },
+                recieverId: this.song.user.id,
+                content: '',
+                link: this.URL + this.song.id,
+                action: 'liked your song: ' + this.song.name
+              };
+              this.socketService.createNotificationUsingSocket(notification);
+            }
           })
         }, () => {
           alert(' unlike  error');

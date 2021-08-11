@@ -45,4 +45,9 @@ export class MostLikeSongComponent implements OnInit {
     this.songService.changeSongId(songId);
   }
 
+  share(element: HTMLAnchorElement) {
+    $('#share-song').show();
+    const songId = element.getAttribute('data-song-id');
+    this.songService.changeSongId(songId);
+  }
 }

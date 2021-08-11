@@ -5,6 +5,7 @@ import {AuthenticationService} from '../../service/authentication/authentication
 import {UserToken} from '../../model/user-token';
 import {SongService} from '../../service/song/song.service';
 import {SocketService} from '../../service/socket/socket.service';
+import {NotificationService} from '../../service/notification/notification.service';
 declare var $: any;
 
 @Component({
@@ -18,8 +19,10 @@ export class ShareSongComponent implements OnInit {
   users: User[] = [];
   userToken: UserToken = {};
   songId: number;
-  constructor(private userService: UserService, private authenticationService: AuthenticationService, private songService: SongService,
-              private socketService: SocketService) {
+  constructor(private userService: UserService, private authenticationService: AuthenticationService,
+              private songService: SongService,
+              private socketService: SocketService,
+              private notificationService: NotificationService) {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
       this.getAllUser();
@@ -49,14 +52,21 @@ export class ShareSongComponent implements OnInit {
     this.songService.currentSongId.subscribe(songId =>
       this.songId = songId
     )
-    const notification = {
-      sender: {
-        id: this.userToken.id
-      },
-      recieverId: receiverId,
-      link: this.URL + this.songId,
-      action: 'share a song with you: Listen Now '
-    };
-    this.socketService.createNotificationUsingSocket(notification);
+    this.songService.getSongById(this.songId).subscribe(song =>{
+      const notification = {
+        sender: {
+          id: this.userToken.id
+        },
+        recieverId: receiverId,
+        link: this.URL + this.songId,
+        action: 'share a song with you: Listen Now '
+      };
+      if (receiverId != song.userId){
+        this.socketService.createNotificationUsingSocket(notification);
+        this.notificationService.showSuccessMessage("Share link successfully");
+      }
+    })
+
+
   }
 }
