@@ -109,7 +109,7 @@ const routes: Routes = [
   }, {
     path: 'songs/addTag/:id',
     component: AddTagComponent
-  }
+  },
 ];
 
 @NgModule({
