@@ -24,14 +24,14 @@ declare var $: any;
   styleUrls: ['./playlist-detail.component.css']
 })
 export class PlaylistDetailComponent implements OnInit, OnDestroy {
-  URL = "/playlist/";
+  URL = '/playlist/';
   playlist: Playlist = {};
-  userToken: UserToken ={};
+  userToken: UserToken = {};
   notifications: Notification[] = [];
-  interactionId: number = -1;
-  playlistId: number =-1;
+  interactionId = -1;
+  playlistId = -1;
   interactionDTO: PlaylistInteractionDTO = {};
-  public playlistInteractionsSubject:  BehaviorSubject<PlaylistInteraction[]>;
+  public playlistInteractionsSubject: BehaviorSubject<PlaylistInteraction[]>;
   public currentPlaylistInteraction: Observable<PlaylistInteraction[]>;
   commentForm: FormGroup = new FormGroup({
     comment: new FormControl('', [Validators.required])
@@ -39,6 +39,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   comments: PlaylistInteraction[];
   page = 0;
   size = 5;
+  scrollPercent = 0.796;
 
   constructor(private activatedRouter: ActivatedRoute,
               private playlistService: PlaylistService,
@@ -57,15 +58,15 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
     this.authenticationService.currentUserSubject.subscribe(user => {
       this.userToken = user;
     });
-    this.playlistInteractionService.getFavouriteByUserAndPlaylistId(this.userToken.id, this.playlistId).subscribe(interaction =>{
-      if(interaction != null){
-        this.interactionId = interaction.id
+    this.playlistInteractionService.getFavouriteByUserAndPlaylistId(this.userToken.id, this.playlistId).subscribe(interaction => {
+      if (interaction != null) {
+        this.interactionId = interaction.id;
         this.interactionDTO = interaction;
-      }else {
-        if(this.userToken != null && this.playlist != null){
+      } else {
+        if (this.userToken != null && this.playlist != null) {
           this.interactionDTO.senderId = this.userToken.id;
           this.interactionDTO.playlistId = this.playlistId;
-          this.interactionDTO.recieverId =  this.playlist.user.id;
+          this.interactionDTO.recieverId = this.playlist.user.id;
           this.interactionDTO.comment = null;
           this.interactionDTO.link = null;
           this.interactionDTO.likes = false;
@@ -77,13 +78,15 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
     this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
       this.playlistInteractionsSubject = new BehaviorSubject<PlaylistInteraction[]>(interactions);
       this.currentPlaylistInteraction = this.playlistInteractionsSubject.asObservable();
-    })
+    });
   }
 
   ngOnInit() {
     this.loadScript('/assets/js/menu-slider.js');
     this.loadScript('/assets/js/more-option.js');
+    this.size = 5;
     this.checkScrollDownBottom();
+    this.scrollPercent = 0.796;
   }
 
   ngOnDestroy() {
@@ -107,8 +110,8 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   }
 
   deletePlaylist() {
-    if (this.userToken.id == this.playlist.user.id) {
-      let isConfirm = confirm('Confirm delete playlist');
+    if (this.userToken.id === this.playlist.user.id) {
+      const isConfirm = confirm('Confirm delete playlist');
       if (isConfirm) {
         this.playlistService.delete(this.playlist.id).subscribe(() => {
             this.notificationService.showSuccessMessage('Delete success');
@@ -132,8 +135,8 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   }
 
   addFavourite() {
-    if(this.userToken != null){
-      if (this.interactionId == -1) {
+    if (this.userToken != null) {
+      if (this.interactionId === -1) {
         this.interactionDTO.likes = true;
         this.playlistInteractionService.create(this.interactionDTO).subscribe(interaction => {
           this.interactionDTO = interaction;
@@ -141,19 +144,19 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
           this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
             this.playlistInteractionsSubject.next(interactions);
             this.playlistService.setPlaylistLike(this.playlistId, interactions.length).subscribe();
-            if (this.userToken.id != this.playlist.user.id){
+            if (this.userToken.id !== this.playlist.user.id) {
               const notification = {
                 sender: {
                   id: this.userToken.id
                 },
                 recieverId: this.playlist.user.id,
-                content: "test",
-                link: this.URL+this.playlist.id,
-                action: "liked your playlist: " + this.playlist.name
-              }
+                content: 'test',
+                link: this.URL + this.playlist.id,
+                action: 'liked your playlist: ' + this.playlist.name
+              };
               this.socketService.createNotificationUsingSocket(notification);
             }
-          })
+          });
         }, () => {
           alert(' like  error');
         });
@@ -163,21 +166,21 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
           this.playlistInteractionService.getFavouritesByPlaylistId(this.playlistId).subscribe(interactions => {
             this.playlistService.setPlaylistLike(this.playlistId, interactions.length).subscribe();
             this.playlistInteractionsSubject.next(interactions);
-            if (this.interactionDTO.likes){
-              if (this.userToken.id != this.playlist.user.id){
+            if (this.interactionDTO.likes) {
+              if (this.userToken.id !== this.playlist.user.id) {
                 const notification = {
                   sender: {
                     id: this.userToken.id
                   },
                   recieverId: this.playlist.user.id,
-                  content: "",
-                  link: this.URL+this.playlist.id,
-                  action: "liked your playlist: " + this.playlist.name
-                }
+                  content: '',
+                  link: this.URL + this.playlist.id,
+                  action: 'liked your playlist: ' + this.playlist.name
+                };
                 this.socketService.createNotificationUsingSocket(notification);
               }
             }
-          })
+          });
         }, () => {
           alert(' unlike  error');
         });
@@ -185,6 +188,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
     }
 
   }
+
   addComment() {
     this.commentForm.markAllAsTouched();
     if (this.userToken === null) {
@@ -193,16 +197,16 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
     if (this.commentForm.valid && this.userToken !== null) {
       this.playlistService.addPlaylistComment(this.userToken.id, this.playlist.id,
         this.commentForm.value.comment).subscribe(playlistInteraction => {
-        if (this.userToken.id != this.playlist.user.id){
+        if (this.userToken.id !== this.playlist.user.id) {
           const notification = {
             sender: {
               id: this.userToken.id
             },
             recieverId: this.playlist.user.id,
-            link: this.URL+this.playlist.id,
+            link: this.URL + this.playlist.id,
             content: this.commentForm.value.comment,
-            action: "commented on your playlist: " + this.playlist.name
-          }
+            action: 'commented on your playlist: ' + this.playlist.name
+          };
           this.socketService.createNotificationUsingSocket(notification);
         }
 
@@ -235,12 +239,11 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
 
   checkScrollDownBottom() {
     $(window).scroll(() => {
-      console.log($(window).scrollTop());
-      console.log($(window).height());
-      console.log($(document).height());
-      if ($(window).scrollTop() + $(window).height() >= $(document).height() * 4 / 5) {
+      if ($(window).scrollTop() + $(window).height() >= ($(document).height() * this.scrollPercent)) {
+        $(window).scrollTop($(window).scrollTop() - 20);
         this.size += 5;
         this.getPlaylistComment(this.playlist.id);
+        this.scrollPercent += 0.017;
       }
     });
   }

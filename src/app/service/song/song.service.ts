@@ -5,6 +5,8 @@ import {Song} from '../../model/song';
 import {environment} from '../../../environments/environment';
 import {Songdto} from '../../model/songdto';
 import {Playlist} from '../../model/playlist';
+import {PlaylistInteraction} from '../../model/playlist-interaction';
+import {SongInteraction} from '../../model/song-interaction';
 
 const API_URL = `${environment.apiUrl}`;
 
@@ -72,11 +74,12 @@ export class SongService {
   changeSongId(songID: any) {
     this.currentSongSubject.next(songID);
   }
+
   getSongBySingerId(id: number): Observable<any> {
     return this.http.get<any>(`${API_URL}/singers/${id}/songs`);
   }
 
-  getSongByLikes(limit: number, offset: number): Observable<Song[]>{
+  getSongByLikes(limit: number, offset: number): Observable<Song[]> {
     return this.http.get<Song[]>(`${API_URL}/most_likes?limit=${limit}&offset=${offset}`);
   }
 
@@ -84,4 +87,16 @@ export class SongService {
     return this.http.get<any>(`${API_URL}/increase-listen-count/${id}`);
   }
 
+  findSongById(id: number): Observable<Song> {
+    return this.http.get<Song>(`${API_URL}/songs/${id}`);
+  }
+
+  addSongComment(senderId: number, songId: number, comment: string): Observable<SongInteraction> {
+    // @ts-ignore
+    return this.http.post<SongInteraction>(`${API_URL}/songs/addComment/${senderId}/${songId}/${comment}`);
+  }
+
+  getSongComment(songId: number, page: number, size: number): Observable<SongInteraction[]> {
+    return this.http.get<SongInteraction[]>(`${API_URL}/songs/findCommentById/${songId}?page=${page}&size=${size}`);
+  }
 }

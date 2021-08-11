@@ -25,7 +25,7 @@
         </a>
         <a *ngIf="!interactionDTO.likes" (click)="addFavourite()" >
           <i class="far fa-heart fa-2x" style="color: #40E0D0;"></i></a>
-        <span>{{playlistInteractionsSubject.value.length}} likes</span>
+        <span *ngIf="playlistInteractionsSubject">{{playlistInteractionsSubject.value.length}} likes</span>
       </div>
     </div>
 
@@ -101,16 +101,18 @@
     <ol>
       <li>
         <div class="ms_comment_section" *ngFor="let comment of comments" style="margin-top: 3px">
-          <div class="comment_img">
-            <img [src]="comment.sender.avatarUrl" alt="" style="width: 80px;height: 80px;">
-          </div>
-          <div class="comment_info">
-            <div class="comment_head">
-              <h3>{{comment.sender.username}}</h3>
-              <p>{{comment.createdAt}}</p>
+          <div *ngIf="comment.sender">
+            <div class="comment_img" *ngIf="comment.sender">
+              <img [src]="comment.sender.avatarUrl" alt="" style="width: 80px;height: 80px;">
             </div>
-            <p>{{comment.comment}}</p>
-            <a  class="comment_reply">reply</a>
+            <div class="comment_info" *ngIf="comment.sender">
+              <div class="comment_head">
+                <h3>{{comment.sender.username}}</h3>
+                <p>{{comment.createdAt}}</p>
+              </div>
+              <p>{{comment.comment}}</p>
+              <a  class="comment_reply">reply</a>
+            </div>
           </div>
         </div>
       </li>
