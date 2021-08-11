@@ -1,0 +1,17 @@
+<div class="ms_profile_wrapper">
+  <h1>Add tag</h1>
+  <div class="ms_profile_box">
+      <div class="ms_pro_form">
+        <div class="form-group">
+          <label style="margin-right:10px;">Tags name:  </label>
+          <select id="label"class="js-example-basic-multiple" name="states[]" multiple="multiple" style="width: 80%">
+            <option *ngFor="let label of labels" [value]="label.id">{{label.name}}</option>
+          </select>
+        </div>
+        <div class="pro-form-btn text-center marger_top15">
+          <a style="color: white; cursor: pointer" class="ms_btn" (click)="addTag()">save</a>
+          <a style="cursor: pointer" routerLink="/album" class="ms_btn">cancel</a>
+        </div>
+      </div>
+  </div>
+</div>

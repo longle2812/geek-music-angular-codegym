@@ -73,7 +73,6 @@ export class DetailSongComponent implements OnInit {
   }
 
   editSong() {
-
   }
 
   deleteSong() {
@@ -145,5 +144,16 @@ export class DetailSongComponent implements OnInit {
         this.scrollPercent += 0.017;
       }
     });
+  }
+
+
+  showAddTagForm() {
+    console.log(this.song.user);
+    console.log(this.userToken.id);
+    if (this.song.user.id === this.userToken.id) {
+      this.router.navigate(['/songs/addTag', this.song.id]);
+    } else {
+      this.notificationService.showErrorMessage('Only the owner is allowed to do this');
+    }
   }
 }

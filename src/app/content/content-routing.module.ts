@@ -20,6 +20,7 @@ import {SingerListComponent} from './singer/singer-list/singer-list.component';
 import {SingerDetailComponent} from './singer/singer-detail/singer-detail.component';
 import {SingerSearchComponent} from './singer/singer-search/singer-search.component';
 import {DetailSongComponent} from './song/detail-song/detail-song.component';
+import {AddTagComponent} from './song/add-tag/add-tag.component';
 
 
 const routes: Routes = [
@@ -105,6 +106,9 @@ const routes: Routes = [
   }, {
     path: 'songs/detail/:id',
     component: DetailSongComponent
+  }, {
+    path: 'songs/addTag/:id',
+    component: AddTagComponent
   }
 ];
 
