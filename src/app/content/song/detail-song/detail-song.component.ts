@@ -10,6 +10,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {SongService} from '../../../service/song/song.service';
 import {User} from '../../../model/user';
 import {SongInteraction} from '../../../model/song-interaction';
+import {QueueService} from '../../../service/queue/queue.service';
 
 declare var $: any;
 
@@ -35,7 +36,7 @@ export class DetailSongComponent implements OnInit {
               private router: Router,
               private authenticationService: AuthenticationService,
               private notificationService: NotificationService, private socketService: SocketService,
-              private userService: UserService) {
+              private userService: UserService, private queueService: QueueService) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       const id = +paramMap.get('id');
       this.getSongDetail(id);
@@ -145,5 +146,23 @@ export class DetailSongComponent implements OnInit {
         this.scrollPercent += 0.017;
       }
     });
+  }
+
+  playSong(song: any) {
+    const request = {
+      title: 'play',
+      song: song,
+      songId: song.id
+    };
+    this.queueService.sendQueueRequest(request);
+  }
+
+  addToQueue(song: any) {
+    const request = {
+      title: 'add',
+      song: song,
+      songId: song.id
+    };
+    this.queueService.sendQueueRequest(request);
   }
 }

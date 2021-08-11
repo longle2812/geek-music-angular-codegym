@@ -13,8 +13,8 @@
         {{playlist.description}}
       </div>
       <div class="album_btn">
-        <a (click)="playPlaylist(playlist)" class="ms_btn play_btn"><span style="color: white; cursor: pointer" class="play_all"><img src="assets/images/svg/play_all.svg"
-                                                                        alt="">Play All</span><span class="pause_all"><img src="assets/images/svg/pause_all.svg" alt="">Pause</span></a>
+        <a (click)="playPlaylist(playlist)" class="ms_btn"><span style="color: white; cursor: pointer" class="play_all"><img src="assets/images/svg/play_all.svg"
+                                                                        alt="">Play All</span></a>
         <a  class="ms_btn"><span class="play_all" style="color: white; cursor: pointer">
           <img src="assets/images/svg/add_q.svg" alt="">Add To Queue</span></a>
       </div>
@@ -46,25 +46,19 @@
         <li>#</li>
         <li>Song Title</li>
         <li>Artist</li>
-        <li class="text-center">Add To Favourites</li>
+        <li class="text-center">Genres</li>
         <li class="text-center">More</li>
       </ul>
       <ul *ngFor="let song of playlist.songs; index as i">
         <li><a ><span class="play_no">{{i+1}}</span><span class="play_hover"></span></a></li>
         <li><a >{{song.name}}</a></li>
-        <li><span *ngFor="let genre of song.genres"> {{genre.name}} </span></li>
-        <li class="text-center"><a ><span class="ms_icon1 ms_fav_icon"></span></a></li>
+        <li><span *ngFor="let singer of song.singers"> {{singer.name}} </span></li>
+        <li class="text-center"><span *ngFor="let genre of song.genres"> {{genre.name}} </span></li>
         <li class="text-center ms_more_icon"><a href="javascript:;"><span
           class="ms_icon1 ms_active_icon"></span></a>
           <ul class="more_option">
-            <li><a ><span class="opt_icon"><span class="icon icon_fav"></span></span>Add To
-              Favourites</a></li>
             <li><a ><span class="opt_icon"><span class="icon icon_queue"></span></span>Add To
               Queue</a></li>
-            <li><a ><span class="opt_icon"><span class="icon icon_dwn"></span></span>Download
-              Now</a></li>
-            <li><a ><span class="opt_icon"><span class="icon icon_playlst"></span></span>Add To
-              Playlist</a></li>
             <li><a ><span class="opt_icon"><span class="icon icon_share"></span></span>Share</a>
             </li>
           </ul>

@@ -21,7 +21,7 @@
               </div>
             </div>
             <div class="w_tp_song_name">
-              <h3><a >{{song.name}}</a></h3>
+              <h3><a routerLink="/songs/detail/{{song.id}}">{{song.name}}</a></h3>
               <p *ngFor="let singer of song.singers">  {{singer.name}}  </p>
             </div>
           </div>

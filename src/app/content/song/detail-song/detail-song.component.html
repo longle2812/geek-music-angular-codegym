@@ -21,11 +21,11 @@
         Description: {{song.description}}
       </div>
       <div class="album_btn">
-        <a  class="ms_btn play_btn"><span class="play_all"><img src="assets/images/svg/play_all.svg"
+        <a style="cursor: pointer" (click)="playSong(song)" class="ms_btn"><span class="play_all"><img src="assets/images/svg/play_all.svg"
                                                                         alt="">Play</span><span
           class="pause_all"><img src="assets/images/svg/pause_all.svg" alt="">Pause</span></a>
-        <a  class="ms_btn"><span class="play_all">
-          <img src="assets/images/svg/add_q.svg" alt="">Add To Queue</span></a>
+        <a style="cursor: pointer" (click)="addToQueue(song)" class="ms_btn"><span class="play_all">
+          <img  src="assets/images/svg/add_q.svg" alt="">Add To Queue</span></a>
       </div>
       <br>
       <div class="album_btn">
