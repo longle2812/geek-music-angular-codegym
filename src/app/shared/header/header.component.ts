@@ -151,7 +151,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (searchOption === 'Singer') {
       this.searchSinger(keyWord, userName, genreName, startDate, endDate, advancedSearch);
     }
-    if (searchOption === 'Song\'s label') {
+    if (searchOption === 'Song\'s tag') {
       this.searchLabel(keyWord);
     }
   }

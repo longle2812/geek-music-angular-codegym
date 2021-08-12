@@ -26,7 +26,8 @@
               </div>
               <div class="w_tp_song_name">
                 <h3><a [routerLink]="['/songs/detail',song.id]">{{song.name}}</a></h3>
-                <p>{{song.singers[0].name}}</p>
+                <p><span *ngFor="let singer of song.singers, let isLast=last">{{singer.name}}{{isLast ? '' : ', '}}</span>
+                </p>
               </div>
             </div>
           </div>

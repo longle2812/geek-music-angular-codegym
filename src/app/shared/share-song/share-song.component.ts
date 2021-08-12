@@ -34,6 +34,10 @@ export class ShareSongComponent implements OnInit {
       this.userToken = user;
       this.getAllUser();
     });
+
+    $(document).ready(() => {
+      $('#share-song-id').select2();
+    });
   }
 
   close() {

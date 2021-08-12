@@ -33,3 +33,7 @@
 .ms_upload_box span{
   margin: 7px 0px 7px;
 }
+
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+  margin-top: 10px;
+}

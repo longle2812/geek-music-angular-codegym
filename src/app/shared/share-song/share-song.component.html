@@ -13,7 +13,7 @@
           <div class="ms_register_form">
             <h2>Share This Song To Others</h2>
             <div class="form-group">
-              <select id="share-song-id" class="form-select" aria-label="Default select example">
+              <select style="width: 100%" id="share-song-id" class="form-select" aria-label="Default select example" class="js-example-basic-multiple form-control" name="states[]">
                 <option *ngFor="let user of users" [value]="user.id">{{user.username}}</option>
               </select>
             </div>

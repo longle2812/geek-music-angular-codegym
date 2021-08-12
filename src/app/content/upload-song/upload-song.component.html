@@ -47,7 +47,7 @@
 
           <div class="form-group">
             <label>Track Name *</label>
-            <input type="text" placeholder="Dream Your Moments" required minlength="8" ngModel name="name"
+            <input type="text" placeholder="Dream Your Moments" required minlength="3" ngModel name="name"
                    class="form-control" #name="ngModel"
                    [ngClass]="{
             'has-danger': name.invalid && (name.dirty || name.touched),
@@ -59,7 +59,7 @@
           </div>
           <div class="form-group">
             <label>Author’s Name *</label>
-            <input type="text" placeholder="Ava Cornish, Brian Hill" required minlength="8" ngModel name="author"
+            <input type="text" placeholder="Ava Cornish, Brian Hill" required minlength="3" ngModel name="author"
                    class="form-control" #author="ngModel"
                    [ngClass]="{
             'has-danger': author.invalid && (author.dirty || author.touched),
@@ -82,7 +82,7 @@
           </div>
           <div class="form-group">
             <label>Select Singer</label>
-            <select style="width: 80%" id="labelSongCreate" class="form-control" name="states[]" multiple="multiple" >
+            <select style="width: 100%" id="labelSongCreate" class="form-control" name="states[]" multiple="multiple" >
               <option *ngFor="let singer of singerList" [value]="singer.id">{{singer.name}}</option>
             </select>
           </div>

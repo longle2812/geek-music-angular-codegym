@@ -28,10 +28,10 @@ export class SongDetailComponent implements OnInit {
   singerList: Singer[] = [];
   songDetailForm: FormGroup = new FormGroup({
     id: new FormControl(),
-    name: new FormControl('', [Validators.minLength(8), Validators.required]),
+    name: new FormControl('', [Validators.minLength(3), Validators.required]),
     description: new FormControl(),
     imgUrl: new FormControl(),
-    author: new FormControl('', [Validators.minLength(6), Validators.required]),
+    author: new FormControl('', [Validators.minLength(3), Validators.required]),
     genres: new FormControl(),
     singers: new FormControl(),
     mp3Url: new FormControl(),

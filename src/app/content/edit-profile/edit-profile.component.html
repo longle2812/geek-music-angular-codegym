@@ -25,16 +25,14 @@
           <div *ngIf="userForm.get('phoneNumber').dirty ">
             <p class="showErrorInput" *ngIf="userForm.get('phoneNumber').errors?.required">Phone
               number required</p>
-            <p class="showErrorInput"  *ngIf="userForm.get('phoneNumber').errors?.pattern">Wrong
-              format</p>
+            <p class="showErrorInput"  *ngIf="userForm.get('phoneNumber').errors?.pattern">At least 10 numbers & start with 0 or 84</p>
           </div>
         </div>
         <div class="form-group">
           <label>Your Email </label>
           <input type="text" class="form-control" formControlName="email">
           <div *ngIf="userForm.get('email').dirty">
-            <p class="showErrorInput" style="color:red" *ngIf="userForm.get('email').errors?.pattern">Wrong
-              format</p>
+            <p class="showErrorInput" style="color:red" *ngIf="userForm.get('email').errors?.pattern">Wrong email format</p>
           </div>
         </div>
         <div class="pro-form-btn text-center marger_top15">

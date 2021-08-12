@@ -13,7 +13,10 @@
           <div class="ms_register_form">
             <h2>Register / Sign Up</h2>
             <div class="form-group">
-              <input type="text" placeholder="Enter username" class="form-control" formControlName="username">
+              <input type="text" placeholder="Enter username" class="form-control" formControlName="username"
+                     [ngClass]="{
+            'has-danger': userForm.get('username').invalid && (userForm.get('username').dirty || userForm.get('username').touched),
+            'has-success': userForm.get('username').valid && (userForm.get('username').dirty || userForm.get('username').touched)}">
               <span class="form_icon">
 							<i class="fa_icon form-user" aria-hidden="true"></i>
 							</span>
@@ -26,19 +29,21 @@
             </div>
             <div class="form-group">
               <input type="text" placeholder="Enter Your Phone Number" class="form-control"
-                     formControlName="phoneNumber">
+                     formControlName="phoneNumber" [ngClass]="{
+            'has-danger': userForm.get('phoneNumber').invalid && (userForm.get('phoneNumber').dirty || userForm.get('phoneNumber').touched),
+            'has-success': userForm.get('phoneNumber').valid && (userForm.get('phoneNumber').dirty || userForm.get('phoneNumber').touched)}">
               <span class="form_icon" style="top: 12px;right: 15px;">
 							<i class="fa fa-phone" aria-hidden="true"></i>
 						</span>
               <div *ngIf="userForm.get('phoneNumber').touched ">
                 <p class="showErrorInput" *ngIf="userForm.get('phoneNumber').errors?.required">Phone
                   number required</p>
-                <p class="showErrorInput" *ngIf="userForm.get('phoneNumber').errors?.pattern">Wrong
-                  format</p>
+                <p class="showErrorInput" *ngIf="userForm.get('phoneNumber').errors?.pattern">At least 10 numbers & start with 0 or 84</p>
               </div>
             </div>
             <div class="form-group" formGroupName="pwGroup">
-              <input type="password" placeholder="Enter Password" class="form-control" formControlName="password" id="password_input">
+              <input type="password" placeholder="Enter Password" class="form-control" formControlName="password" id="password_input" [ngClass]="{
+            'has-danger': userForm.get('pwGroup.password').invalid && userForm.hasError('passnotmatch',['pwGroup'])}">
               <span class="form_icon" >
 						    <i class="fa_icon form-lock" aria-hidden="true"></i>
 						</span>
@@ -48,7 +53,9 @@
               </div>
             </div>
             <div class="form-group" formGroupName="pwGroup">
-              <input type="password" placeholder="Confirm Password" class="form-control" formControlName="confirmPassword" id="confirm_pass_input">
+              <input type="password" placeholder="Confirm Password" class="form-control" formControlName="confirmPassword" id="confirm_pass_input"
+                     [ngClass]="{
+            'has-danger': userForm.hasError('passnotmatch',['pwGroup'])}">
               <span class="form_icon" >
 						<i class=" fa_icon form-lock" aria-hidden="true"></i>
 						</span>
