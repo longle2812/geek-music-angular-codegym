@@ -26,7 +26,7 @@
         </a>
         <a *ngIf="!interactionDTO.likes" (click)="addFavourite()" >
           <i class="far fa-heart fa-lg" style="color: #3bc8e7;"></i></a>
-        <span style="padding-left: 15px">{{playlistInteractionsSubject.value.length}} likes</span>
+        <span style="padding-left: 15px; color: white">{{playlistInteractionsSubject.value.length}} likes</span>
       </div>
     </div>
 
@@ -36,7 +36,7 @@
     <ul class="more_option">
       <li><a (click)="addFavourite()" ><span class="opt_icon"><span class="icon icon_fav"></span></span>Add To Favourites</a></li>
       <li><a (click)="editPlaylist()" ><span class="opt_icon"><span class="icon icon_queue"></span></span>Edit</a></li>
-      <li><a  class="btn-confirm" (click)="deletePlaylist()">
+      <li><a class="btn-confirm" [attr.data-playlist-id]="playlist.id" data-toggle="modal" data-target="#delete-playlist-confirm">
         <span class="opt_icon"><span class="icon icon_dwn"></span></span>Delete</a></li>
     </ul>
   </div>

@@ -100,8 +100,8 @@ export class PlaylistEditComponent implements OnInit {
   edit(playlistForm: NgForm) {
     this.isSubmitted = true;
     if (playlistForm.valid) {
-      let isEdit = confirm('Edit info playlist?');
-      if (isEdit) {
+      // let isEdit = confirm('Edit info playlist?');
+      // if (isEdit) {
         this.playlistDTO.name = playlistForm.value.name;
         this.playlistDTO.description = playlistForm.value.description;
         this.playlistDTO.genres = {id: playlistForm.value.genres};
@@ -114,10 +114,9 @@ export class PlaylistEditComponent implements OnInit {
             this.notificationService.showErrorMessage('edit error');
           }
         );
-      }
+      // }
     } else {
       this.notificationService.showErrorMessage('Data invalid');
     }
-
   }
 }

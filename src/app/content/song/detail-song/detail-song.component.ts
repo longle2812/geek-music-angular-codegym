@@ -143,7 +143,7 @@ export class DetailSongComponent implements OnInit {
             }
           })
         }, () => {
-          alert(' like  error');
+          this.notificationService.showErrorMessage('Like error')
         });
       } else {
         this.interactionDTO.likes = !this.interactionDTO.likes;
@@ -164,7 +164,7 @@ export class DetailSongComponent implements OnInit {
             }
           })
         }, () => {
-          alert(' unlike  error');
+          this.notificationService.showErrorMessage('!Like error')
         });
       }
     }else {

@@ -25,6 +25,7 @@ import {PopupDeletePlaylistComponent} from './content/playlist/playlist-detail/p
 import { NotificationComponent } from './shared/header/notification/notification.component';
 import { ShareSongComponent } from './shared/share-song/share-song.component';
 import { SharePlaylistComponent } from './shared/share-playlist/share-playlist.component';
+import { DeletePlaylistPopupComponent } from './shared/delete-playlist-popup/delete-playlist-popup.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { SharePlaylistComponent } from './shared/share-playlist/share-playlist.c
     NotificationComponent,
     ShareSongComponent,
     SharePlaylistComponent,
+    DeletePlaylistPopupComponent,
   ],
   imports: [
     BrowserModule,

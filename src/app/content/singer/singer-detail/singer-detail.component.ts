@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Playlist} from '../../../model/playlist';
 import {UserToken} from '../../../model/user-token';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PlaylistService} from '../../../service/playlist/playlist.service';
@@ -14,15 +13,16 @@ import {PlaylistInteraction} from '../../../model/playlist-interaction';
 import {SingerInteraction} from '../../../model/singer-interaction';
 import {SingerInteractionService} from '../../../service/singer-interaction/singer-interaction.service';
 import {SingerInteractionDTO} from '../../../model/singer-interaction-dto';
-import {NotificationService} from '../../../service/notification/notification.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {SongInteraction} from '../../../model/song-interaction';
 import {SocketService} from '../../../service/socket/socket.service';
 import {UserService} from '../../../service/user/user.service';
 import {User} from '../../../model/user';
 import {QueueService} from '../../../service/queue/queue.service';
+import {NotificationService} from '../../../service/notification/notification.service';
 
 declare var $: any;
+
 @Component({
   selector: 'app-singer-detail',
   templateUrl: './singer-detail.component.html',
@@ -33,6 +33,12 @@ export class SingerDetailComponent implements OnInit {
   singer: Singer = {};
   userToken: UserToken = {};
   songs: Song[] = [];
+  interactionId: number = -1;
+  singerId: number = -1;
+  interactionDTO: SingerInteractionDTO = {};
+
+  public singerInteractionsSubject: BehaviorSubject<SingerInteraction[]>;
+  public currentSingerInteraction: Observable<SingerInteraction[]>;
   commentForm: FormGroup = new FormGroup({
     comment: new FormControl('', [Validators.required])
   });
@@ -40,26 +46,24 @@ export class SingerDetailComponent implements OnInit {
   page = 0;
   size = 5;
   scrollPercent = 0.796;
-  interactionId: number = -1;
-  singerId: number = -1;
-  interactionDTO: SingerInteractionDTO = {};
-
-  public singerInteractionsSubject: BehaviorSubject<SingerInteraction[]>;
-  public currentSingerInteraction: Observable<SingerInteraction[]>;
 
   constructor(private activatedRouter: ActivatedRoute,
               private singerService: SingerService,
               private router: Router,
               private authenticationService: AuthenticationService,
               private songService: SongService,
+              private singerInteractionService: SingerInteractionService,
               private notificationService: NotificationService,
               private socketService: SocketService,
-              private userService: UserService,private singerInteractionService: SingerInteractionService,
-              private queueService: QueueService) {
+              private userService: UserService,
+              private queueService: QueueService
+  ) {
     this.activatedRouter.paramMap.subscribe(paramMap => {
       this.singerId = Number(paramMap.get('id'));
       this.getSinger(this.singerId);
       this.getSongs(this.singerId);
+      const id = +paramMap.get('id');
+      this.getSingerComment(id);
       this.getSingerComment(this.singerId);
     });
     this.authenticationService.currentUserSubject.subscribe(user => {
@@ -117,7 +121,6 @@ export class SingerDetailComponent implements OnInit {
     this.checkScrollDownBottom();
     this.scrollPercent = 0.796;
   }
-
   public loadScript(url: string) {
     const body = document.body as HTMLDivElement;
     const script = document.createElement('script');
@@ -148,16 +151,40 @@ export class SingerDetailComponent implements OnInit {
           };
           this.socketService.createNotificationUsingSocket(notification);
         }
-
         this.commentForm.reset();
-
         this.getSingerComment(this.singer.id);
       }, e => {
         console.log(e);
       });
     }
   }
-
+  addFavourite() {
+    if(this.userToken != null){
+      if (this.interactionId == -1) {
+        this.interactionDTO.likes = true;
+        this.singerInteractionService.create(this.interactionDTO).subscribe(interaction => {
+          this.interactionDTO = interaction;
+          this.interactionId = interaction.id;
+          this.singerInteractionService.getFavouritesBySingerId(this.singerId).subscribe(interactions => {
+            this.singerInteractionsSubject.next(interactions);
+          })
+        }, () => {
+          alert(' like  error');
+        });
+      } else {
+        this.interactionDTO.likes = !this.interactionDTO.likes;
+        this.singerInteractionService.update(this.interactionId, this.interactionDTO).subscribe(() => {
+          this.singerInteractionService.getFavouritesBySingerId(this.singerId).subscribe(interactions => {
+            this.singerInteractionsSubject.next(interactions);
+          })
+        }, () => {
+          alert(' unlike  error');
+        });
+      }
+    }else {
+      this.notificationService.showErrorMessage('You must login first')
+    }
+  }
   getSingerComment(id: number) {
     this.singerService.getSingerComment(id, this.page, this.size).subscribe((comments: SingerInteraction[]) => {
       this.comments = comments;
@@ -187,33 +214,7 @@ export class SingerDetailComponent implements OnInit {
     });
   }
 
-  addFavourite() {
-    if(this.userToken != null){
-      if (this.interactionId == -1) {
-        this.interactionDTO.likes = true;
-        this.singerInteractionService.create(this.interactionDTO).subscribe(interaction => {
-          this.interactionDTO = interaction;
-          this.interactionId = interaction.id;
-          this.singerInteractionService.getFavouritesBySingerId(this.singerId).subscribe(interactions => {
-            this.singerInteractionsSubject.next(interactions);
-          })
-        }, () => {
-          alert(' like  error');
-        });
-      } else {
-        this.interactionDTO.likes = !this.interactionDTO.likes;
-        this.singerInteractionService.update(this.interactionId, this.interactionDTO).subscribe(() => {
-          this.singerInteractionService.getFavouritesBySingerId(this.singerId).subscribe(interactions => {
-            this.singerInteractionsSubject.next(interactions);
-          })
-        }, () => {
-          alert(' unlike  error');
-        });
-      }
-    }else {
-      this.notificationService.showErrorMessage('You must login first')
-    }
-  }
+
 
   playSingers(singer: any) {
     const request = {
